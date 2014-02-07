@@ -1,0 +1,28 @@
+{
+  "name": "rest-tool",
+  "description": "A tool to document emulate and test RESTful APIs.",
+  "version": "0.1.0",
+  "tags": [
+    "rest",
+    "restful",
+    "api",
+    "docs",
+    "util",
+    "tool",
+    "utility"
+  ],
+  "author": {
+    "name": "Tamás Benke",
+    "email": "tombenke@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/tombenke/rest-tool.git"
+  },
+  "bin": {
+    "restapi": "./bin/rest-tool.js"
+  },
+  "main": "index",
+  "dependencies": {
+  }
+}
