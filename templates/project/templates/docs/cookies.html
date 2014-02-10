@@ -1,0 +1,22 @@
+
+<!-- Begin Cookies -->
+<div class="block-container">
+    <div class="block-title">
+        <h5>Cookies:</h5>
+    </div>
+    <div id="cookies">
+        <table>
+            <tr>
+                <th>Field name</th>
+                <th>Value</th>
+            </tr>
+        {{#cookies}}
+            <tr>
+                <td>{{field}}</td>
+                <td>{{content}}</td>
+            </tr>
+        {{/cookies}}
+        </table>
+    </div>
+</div>
+<!-- End of Cookies -->

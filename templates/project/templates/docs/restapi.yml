@@ -1,0 +1,10 @@
+preprocessors:
+    - fileName: ../examples/private/Security/Authorization/service.yml
+      fileType: /application/yaml
+
+processors: []
+
+postprocessors:
+    - fileName: Authorization.html
+      templateFile: restapi.doT
+      fileType: /application/olado-dot

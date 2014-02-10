@@ -1,0 +1,31 @@
+{{=<% %>=}}var request = require('superagent'),
+	should = require('should'),
+	mocha = require('mocha');
+
+describe('{{description}}', function() {
+	var agent = request.agent();
+
+	it('should {{description}}', function(done) {
+		agent
+			.get('{{baseUrl}}{{url}}')
+			{{#loginCredentials}}.auth('{{user}}', '{{pass}}'){{/loginCredentials}}
+			.set('Accept', 'application/json')
+			.end(function(err, res) {
+				should.not.exist(err);
+				res.should.have.status(200);
+				res.should.have.property('body');
+				// FIXME add further checks if appropriate
+				{{#jsonschema}}
+				var path = require('path');
+				var JaySchema = require('jayschema');
+				var js = new JaySchema(JaySchema.loaders.http);
+				var schema = require(path.join(__dirname, '..', 'schemas', '{{jsonschema}}.json'));
+				js.validate(res.body, schema, function(errs) {
+					should.not.exist(errs);
+					done();
+				});
+				{{/jsonschema}}
+				{{^jsonschema}}done();{{/jsonschema}}
+			});
+	});
+});

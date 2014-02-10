@@ -1,0 +1,40 @@
+<html>
+<head>
+<link href="stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+<link href="stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
+<!--[if lt IE 8]>
+    <link href="stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script src="js/jquery-1.9.0/jquery-1.9.0.min.js"></script>
+<script src="js/restapidoc.js"></script>
+
+</head>
+<body class="bp two-col">
+<div id="container">
+
+<!-- Begin Header -->
+<div id="header">
+    <h1>{{ projectName }} - {{apiVersion}}</h1>
+</div>
+<!-- End of header -->
+
+<!-- Begin content -->
+<div id="content">
+{{> service.html}}
+</div>
+<!-- End of content -->
+
+<!-- Begin sidebar -->
+<div id="sidebar">
+{{> servicesMenu.html}}
+</div>
+<!-- End of sidebar -->
+
+<!-- Begin Footer -->
+{{> footer.html}}
+<!-- End of footer -->
+
+</div>
+<!-- End of container -->
+</body>
+</html>

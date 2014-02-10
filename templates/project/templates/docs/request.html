@@ -1,0 +1,49 @@
+
+<!-- Begin Request -->
+<div class="shady-block-container">
+    <div class="block-title">
+        <h4>Request:</4>
+        </div>
+    <div id="request">
+    {{#request}}
+
+        <div class="block-container">
+            <div class="block-title">
+                <h5>Parameters:</h5>
+            </div>
+            <div id="parameters">
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>kind</th>
+                        <th>type</th>
+                        <th>default</th>
+                        <th>required</th>
+                        <th>summary</th>
+                    </tr>
+                    {{#parameters}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{kind}}</td>
+                        <td>{{type}}</td>
+                        <td>{{default}}</td>
+                        <td>{{required}}</td>
+                        <td>{{{summary}}}</td>
+                    </tr>{{/parameters}}
+                </table>
+            </div>
+        </div>
+
+        <p>Validation schema: 
+            <a href="/{{contentPath}}/{{validationSchema}}">{{validationSchema}}</a></p>
+        <p>mock body: 
+            <a href="/{{contentPath}}/{{mockBody}}">{{mockBody}}</a></p>
+
+        {{> headers.html}}
+
+        {{> cookies.html}}
+
+    {{/request}}
+    </div>
+</div>
+<!-- End of Request -->

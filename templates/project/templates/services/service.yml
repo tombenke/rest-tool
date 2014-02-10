@@ -1,0 +1,55 @@
+name: # The name of the service
+description: # Short desciption of the service
+urlPattern: # URL pattern of the service
+style: # OPERATION | RESOURCE
+methods:
+    GET:
+        summary: # Short summary of the service method
+        notes: # Details and notes about the method
+        implementation: # The implementation of the call in the following format: <module>.<function> (optional)
+        request:
+            parameters:
+                # - # url-parameter
+                #     name: # The name of the parameter
+                #     kind: # URL | BODY
+                #     required: # true | false
+                #     type: # string | number | boolean | object
+                #     summary: # Short summary of the parameter
+                #     default: # Default value of the parameter
+            cookies: &requestCookies []
+            headers: &requestHeaders
+                # -
+                #     field: Accept
+                #     content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                # -
+                #     field: Accept-Encoding
+                #     content: "gzip, deflate"
+        responses:
+            # -
+            #     name: OK
+            #     statusCode: 200
+            #     reason: Successful execution
+            #     # validationSchema: getMonitoringIsAlive-responseBody-validationSchema.json
+            #     cookies: &responseOkCookies []
+            #     headers: &responseOk
+            #         -
+            #             field: Content-Type
+            #             content: application/json
+            #         -
+            #             field: X-Application-API-Version
+            #             content: v0.0.0
+            #     # mockBody: getMonitoringIsAlive-responseBody.json
+        testCases:
+            # -
+            #     name: Get Monitoring Is Alive
+            #     description: Successfully checks if server is alive
+            #     url: /monitoring/isAlive
+            #     template: testGetMethod.mustache
+            #     request:
+            #         cookies: *requestCookies
+            #         headers: *requestHeaders
+            #     response:
+            #         statusCode: 200
+            #         cookies: *responseOkCookies
+            #         headers: *responseOkHeaders
+            #         # validationSchema: getMonitoringIsAlive-responseBody-validationSchema.json

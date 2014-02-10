@@ -1,0 +1,91 @@
+// Here is where you can define your constants for your application and to configure the blueprint framework.
+// Feel free to delete these if you want keep the defaults:
+
+$baseColor: #336699;
+
+$blueprint-grid-columns: 24;
+$blueprint-container-size: 950px;
+$blueprint-grid-margin: 10px;
+
+// Use this to calculate the width based on the total width.
+// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
+$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
+$font-color: $baseColor;
+
+@import "compass/layout/stretching";
+@import "compass/utilities";
+@import "compass/css3";
+
+.urlFont {
+  font-family: "Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace;
+  // font-family: "Blooming Grove";
+  // font-size: 1em;
+  color: shade($font-color, 30) }
+
+.methodFont {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+@mixin rounded($vert, $horz, $radius: 10px) {
+  border-#{$vert}-#{$horz}-radius: $radius;
+  -moz-border-radius-#{$vert}#{$horz}: $radius;
+  -webkit-border-#{$vert}-#{$horz}-radius: $radius;
+}
+
+@mixin block-container($bgColor: #ffffff) {
+    border: 1px solid #a0a0a0;
+    padding: 6px;
+    margin-bottom: 4px;
+    background: $bgColor;
+    @include rounded(top, left, 8px);
+    @include rounded(top, right, 8px);
+    @include rounded(bottom, left, 8px);
+    @include rounded(bottom, right, 8px);
+}
+
+.block-container {
+    @include block-container; }
+
+.shady-block-container {
+    @include block-container(tint($baseColor, 80));
+}
+
+@mixin stretchBox($width) {
+    border: 1px solid #f2f2ff;
+    width: $width;
+    height: 2em;
+    position: relative;
+    @include inline-block; }
+
+.serviceNameBox {
+    @include stretchBox(400px); }
+
+.urlPatternBox {
+    @include stretchBox(400px); }
+
+.methodNameBox {
+    @include stretchBox(50px); }
+
+.stretchBox {
+    @include stretchBox(510px); }
+
+.white_button {
+    padding: 4px;
+    background: white;
+    font-weight: bold; }
+
+.blue_button {
+  @extend .white_button;
+  background: #336699;
+  font-size: 1em;
+  color: white;
+  }
+
+.method {
+  @extend .blue_button;
+  @include stretch;
+  background: tint($font-color, 30) }
+
+.urlPatterns {
+  @extend .white_button;
+  @extend .urlFont;
+  @include stretch; }

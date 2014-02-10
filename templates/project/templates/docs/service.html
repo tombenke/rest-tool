@@ -1,0 +1,19 @@
+
+<!-- Begin Service -->
+<div class="serviceNameBox">
+    <h2>{{name}}</h2>
+</div>
+
+<div>{{{description}}}</div>
+
+<!-- Begin Methods -->
+<div class="">
+    <h3>Methods:</h3>
+</div>
+<div id="methods">
+{{#methodList}}
+    {{> method.html}}
+{{/methodList}}
+</div>
+<!-- End of methods -->
+<!-- End of Service -->

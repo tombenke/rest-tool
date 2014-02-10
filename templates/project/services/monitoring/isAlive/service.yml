@@ -1,0 +1,63 @@
+name: Monitoring that server is alive
+description: |
+    It is a very simple service, 
+    which makes possible to monitor that the server is running
+    and is able to answer HTTP requests
+urlPattern: /monitoring/isAlive
+style: OPERATION
+methods:
+    GET:
+        summary: Is server alive?
+        notes: Responses true if server is working
+        implementation: monitoring.isAlive
+        request:
+            parameters: []
+            cookies: []
+            headers:
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
+        responses:
+            -
+                name: OK
+                statusCode: 200
+                reason: Successful execution
+                # validationSchema: getMonitoringIsAlive-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    -
+                        field: Content-Type
+                        content: application/json
+                    -
+                        field: X-Application-API-Version
+                        content: v0.0.0
+                # mockBody: getMonitoringIsAlive-responseBody.json
+        testCases:
+            -
+                name: Get Monitoring Is Alive
+                description: Successfully checks if server is alive
+                url: /monitoring/isAlive
+                template: testGetMethod.mustache
+                request:
+                    cookies: []
+                    headers:
+                        -
+                            field: Accept
+                            content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        -
+                            field: Accept-Encoding
+                            content: "gzip, deflate"
+                response:
+                    statusCode: 200
+                    cookies: []
+                    headers:
+                        -
+                            field: Content-Type
+                            content: application/json
+                        -
+                            field: X-Application-API-Version
+                            content: v0.0.0
+                    # validationSchema: getMonitoringIsAlive-responseBody-validationSchema.json

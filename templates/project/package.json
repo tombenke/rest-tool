@@ -1,0 +1,22 @@
+{
+  "name": "{{projectName}}",
+  "description": " API specification, test cases and mock server for the RESTful services of the CRM project",
+  "version": "0.0.2",
+  "author": "{{author}}",
+  "private": true,
+  "scripts": {
+    "test": "make test"
+  },
+  "main": "index",
+  "dependencies": {
+    "should": "latest",
+    "superagent": "0.15.x",
+    "rest-tool-common": "0.2.1",
+    "mu2": "latest",
+    "mocha": "latest",
+    "jayschema": "0.2.x",
+    "js-yaml": "latest",
+    "express": "3.x"
+  },
+  "license": "{{licence}}"
+}

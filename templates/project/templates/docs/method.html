@@ -1,0 +1,21 @@
+
+<!-- Begin Method -->
+<div class="block-container">
+    <div id="methodHeader" class="block-title">
+        <div class="methodNameBox">
+            <div class="method">{{methodName}}</div>
+        </div>
+
+        <div class="urlPatternBox">
+            <div class="urlPatterns">{{urlPattern}}</div>
+        </div>
+    </div>
+    <div id="method">
+        <p>{{{summary}}}</p>
+        <p>{{{details}}}</p>
+        {{> request.html}}
+        {{> responses.html}}
+        {{> testCases.html}}
+    </div>
+</div>
+<!-- End of Method -->
