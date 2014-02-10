@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Rest-tool : " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rest-tool</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/tombenke/rest-tool">View on GitHub</a>
+
+          <h1 id="project_title">Rest-tool</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/tombenke/rest-tool/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/tombenke/rest-tool/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="rest-tool---a-simple-nodejs-module-to-document-emulate-and-test-restful-apis" class="anchor" href="#rest-tool---a-simple-nodejs-module-to-document-emulate-and-test-restful-apis"><span class="octicon octicon-link"></span></a>rest-tool - A simple Node.js module to document, emulate and test RESTful APIs.</h1>
+
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>The main purpose of using 'rest-tool' is to create and maintain a well-defined REST API specification, which provides a solid basis for implementing and mocking the RESTful interface between the parties that communicates with each other through it.</p>
+
+<p>This specification can handle as a contract among the communicating agents either they are servers or clients.</p>
+
+<p>You can do the following things with <code>rest-tool</code>:</p>
+
+<ul>
+<li>Create a new REST API project from scratch.</li>
+<li>Specify the resources (uniquely identified by their URL patterns)
+that can be provided/retrieved through the RESTful services.</li>
+<li>Specify the expected working of HTTP methods in relation to each resource.</li>
+<li>Put additional information beside the resource definitions (mock data, validation schemas, etc.)</li>
+<li>Use the mock Node.js server for testing, and simulating of the REST API functionality.</li>
+<li>Generate/Update the HTML format documentation of the REST API</li>
+<li>Generate/Update test cases which can be used to test either the mock server 
+and the real test/production servers to verify that the server is working according to the API.</li>
+<li>Use the mock server's to provide your web UI frontend source as static content 
+during the development, without the need for deployment.</li>
+<li>Use the mock server's proxy feature to test your web UI frontend diretly against 
+3rd party application servers (JBoss, Tomcat, Apache, etc.) without deployment.</li>
+<li>Define your own templates to generate test cases and server side implementations 
+which best fit to your needs. (the server side templating is currently under development).</li>
+</ul><p>Using the tool the frontent and backend developers can work fully independently from each other. They can assure that their implementation is fully comply to the REST API specification.</p>
+
+<p>The 'rest-tool' relies on the HTTP protocol specification, and NOT on language specific implementations. You can keep your communicating agents loosely coupled, and fully technology agnostic.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a name="preprequisites" class="anchor" href="#preprequisites"><span class="octicon octicon-link"></span></a>Preprequisites:</h3>
+
+<p><code>rest-tool</code> needs <a href="http://nodejs.org/">Node.js</a> and <a href="https://npmjs.org/">NPM</a> installed on the machine, before start installing and using it.</p>
+
+<p>If you want to change the stylesheets of the generated documentation of the API, you will need <a href="http://sass-lang.com/">Sass</a> and <a href="http://compass-style.org/">Compass</a>.</p>
+
+<h3>
+<a name="installation-steps" class="anchor" href="#installation-steps"><span class="octicon octicon-link"></span></a>Installation steps</h3>
+
+<p>The <code>rest-tool</code> tool can be installed as any other node module, but you have to install to the global node_modules folder, so use the <code>-g</code> switch to <code>npm</code>.</p>
+
+<p>To install <code>rest-tool</code>, execute the following command:</p>
+
+<pre><code>$ npm install -g rest-tool
+</code></pre>
+
+<p>To check, whether rest-tool is installed successfully, run the following command:</p>
+
+<pre><code>$ rest-tool -V
+0.2.3
+</code></pre>
+
+<h2>
+<a name="usage-of-the-rest-tool-utility" class="anchor" href="#usage-of-the-rest-tool-utility"><span class="octicon octicon-link"></span></a>Usage of the <code>rest-tool</code> utility</h2>
+
+<p>To get help, use the <code>-h</code> option:</p>
+
+<pre><code>$ rest-tool -h
+
+  Usage: rest-tool [options] [command]
+
+  Commands:
+
+    create [options] &lt;project-name&gt; Create a new REST API project
+    doc [options]          Documentation management
+    test [options]         Test cases management
+
+  Options:
+
+    -h, --help     output usage information
+    -V, --version  output the version number
+</code></pre>
+
+<p>You can do the following things with <code>rest-tool</code>:</p>
+
+<ul>
+<li>Create a new REST API project (<code>rest-tool create</code>).</li>
+<li>Generate/Update the HTML format documentation (<code>rest-tool doc --update</code>)</li>
+<li>Generate/Update the test cases (<code>rest-tool test --update</code>)</li>
+<li>Use the mock Node.js server for testing, and simulating of the REST API functionality (<code>node server/server.js</code>).</li>
+</ul><p>You can get help to any of the commands using the following schema:</p>
+
+<pre><code>$ rest-tool &lt;command&gt; -h
+</code></pre>
+
+<p>for example:</p>
+
+<pre><code>$ rest-tool docs -h
+
+  Usage: docs [options]
+
+  Options:
+
+    -h, --help                     output usage information
+    -u, --update                   Generate the HTML format documentation
+    -c, --config &lt;configFileName&gt;  The name of the configuration file (default: config.yml)
+    -v, --verbose                  Verbose mode
+</code></pre>
+
+<p>The following sections describe the usage of the commands in details.</p>
+
+<h3>
+<a name="generate-a-new-rest-api-project" class="anchor" href="#generate-a-new-rest-api-project"><span class="octicon octicon-link"></span></a>Generate a new REST API project:</h3>
+
+<pre><code>$ rest-tool create &lt;project-name&gt;
+</code></pre>
+
+<p>for example:</p>
+
+<pre><code>$ rest-tool create crm-api
+</code></pre>
+
+<p>After, you have created the new project, move into the new projects folder, and install those node modules, the new project needs:</p>
+
+<pre><code>$ cd crm-api
+$ npm install
+</code></pre>
+
+<p>If you want to use the mock server too, then do this also in its subfolder:</p>
+
+<pre><code>$ cd server
+$ npm install
+</code></pre>
+
+<h4>
+<a name="the-rest-api-project-layout-generated-by-the-rest-tool-utility" class="anchor" href="#the-rest-api-project-layout-generated-by-the-rest-tool-utility"><span class="octicon octicon-link"></span></a>The REST API project layout generated by the <code>rest-tool</code> utility</h4>
+
+<p>In general, you can modify the content of the files and folders the <code>rest-tool create</code> command made, except the files in <code>docs</code> and the <code>test</code> folders, because these are created/overweritten by the <code>rest-tool</code> command. If you want to modify the working of the cases, the server api implementation or the look-and-feel of the generated documents, you should mostly make changes under the <code>templates</code> and <code>server</code> directories, and of course you will create the service descriptions under the <code>services</code> folder.</p>
+
+<ul>
+<li><p><strong>config.yml</strong> :<br>
+The configuration parameters of the REST API project</p></li>
+<li><p><strong>server</strong> :<br>
+The mock server with the mock implementation of the API</p></li>
+<li>
+<p><strong>services</strong> :<br>
+This folder contains the service descriptors. Each service should be put into its own subfolder, and must have a <code>service.yml</code> in it. All the other supplementary files, which belongs to the specific service, and used to the specification must be put here, beside the <code>service.yml</code> file. Such files can be test data and schema files.</p>
+
+<p>The service implementation files, which are referred by the <code>service.yml</code> but run on the mock, or live server should be put beside the server code, and not here, beside the specification files.</p>
+
+<p>Note: The files placed into this folder will be referenced from other places, such as: from the HTML documentation, the server and the test cases.</p>
+</li>
+<li><p><strong>docs</strong> :<br>
+The HTMl format documentation of the REST API. this folder will be totally removed, and recreated during updating the documentation, so you should not modify its content manually.</p></li>
+<li><p><strong>templates</strong> :<br>
+The customizable templates used by the documentation generator and the test case generator.</p></li>
+<li>
+<p><strong>templates/docs</strong> :<br>
+Documentation templates, stylesheets, and images that the tool is using to create the HTML format documentation. The are written in Mustache format, using partials.</p>
+
+<p>The stylesheet is based on sass/compass. if you want to change the CSS, modify the files under the <code>templates/docs/sass</code> directory.</p>
+</li>
+<li><p><strong>templates/test</strong> :<br>
+JavaScript test-case (mustache) templates to generate unit test code, which will run with mocha and supertest. These are referred from the service descriptors by their names. You can put here any number of additional templates.</p></li>
+<li><p><strong>test</strong> :<br>
+The test cases generated by the <code>rest-tool</code> utility using the service descriptors, and the referred templates.</p></li>
+<li><p><strong>Makefile</strong> :<br>
+Makefile to run the test cases. Used by mocha and Jenkins.</p></li>
+</ul><h3>
+<a name="define-services" class="anchor" href="#define-services"><span class="octicon octicon-link"></span></a>Define services</h3>
+
+<p>The services can be specified under the <code>services</code> folder. Each service will be activated only if it is added to the <code>config.yml</code> file, which can be found under the project root directory.</p>
+
+<p>The newly created project contains a sample service descriptor (<code>services/monitoring/isAlive/service.yml</code>) and the <code>config.yml</code> configuration file. This new setup can be used to verify the working of the project without modifying the files. The sample desciptor also can be used as a template to write your own definitions. You can use Markdown format text in fields named like: 'description', 'summary' and 'details'.</p>
+
+<p>Note: The service descriptors you create will not be used automatically. You have to 
+manually list them under the <code>services</code> property of the <code>config.yml</code> file:</p>
+
+<pre><code>services:
+    - /monitoring/isAlive
+    # To add new services, put here the path of the directory that contains the service.yml
+</code></pre>
+
+<p>This way, you can write you new services until they will be stable enough to activate them, and they will be loaded and start working only if you have added them to the config file.</p>
+
+<h3>
+<a name="run-the-mock-server" class="anchor" href="#run-the-mock-server"><span class="octicon octicon-link"></span></a>Run the mock server:</h3>
+
+<p>To start the mock server, execute the following command:</p>
+
+<pre><code>$ cd ./server
+$ node server.js
+</code></pre>
+
+<p>This will start a web server, which will listen on the localhost, and the port specified in the <code>config.yml</code> file (3007 by default).</p>
+
+<p>After starting the server, you can can try it with a browser, or the <code>curl</code> command line tool:</p>
+
+<pre><code>$ curl http://localhost:3007/rest/monitoring/isAlive
+true
+</code></pre>
+
+<h3>
+<a name="updategenerate-documentations" class="anchor" href="#updategenerate-documentations"><span class="octicon octicon-link"></span></a>Update(/generate) documentations</h3>
+
+<p>To create or update the HTMl format documentation, execute the following command:</p>
+
+<pre><code>$ rest-tool docs --update
+</code></pre>
+
+<p>This will create the documentation under the <code>docs</code> folder. the HTMl documentation can be opened via a browser directly as a static file, or through the mock server, loading the following URL: (http://localhost:3007/docs/index.html).</p>
+
+<h3>
+<a name="updategenerate-test-cases" class="anchor" href="#updategenerate-test-cases"><span class="octicon octicon-link"></span></a>Update(/generate) test cases</h3>
+
+<p>Before you run the tests, you have to generate/update the test cases. You can do this with the following command:</p>
+
+<pre><code>$ rest-tool test --update --overwrite
+</code></pre>
+
+<p>The <code>--overwrite</code> option tells the tool to overwrite the existing cases, otherwise it will keep the if they exist yet.</p>
+
+<h3>
+<a name="run-test-cases" class="anchor" href="#run-test-cases"><span class="octicon octicon-link"></span></a>Run test cases</h3>
+
+<p>After the test cases is generated, you can run the tests, directly from the command line, or by the continuous integration server. Use one of the following commands:</p>
+
+<pre><code>$ make test
+</code></pre>
+
+<p>or</p>
+
+<pre><code>$ mocha
+</code></pre>
+
+<p>To select the appropriate reporting format for the continuous integration environment, modify the <code>Makefile</code>:</p>
+
+<pre><code>REPORTER ?= spec
+
+test:
+    @node_modules/.bin/mocha --reporter $(REPORTER)
+
+.PHONY: test
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rest-tool maintained by <a href="https://github.com/tombenke">tombenke</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
