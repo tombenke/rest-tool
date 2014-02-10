@@ -11,7 +11,7 @@ To use this project, you will need the following software installed on your mach
 
 - [Node.js](http://nodejs.org/),
 - [NPM](https://npmjs.org/),
-- [restapi](https://github.com/tombenke/restapi).
+- [restapi](https://github.com/tombenke/rest-tool).
 
 If you want to change the stylesheets of the generated documentation of the API, you will also need:
 
@@ -31,4 +31,4 @@ If you want to use the mock server too, then do this also in its subfolder:
 
 ## Further readings
 
-To learn more on how to setup the project, and how to use the tool visit the [restapi  project repository](https://github.com/tombenke/restapi) on GitHub.
+To learn more on how to setup the project, and how to use the tool visit the [rest-tool  project repository](https://github.com/tombenke/rest-tool) on GitHub.

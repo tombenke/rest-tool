@@ -48,7 +48,7 @@
 
     // Setup the document generator command
     program
-        .command('doc')
+        .command('docs')
         .description('Documentation management')
         .option("-u, --update", "Generate the HTML format documentation")
         .option("-c, --config <configFileName>", "The name of the configuration file (default: config.yml)", String, 'config.yml')
