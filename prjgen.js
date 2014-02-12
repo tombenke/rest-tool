@@ -66,6 +66,8 @@ exports.create = function (context, mode) {
             "server/package.json",
 
             "templates/test/testGetMethod.mustache",
+            "templates/test/testPutMethod.mustache",
+            "templates/test/testDelMethod.mustache",
             "templates/test/testPostMethod.mustache"
         ].forEach(function(template) {
             generator.processTemplate(context, {
