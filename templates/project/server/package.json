@@ -6,7 +6,7 @@
     "dependencies" : {
         "express" : "3.3.6",
         "request" : "*",
-        "rest-tool-common": "0.3.1",
+        "rest-tool-common": "0.3.3",
         "http-proxy": "0.10.3",
         "js-yaml" : "*",
         "should" : "*"
