@@ -20,8 +20,16 @@
 
 <!-- Begin content -->
 <div id="content">
-{{> servicesMenu.html}}
+<!-- Begin ServicesMenu -->
+<div id="servicesMenu">
+    <div class="">Services:</div>
+    <ul>
+    {{#serviceDocNames}}
+        <li><a href="{{docFileName}}">{{name}}</a></li>
+    {{/serviceDocNames}}
+    </ul>
 </div>
+<!-- End of ServicesMenu --></div>
 <!-- End of content -->
 
 <!-- Begin sidebar -->

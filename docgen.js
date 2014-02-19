@@ -15,7 +15,8 @@ var initDocsFolder = function(context, mode) {
         "/images",
         "/js",
         "/sass",
-        "/stylesheets" ], true) ) {
+        "/stylesheets",
+        "services" ], true) ) {
 
         [
             "images",
@@ -36,6 +37,19 @@ var initDocsFolder = function(context, mode) {
             });
         });
 
+        // Copy the whole services tree (temporary solution)
+        generator.copyDir(context, {
+            sourceBaseDir: "",
+            targetBaseDir: "docs",
+            dirName: "services", // The directory to copy
+            forceDelete: true, // Whether to overwrite existing directory or not
+            excludeHiddenUnix: true, // Whether to copy hidden Unix files or not (preceding .)
+            preserveFiles: false, // If we're overwriting something and the file already exists, keep the existing
+            inflateSymlinks: true // Whether to follow symlinks or not when copying files
+            // filter: regexp, // A filter to match files against; if matches, do nothing (exclude).
+            // whitelist: bool, // if true every file or directory which doesn't match filter will be ignored
+        });
+
         [
             "README.md"
         ].forEach(function(fileName) {
@@ -46,7 +60,9 @@ var initDocsFolder = function(context, mode) {
 };
 
 var generateDocFileName = function (serviceDesc) {
-    return serviceDesc.name.toLowerCase().replace(/ /g, "_") + '.html';
+    // return serviceDesc.name.toLowerCase().replace(/ /g, "_") + '.html';
+    console.log('generateDocFileName: ', serviceDesc.contentPath + '/service.html');
+    return serviceDesc.contentPath + '/service.html';
 };
 
 /**
@@ -109,10 +125,17 @@ var generateDocIndex = function(context) {
 };
 
 var generateServiceDoc = function(serviceDesc, context) {
+
     var templateFileName = path.join(process.cwd(), 'templates', 'docs', 'restapi.html'),
         outFileName = path.join(process.cwd(), 'docs', generateDocFileName(serviceDesc)),
         view = {};
-    console.log('Generate service doc: ' + serviceDesc.name);
+    var relPath = "";
+    for (var l=0; l<serviceDesc.contentPath.split(path.sep).length; l++ ) {
+        relPath = relPath + ".." + path.sep;
+    }
+    context.relPath = relPath;
+
+    // console.log('Generate service doc: ' + serviceDesc.name, context.relPath);
 
     extend(view, context, convertMarkdown(serviceDesc));
     generateDoc(templateFileName, view, outFileName);
