@@ -34,6 +34,7 @@ exports.create = function (context, mode) {
             "docs",
             "templates/docs",
             "templates/server",
+            "templates/services",
             "templates/test"
         ].forEach(function(dirName) {
             generator.copyDir(context, {
@@ -72,8 +73,8 @@ exports.create = function (context, mode) {
         ].forEach(function(template) {
             generator.processTemplate(context, {
                 sourceBaseDir: path.resolve(__dirname, "templates/project"),
-                // targetBaseDir: context.projectName,
-                template: template // The directory to copy
+                targetBaseDir: context.projectName,
+                template: template
             });
         });
     }

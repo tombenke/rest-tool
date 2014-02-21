@@ -1,0 +1,7 @@
+[{
+    "id": 1,
+    "data": "some mock data that fits to the filter pattern"
+}, {
+    "id": 2,
+    "data": "some other mock data that fits to the filter pattern"
+}]
