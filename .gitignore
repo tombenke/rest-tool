@@ -3,3 +3,7 @@ examples/private
 examples/*/node_modules
 examples/*/*/node_modules
 templates/docs/.sass-cache
+
+bin
+*.json
+*.js
