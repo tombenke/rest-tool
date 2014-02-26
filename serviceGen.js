@@ -21,7 +21,7 @@ var extendConfig = function(serviceConfig) {
 };
 
 /**
- * Update test cases or create them, if they are missing
+ * Add a new service descriptor to the project
  * @param  {Object} serviceConfig   Configuration parameters of the new service
  * @param  {Object} projectConfig   Configuration parameters of the project
  * @param  {bool} verbose           Work in verbose mode if `true`
@@ -73,4 +73,20 @@ exports.add = function( serviceConfig, projectConfig, mode ) {
             });
         });
     }
+};
+
+exports.bulkAdd = function( bulkServices, projectConfig, mode ) {
+    var serviceConfig;
+    // console.log('bulk-add ', bulk);
+    bulkServices.forEach(function(service) {
+        exports.add({
+            type: service.type,
+            path: service.path,
+            name: service.name,
+            urlPattern: service.urlPattern,
+            description: service.description
+        },
+        projectConfig, 
+        mode);
+    });
 };

@@ -1,3 +1,7 @@
+## 0.4.1
+- Add bulk service generation feature 'rest-tool add-bulk --help'
+- Add Add response.description field to the schema and document template
+- Upgrade to rest-tool-common v0.3.7
 ## 0.4.0
 - Upgrade to should v3.1.2
 - Upgrade to rest-tool-common v0.3.6

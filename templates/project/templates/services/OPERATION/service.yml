@@ -1,5 +1,6 @@
 name: {{name}} service
-description: This is the description of the service to execute the {{name}} operation
+description: |
+    {{description}}
 style: OPERATION
 urlPattern: {{urlPattern}}
 methods:
@@ -22,8 +23,8 @@ methods:
         responses:
             -
                 name: OK
-                statusCode: &OkStatusCode
-                reason: &OkReason
+                statusCode: &OkStatusCode 200
+                reason: &OkReason Successful execution
                 # validationSchema: getCollection-responseBody-validationSchema.json
                 cookies: []
                 headers:

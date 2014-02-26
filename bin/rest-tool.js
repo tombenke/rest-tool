@@ -13,6 +13,8 @@
     var program = require('commander');
     var thisPackage = require(__dirname + '/../package.json');
     program._name = thisPackage.name;
+    var path = require('path'),
+        pathSep = path.sep;
 
     /**
      * Read the config file
@@ -62,7 +64,7 @@
                 }
             });
 
-    // Setup the feature generator command
+    // Setup the service generator command
     program
         .command('add')
         .description('Add new service to the project')
@@ -70,6 +72,7 @@
         .option("-p, --path <path>", "The path of the service description relative to project-root/service/", String)
         .option("-u, --urlPattern <urlPattern>", "The unique URL pattern of the service", String)
         .option("-n, --name <name>", "The name of the operation/collection/resource", String)
+        .option("-d, --desc <desc>", "The description of the service", String, "This is the description of the service")
         .option("-c, --config [configFileName]", "The name of the configuration file (default: config.yml)", String, 'config.yml')
         .option("-v, --verbose", "Verbose mode", Boolean, false)
         .action(function(options) {
@@ -81,8 +84,32 @@
                             type: options.type,
                             path: options.path,
                             name: options.name,
-                            urlPattern: options.urlPattern
+                            urlPattern: options.urlPattern,
+                            description: options.desc
                         }, readConfig(options.config), verbose);
+                    } catch (error) {
+                        console.log('ERROR: ', error.message);
+                    }
+                } else {
+                    console.log('ERROR: missing arguments' );
+                }
+            });
+
+    // Setup the bulk-mode service generator command
+    program
+        .command('add-bulk')
+        .description('Add new services to the project in bulk mode')
+        .option("-s, --services [services]", "The filename of which contains the list of services to create (for example: bulk.json)", String, "bulk.json")
+        .option("-c, --config [configFileName]", "The name of the configuration file (default: config.yml)", String, 'config.yml')
+        .option("-v, --verbose", "Verbose mode", Boolean, false)
+        .action(function(options) {
+                verbose = options.verbose;
+                if( options.services ) {
+                    try {
+                        var bulkServicesPath = process.cwd() + pathSep + options.services;
+                        var bulkServices = require(bulkServicesPath);
+                        require('../serviceGen.js').bulkAdd(
+                            bulkServices, readConfig(options.config), verbose);
                     } catch (error) {
                         console.log('ERROR: ', error.message);
                     }

@@ -1,5 +1,6 @@
 name: {{name}} service
-description: This is the description of the service to an individual resource
+description: |
+    {{description}}
 style: RESOURCE
 urlPattern: {{urlPattern}}
 methods:

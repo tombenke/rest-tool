@@ -1,5 +1,6 @@
 name: {{name}} service
-description: This is the description of the service to {{name}} collection resources
+description:  |
+    {{description}}
 style: COLLECTION
 urlPattern: {{urlPattern}}
 methods:
