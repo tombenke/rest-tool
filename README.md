@@ -26,7 +26,7 @@ You can do the following things with `rest-tool`:
 
 Using the tool the frontent and backend developers can work fully independently from each other. They can assure that their implementation is fully comply to the REST API specification.
 
-The 'rest-tool' relies on the HTTP protocol specification, and NOT on language specific implementations. You can keep your communicating agents loosely coupled, and fully technology agnostic.
+The 'rest-tool' relies on the HTTP protocol specification, and NOT on language specific implementations. You can keep your communicating agents loosely coupled, and fully language agnostic.
 
 ## Installation
 
@@ -48,31 +48,34 @@ To install `rest-tool`, execute the following command:
 To check, whether rest-tool is installed successfully, run the following command:
 
     $ rest-tool -V
-    0.2.3
+    0.4.5
 
 
 ## Usage of the `rest-tool` utility
 
 To get help, use the `-h` option:
 
-    $ rest-tool -h
+rest-tool -h
 
-      Usage: rest-tool [options] [command]
+  Usage: rest-tool [options] [command]
 
-      Commands:
+  Commands:
 
-        create [options] <project-name> Create a new REST API project
-        doc [options]          Documentation management
-        test [options]         Test cases management
+    create [options] <project-name> Create a new REST API project
+    docs [options]         Documentation management
+    add [options]          Add new service to the project
+    add-bulk [options]     Add new services to the project in bulk mode
+    test [options]         Test cases management
 
-      Options:
+  Options:
 
-        -h, --help     output usage information
-        -V, --version  output the version number
+    -h, --help     output usage information
+    -V, --version  output the version number
 
 You can do the following things with `rest-tool`:
 
 - Create a new REST API project (`rest-tool create`).
+- Create services for the API (`rest-tool add`, `rest-tool add-bulk`).
 - Generate/Update the HTML format documentation (`rest-tool doc --update`)
 - Generate/Update the test cases (`rest-tool test --update`)
 - Use the mock Node.js server for testing, and simulating of the REST API functionality (`node server/server.js`).
@@ -167,15 +170,14 @@ manually list them under the `services` property of the `config.yml` file:
         - /monitoring/isAlive
         # To add new services, put here the path of the directory that contains the service.yml
 
-This way, you can write you new services until they will be stable enough to activate them, and they will be loaded and start working only if you have added them to the config file.
+This way, you can write your new services until they will be stable enough to activate them, and they will be loaded and start working only if you have added them to the config file.
 
 
 ### Run the mock server:
 
 To start the mock server, execute the following command:
 
-    $ cd ./server
-    $ node server.js
+    $ node server/server.js
 
 This will start a web server, which will listen on the localhost, and the port specified in the `config.yml` file (3007 by default).
 
