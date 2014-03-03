@@ -25,7 +25,7 @@ methods:
                 name: OK
                 statusCode: &OkStatusCode 200
                 reason: &OkReason Successful execution
-                # validationSchema: getCollection-responseBody-validationSchema.json
+                # validationSchema: getOperation-responseBody-validationSchema.json
                 cookies: []
                 headers:
                     -
@@ -58,4 +58,4 @@ methods:
                             field: "Content-Type"
                             content: "application/json"
                     mockBody: postOperation-responseBody.json
-                    # validationSchema: postCollection-responseBody-validationSchema.json
+                    # validationSchema: postOperation-responseBody-validationSchema.json
