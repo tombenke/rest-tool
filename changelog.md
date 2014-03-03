@@ -1,3 +1,8 @@
+## 0.4.8
+- Bugfix: index.html is missing from tesmplate/docs/ folder.
+- Extend the getStarted documentation page.
+- Extend the documentation page.
+
 ## 0.4.1
 - Add bulk service generation feature 'rest-tool add-bulk --help'
 - Add Add response.description field to the schema and document template
