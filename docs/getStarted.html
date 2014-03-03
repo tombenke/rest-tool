@@ -58,18 +58,28 @@
 0.4.5
 </code></pre><h2 id="usage-of-the-rest-tool-utility">Usage of the <code>rest-tool</code> utility</h2>
 <p>To get help, use the <code>-h</code> option:</p>
-<p>rest-tool -h</p>
-<p>  Usage: rest-tool [options] [command]</p>
-<p>  Commands:</p>
-<pre><code>create [options] &lt;project-name&gt; Create a new REST API project
-docs [options]         Documentation management
-add [options]          Add new service to the project
-add-bulk [options]     Add new services to the project in bulk mode
-test [options]         Test cases management
-</code></pre><p>  Options:</p>
-<pre><code>-h, --help     output usage information
--V, --version  output the version number
-</code></pre><p>You can do the following things with <code>rest-tool</code>:</p>
+
+<pre><code>$ rest-tool -h
+
+  Usage: rest-tool [options] [command]
+
+  Commands:
+
+    create [options] &lt;project-name&gt; Create a new REST API project
+    docs [options]         Documentation management
+    add [options]          Add new service to the project
+    add-bulk [options]     Add new services to the project in bulk mode
+    test [options]         Test cases management
+
+  Options:
+
+    -h, --help     output usage information
+    -V, --version  output the version number
+
+</code></pre>
+
+<p>You can do the following things with <code>rest-tool</code>:</p>
+
 <ul>
 <li>Create a new REST API project (<code>rest-tool create</code>).</li>
 <li>Create services for the API (<code>rest-tool add</code>, <code>rest-tool add-bulk</code>).</li>
