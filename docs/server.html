@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Get Help to the rest-tool.">
+    <meta name="author" content="Tamás Benke">
+    <meta name="Keywords" content="rest, restful, utility, tools, rest-tool, node.js, api, development" />
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>rest-tool</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="getStarted.html">Get Started</a></li>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li><a href="http://tombenke.github.io/rest-tool-cookbook/">Examples</a></li>
+          <li><a href="getHelp.html">Get Help</a></li>
+        </ul>
+        <h3 class="text-muted">rest-tool</h3>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-12">
+          <h2 id="using-the-server">Using the server</h2>
+<h3 id="start-the-server">Start the server</h3>
+<p>To start the mock server, execute the following command:</p>
+<pre><code>$ node server/server.js
+</code></pre><p>This will start a web server, which will listen on the localhost, and the port specified in the <code>config.yml</code> file (3007 by default).</p>
+<p>After starting the server, you can can try it with a browser, or the <code>curl</code> command line tool:</p>
+<pre><code>$ curl http://localhost:3007/rest/monitoring/isAlive
+true
+</code></pre><h3 id="use-as-static-mock-server">Use as static mock server</h3>
+<p>TBD.</p>
+<h3 id="use-as-static-content-provider-of-docs-and-webui">Use as static content provider of docs and webui</h3>
+<p>TBD.</p>
+<h3 id="implement-dynamic-mocking-behaviour">Implement dynamic mocking behaviour</h3>
+<p>In the <code>service.yml</code> file, every method&#39;s <code>request</code> object can have an optional property, which can identify an implementation function in the following format: <code>&lt;module&gt;.&lt;function&gt;</code>.</p>
+<p>In order to use this feature, you must have a module written in JavaScript placed into the <code>server</code> folder named <code>&lt;module&gt;.js</code>, which contains an exported function with the name of <code>&lt;function&gt;</code>. For example the following file is named <code>monitoring.js</code> and contains the implementation of the response logic which will be called when the referring method is activated:</p>
+<pre><code>function isAlive( request, response, serviceDescriptor )
+{
+    response.header( &#39;Content-Type&#39;, &#39;application/json&#39; );
+    response.header( &#39;X-Application-API-Version&#39;, &#39;v0.0.0&#39; );
+
+    response.write( &#39;true&#39; );
+    response.end( &#39;\n&#39; );
+};
+
+exports.isAlive = isAlive;
+</code></pre><p>As you can see, the function gets all the request parameters, as well as the response object, which is used to compose the response.</p>
+<p>In order to be able to behave the expected way, the function gets a third parameter (<code>serviceDescriptor</code>), which holds all the data found in the corresponding <code>service.yml</code> file. This object also provides methods to access to the mock files situated beside the service descriptor.</p>
+<!-- Add link to the rest-tool-common documentation pages, and the express.js pages -->
+
+<h3 id="use-the-proxy">Use the proxy</h3>
+<p>TBD.</p>
+
+        </div>
+      </div>
+
+      <div class="footer">
+        <p class="copyright">rest-tool is maintained by <a href="https://github.com/tombenke">tombenke</a><br>
+        Theme borrowed from <a href="http://getbootstrap.com/examples/jumbotron-narrow/">Bootstrap</a></p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>

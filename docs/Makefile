@@ -4,7 +4,15 @@ PAGE_TEMPLATE = pageTemplate.html
 %.html: %.md
 	node $(DX) -t $(PAGE_TEMPLATE) -i $< -o $@
 
-all: about.html documentation.html getHelp.html getStarted.html
+all: about.html \
+	getHelp.html \
+	getStarted.html \
+	documentation.html \
+	projects.html \
+	services.html \
+	server.html \
+	docs.html \
+	testing.html
 
 # .PHONY: clean
 # clean:

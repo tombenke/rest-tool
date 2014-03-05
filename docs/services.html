@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Get Help to the rest-tool.">
+    <meta name="author" content="Tamás Benke">
+    <meta name="Keywords" content="rest, restful, utility, tools, rest-tool, node.js, api, development" />
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>rest-tool</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="getStarted.html">Get Started</a></li>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li><a href="http://tombenke.github.io/rest-tool-cookbook/">Examples</a></li>
+          <li><a href="getHelp.html">Get Help</a></li>
+        </ul>
+        <h3 class="text-muted">rest-tool</h3>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-12">
+          <h2 id="create-and-maintain-services">Create and maintain services</h2>
+<h3 id="service-definitions">Service definitions</h3>
+<p>The services can be specified under the <code>services</code> folder. Each service should have its own subdirectory. A service subdirectory must contain at least a <code>service.yml</code> descriptor file, and any other files, mainly JSON or XML mock data and validation schemas.</p>
+<p>The newly created project contains a sample service descriptor such as <code>services/monitoring/isAlive/service.yml</code>.
+Below you can see its (a bit shortened) content:</p>
+<pre><code>name: Monitoring that server is alive
+description: |
+    It is a very simple service, 
+    which makes possible to monitor that the server is running
+    and is able to answer HTTP requests
+style: OPERATION
+urlPattern: /monitoring/isAlive
+methods:
+    GET:
+        summary: Is server alive?
+        notes: Responses true if server is working
+        # implementation: monitoring.isAlive
+        request:
+            parameters: []
+            cookies: []
+            headers: []
+        responses:
+            -
+                name: OK
+                statusCode: &amp;OkStatusCode 200
+                reason: &amp;OkReason Successful execution
+                cookies: []
+                headers: []
+                mockBody: &amp;OkMockBody getMonitoringIsAlive-responseBody.json
+        testCases:
+            -
+                name: Get Monitoring Is Alive
+                description: Successfully checks if server is alive
+                url: /monitoring/isAlive
+                template: testGetMethod.mustache
+                request:
+                    parameters: []
+                    cookies: []
+                    headers: []
+                response:
+                    name: OK
+                    statusCode: *OkStatusCode
+                    reason: *OkReason
+                    cookies: []
+                    headers: []
+                mockBody: *OkMockBody
+</code></pre><p>The sample service descriptor defines a service, which is able to response to GET requests, and the response will be the content of the <code>getMonitoringIsAlive-responseBody.json</code> file placed into the same directory where the <code>service.yml</code> is there, as the <code>mockBody</code> property determines.</p>
+<p>The response also could be dynamically created by implementing it in JavaScript. The <code>implementation</code> property of the request identifies the module and function of the code which defines the behaviour of the service. At the moment it is commented out using the <code>#</code> character, because only one of <code>mockBody</code> or <code>implementation</code> can exist.</p>
+<p>You also can observe the usage of referencing feature provided by YAML. For example the value of the <code>mockBody</code> property of the <code>OK</code> response is labeled with <code>&amp;OkMockBody</code> and referenced by <code>*OkMockBody</code> from the test-case. This allows you to define the mock file name that is <code>getMonitoringIsAlive-responseBody.json</code> only once, and refer to it anywhere in the same file. </p>
+<p>This sample desciptor file also can be used as a baseline to write your own definitions. </p>
+<h3 id="the-structure-of-the-service-yml-file">The structure of the service.yml file</h3>
+<p>The top-level structure of a service descriptor is the following:</p>
+<ul>
+<li><p><strong>name:</strong>
+<em>(mandatory, string)</em><br>The name of the service.</p>
+<p>For example: <code>Monitoring that server is alive</code></p>
+</li>
+<li><p><strong>description:</strong>
+<em>(mandatory, string)</em><br>Short desciption of the service.</p>
+<p>For example: <code>It is a very simple service, which makes possible to...</code></p>
+</li>
+<li><p><strong>style:</strong>
+<em>(mandatory, string)</em><br>Tells whether it is an RPC-like OPERATION,
+or a RESOURCE, which fully comply to the REST principles</p>
+<p>Possible values: OPERATION | COLLECTION | RESOURCE</p>
+</li>
+<li><p><strong>urlPattern:</strong>
+<em>(mandatory, string)</em><br>The URL pattern of the service.</p>
+<p>For example: <code>/monitoring/isAlive</code>.</p>
+</li>
+<li><p><strong>methods:</strong>
+<em>(mandatory, array)</em><br>The methods of the service specification.
+There must be at least one method defined for the resource.</p>
+<p>Currently only the most fundamental methods (GET, PUT, POST, DELETE) are provided.</p>
+<p>The internal structure of every method is the following:</p>
+<ul>
+<li><p><strong>summary:</strong>
+<em>(mandatory, string)</em><br>  Short summary of the service method.</p>
+</li>
+<li><p><strong>notes:</strong><br><em>(optional, string)</em><br>  Details and notes about the method.</p>
+</li>
+<li><p><strong>implementation:</strong><br><em>(optional, string)</em><br>  The implementation of the call in the following format:
+  <code>&lt;module&gt;.&lt;function&gt;</code>. For details see the <a href="server.html#implement-dynamic-mocking-behaviour">&quot;Implement dynamic mocking behaviour&quot;</a> section.</p>
+<p>  For example: <code>monitoring.isalive</code></p>
+</li>
+<li><p><strong>request:</strong><br><em>(mandatory, object)</em><br>  The detailed specification of request.</p>
+</li>
+<li><p><strong>responses:</strong><br><em>(mandatory, array)</em><br>  The detailed specification of responses.
+  There can be several possible responses, 
+  but at least one <code>OK</code> response must be defined.</p>
+</li>
+<li><p><strong>testCases:</strong><br>  The detailed specification of test cases.
+  A method can contain zero or more test cases.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>In the whole service descriptor, you can use multiline text in case of string-type fields. moreover you can use <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format text in fields named such as: &#39;description&#39;, &#39;summary&#39; and &#39;details&#39;.</p>
+<!--
+TBD:
+- request
+- responses
+- testCases
+-->
+
+<p>Similar to the validation of the <code>config.yml</code>, when the server is started, or the generator is used, they check the validity of the <code>service.yml</code> files too, so you might get error messages in case of wrong format or missing properties.</p>
+<p>To see the detailed structure description of the service descriptor file, study the corresponding JSON validation schema files in the <code>rest-tool-common</code> module:</p>
+<ul>
+<li><a href="https://github.com/tombenke/rest-tool-common/blob/master/schemas/serviceSchema.yml">serviceSchema.yml</a></li>
+<li><a href="https://github.com/tombenke/rest-tool-common/blob/master/schemas/requestParametersSchema.yml">requestParametersSchema.yml</a></li>
+<li><a href="https://github.com/tombenke/rest-tool-common/blob/master/schemas/headersSchema.yml">headersSchema.yml</a></li>
+<li><a href="https://github.com/tombenke/rest-tool-common/blob/master/schemas/cookiesSchema.yml">cookiesSchema.yml</a></li>
+<li><a href="https://github.com/tombenke/rest-tool-common/blob/master/schemas/testCaseSchema.yml">testCaseSchema.yml</a></li>
+</ul>
+<p>These properties are all available during the documentation and test case generation process in the templates. It is also possible to place additional properties beside the mandatory ones, and they also can be used in templates, so you can customize your documentation or test cases using your own extensional data just like in case of the central <code>config.yml</code> file.</p>
+<h3 id="create-new-services">Create new services</h3>
+<h4 id="add-new-service-to-the-project">Add new service to the project</h4>
+<p>You can create a new service either manually creating and editing <code>service.yml</code> files, or using the <code>rest-tool</code> with the <code>add</code> and/or <code>add-bulk</code> command.</p>
+<p>To add one service, you can use the <code>rest-tool add</code> command:</p>
+<pre><code>$ rest-tool add -h
+
+  Usage: add [options]
+
+  Options:
+
+    -h, --help                     output usage information
+    -t, --type [type]              Defines the type (OPERATION|COLLECTION|RESOURCE) of the service (default: RESOURCE)
+    -p, --path &lt;path&gt;              The path of the service description relative to project-root/service/
+    -u, --urlPattern &lt;urlPattern&gt;  The unique URL pattern of the service
+    -n, --name &lt;name&gt;              The name of the operation/collection/resource
+    -d, --desc &lt;desc&gt;              The description of the service
+    -c, --config [configFileName]  The name of the configuration file (default: config.yml)
+    -v, --verbose                  Verbose mode
+</code></pre><p>For example, to create a collection manager service, execute the following command:</p>
+<pre><code>$ rest-tool add -t COLLECTION \
+    -p customers \
+    -u /customers \
+    -n Customers \
+    -d &quot;A service to manage the collection of customers&quot;
+</code></pre><h4 id="service-stereotypes">Service stereotypes</h4>
+<p>TBD:</p>
+<ul>
+<li>operation</li>
+<li>collection</li>
+<li>resource</li>
+</ul>
+<h4 id="add-new-service-to-the-project-in-bulk-mode">Add new service to the project in bulk mode</h4>
+<p>It is also possible to create more than one service in one step with the <code>rest-tool add-bulk</code> command:</p>
+<pre><code>$ rest-tool add-bulk -h
+
+  Usage: add-bulk [options]
+
+  Options:
+
+    -h, --help                     output usage information
+    -s, --services [services]      The filename of which contains the list of services to create (for example: bulk.json)
+    -c, --config [configFileName]  The name of the configuration file (default: config.yml)
+    -v, --verbose                  Verbose mode
+</code></pre><!-- TODO: Show example, and demo bulk config file -->
+
+<h3 id="configure-the-services">Configure the services</h3>
+<p>The service descriptors you create will not be activated automatically. You have to manually list them under the <code>services</code> property of the <code>config.yml</code> file:</p>
+<pre><code>services:
+    - /monitoring/isAlive
+    # To add new services, put here the path of the directory
+    # that contains the service.yml
+</code></pre><p>This way, you can write your new services until they will be stable enough to activate them, and they will be loaded and start working only if you have added them to the config file.</p>
+<h3 id="create-mock-data">Create mock data</h3>
+<p>Just simply put any files beside the <code>service.yml</code> and refer to them using the <code>mockBody</code> fields in the service descriptor.</p>
+<h3 id="validation">Validation</h3>
+<p>TBD.</p>
+<h3 id="create-dynamic-services">Create dynamic services</h3>
+<p>The service descriptor either contains <code>mockBody</code> properties under the response and test case objects that refer to mock data files, or it contains an <code>implementation</code> property of the <code>request</code> object. In this latter case you can call a server module, with your own implementation.  </p>
+<p>For more detaions see the <a href="server.html#implement-dynamic-mocking-behaviour">Implement dynamic mocking behaviour</a> section.</p>
+<p>If none ot these properties are defined, the service is responding a JSON object, that is the service descriptor itself by default, in order to show the server is listening to the given URL.</p>
+
+        </div>
+      </div>
+
+      <div class="footer">
+        <p class="copyright">rest-tool is maintained by <a href="https://github.com/tombenke">tombenke</a><br>
+        Theme borrowed from <a href="http://getbootstrap.com/examples/jumbotron-narrow/">Bootstrap</a></p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>
