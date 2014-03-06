@@ -126,10 +126,14 @@ The top-level structure of a service descriptor is the following:
 In the whole service descriptor, you can use multiline text in case of string-type fields. moreover you can use [Markdown](http://daringfireball.net/projects/markdown/) format text in fields named such as: 'description', 'summary' and 'details'.
 
 <!--
-TBD:
-- request
-- responses
-- testCases
+TODO:
+    - Cite REST principles and application patterns
+    - Add book references
+    - Describe the differences among
+        - request
+        - responses
+        - testCases
+    - Add links to relevant cookbook pages
 -->
 
 Similar to the validation of the `config.yml`, when the server is started, or the generator is used, they check the validity of the `service.yml` files too, so you might get error messages in case of wrong format or missing properties.

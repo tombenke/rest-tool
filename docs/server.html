@@ -45,7 +45,69 @@
       <div class="row marketing">
         <div class="col-lg-12">
           <h2 id="using-the-server">Using the server</h2>
-<h3 id="start-the-server">Start the server</h3>
+<h3 id="the-mock-server-configuration">The mock server configuration</h3>
+<p>By default the tool creates the mock server into the <code>server</code> subfolder under the project root.</p>
+<p>The original setup is the following:</p>
+<pre><code>server/
+├── api.js
+├── config.js
+├── config.yml
+├── monitoring.js
+├── package.json
+├── Readme.md
+└── server.js
+</code></pre><p>Where</p>
+<ul>
+<li><p><strong>Readme.md</strong><br>A short readme file about how to use the server.</p>
+</li>
+<li><p><strong>server.js</strong><br>The mock server itself.</p>
+</li>
+<li><p><strong>config.yml</strong><br>Configuration parameters of the mock server.</p>
+</li>
+<li><p><strong>config.js</strong><br>Helper module to load the configuration parameters.</p>
+</li>
+<li><p><strong>package.json</strong><br>Module dependencies of the server. By default this file contains all the required dependencies, but the <code>package.json</code> file in the parent folder also contains them, so you do not need to install them in the server&#39;s folder, because it will access them from it parent&#39;s <code>node_modules</code> folder.</p>
+<p>You can extend this file, if you need additional modules installed to implement dynamic behaviour. In this case you have changed this file, you have install the packages, so run the <code>npm install</code> command in the server folder.</p>
+</li>
+<li><p><strong>api.js</strong><br>A boilerplate modul to implement your own implementation functions. If you want to implement only a couple a functions, it is enough to define them in this module, and just refer to them. In case of more complex logic, you&#39;d better create your own modules.</p>
+</li>
+<li><p><strong>monitoring.js</strong><br>A sample module, which demonstrates how an implementation should be written.</p>
+</li>
+</ul>
+<p>In a newly created API project the server is configured to work immediatly. The default <code>config.yml</code> looks like this:</p>
+<pre><code># Use this environment by default,
+# if server is started without the --env switch.
+useEnvironment: development
+#useEnvironment: production
+
+environments:
+
+  # This is the default configuration set
+  default:
+    documentRoot: .
+    port: 3007
+    restapiRoot: ..
+    useRemoteServices: false
+
+  # Override the default config parameters
+  # with values specific to the development environment
+  development:
+    port: 3007
+    documentRoot: ../webui
+
+  # development environment with proxying the &#39;serviceUrlPrefix&#39; requests to the local host
+  devProxy:
+    port: 3006
+    documentRoot: ../webui
+    useRemoteServices: true
+    remoteHost: localhost
+    remotePort: 3008
+
+  # production environment specific values
+  production:
+    port: 3008
+    documentRoot: ../webui/build/crm-api/production
+</code></pre><h3 id="start-the-server">Start the server</h3>
 <p>To start the mock server, execute the following command:</p>
 <pre><code>$ node server/server.js
 </code></pre><p>This will start a web server, which will listen on the localhost, and the port specified in the <code>config.yml</code> file (3007 by default).</p>
@@ -71,7 +133,12 @@ true
 exports.isAlive = isAlive;
 </code></pre><p>As you can see, the function gets all the request parameters, as well as the response object, which is used to compose the response.</p>
 <p>In order to be able to behave the expected way, the function gets a third parameter (<code>serviceDescriptor</code>), which holds all the data found in the corresponding <code>service.yml</code> file. This object also provides methods to access to the mock files situated beside the service descriptor.</p>
-<!-- Add link to the rest-tool-common documentation pages, and the express.js pages -->
+<!-- TODO:
+    - Add link to the
+        - rest-tool-common documentation pages,
+        - express.js pages
+        - relevant cookbook examples
+ -->
 
 <h3 id="use-the-proxy">Use the proxy</h3>
 <p>TBD.</p>
