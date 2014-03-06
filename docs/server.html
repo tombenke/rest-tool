@@ -74,9 +74,9 @@
 <li><p><strong>monitoring.js</strong><br>A sample module, which demonstrates how an implementation should be written.</p>
 </li>
 </ul>
-<p>In a newly created API project the server is configured to work immediatly. The default <code>config.yml</code> looks like this:</p>
+<p>In a newly created API project the server is configured to work immediately. The default <code>config.yml</code> looks like this:</p>
 <pre><code># Use this environment by default,
-# if server is started without the --env switch.
+# if server is started without the &lt;env&gt; parameter
 useEnvironment: development
 #useEnvironment: production
 
@@ -107,14 +107,74 @@ environments:
   production:
     port: 3008
     documentRoot: ../webui/build/crm-api/production
-</code></pre><h3 id="start-the-server">Start the server</h3>
-<p>To start the mock server, execute the following command:</p>
+</code></pre><p>in general the configuration file can contain any property, but should contain at leas two mandatory properties. These are: <code>environments</code> and <code>useEnvironment</code>.</p>
+<p>The configuration parameters are grouped into <em>environments</em> which are described under the <code>environments</code> array propery. Each <em>environment</em> is identified by its name and describe a  specific server configuration. The configuration file must define at least one <em>environment</em>, that is the <strong>default</strong>.</p>
+<p>The <code>useEnvironment</code> tells the server that which environment should be used by default, if it was not specified explicitly when the it is started.</p>
+<p>An environment usually has the following configuration properties:</p>
+<ul>
+<li><p><strong>documentRoot:</strong>
+(string)
+Defines the path to the folder, which is used as the document root to the static content provided by the server. This content can be anything: static HTML pages, Fontend JavaScript application (Backbone, ExtJs, etc.), or anything.
+For example: ../webui</p>
+</li>
+<li><p><strong>port:</strong>
+<em>(integer)</em><br>The port where the server is listening.
+For example: 3007</p>
+</li>
+<li><p><strong>restapiRoot:</strong>
+<em>(string)</em><br>Path of the project root folder. server needs this in order to be able to access to the service descriptions and mock data files.
+For example: ..</p>
+</li>
+<li><p><strong>useRemoteServices:</strong>
+<em>(boolean)</em><br>If true, the server acts as a proxy server, and forwards the serivce requests to a nremote host. It is false by default.
+For example:  false</p>
+</li>
+<li><p><strong>remoteHost:</strong>
+<em>(string)</em><br>The host name of the remote host. Used only if the server is in proxy mode (<code>useRemoteServices: true</code>).
+For example: localhost</p>
+</li>
+<li><p><strong>remotePort:</strong>
+<em>(integer)</em><br>The port of remote host. Used only if the server is in proxy mode (<code>useRemoteServices: true</code>).
+For example: 3008</p>
+</li>
+</ul>
+<p>Beside the parameters listed above, you can add further ones to the config file, if you want to extend the funcionalities of the server.</p>
+<h3 id="start-the-server">Start the server</h3>
+<p>To start the mock server with the default configuration, execute the following command:</p>
 <pre><code>$ node server/server.js
 </code></pre><p>This will start a web server, which will listen on the localhost, and the port specified in the <code>config.yml</code> file (3007 by default).</p>
 <p>After starting the server, you can can try it with a browser, or the <code>curl</code> command line tool:</p>
 <pre><code>$ curl http://localhost:3007/rest/monitoring/isAlive
 true
-</code></pre><h3 id="use-as-static-mock-server">Use as static mock server</h3>
+</code></pre><p>If you want to start the server with an other configuration (<code>devProxy</code> for example), define it as a parameter in the following format:</p>
+<pre><code>$ node server/server.js devProxy
+
+{ documentRoot: &#39;../webui&#39;,
+  port: 3006,
+  restapiRoot: &#39;..&#39;,
+  useRemoteServices: true,
+  environment: &#39;devProxy&#39;,
+  remoteHost: &#39;localhost&#39;,
+  remotePort: 3008 }
+restapi config: { projectName: &#39;crm-api&#39;,
+  apiVersion: &#39;v0.0.0&#39;,
+  author: &#39;TBD.&#39;,
+  licence: &#39;TBD.&#39;,
+  serviceUrlPrefix: &#39;/rest&#39;,
+  servicePort: 3007,
+  baseUrl: &#39;http://localhost:3007/rest&#39;,
+  servicesRoot: &#39;services&#39;,
+  services: [ &#39;/monitoring/isAlive&#39;, &#39;/customers&#39; ],
+  loginCredentials: { user: &#39;username&#39;, pass: &#39;password&#39; } }
+register service GET /monitoring/isAlive
+/monitoring/isAlive
+register service GET /customers
+/customers
+register service POST /customers
+/customers
+Express server listening on port 3006 in devProxy mode
+</code></pre><p>As you can see, the server is listening now on port 3006, and proxying the HTTP requests to the <code>localhost:3008</code>.</p>
+<h3 id="use-as-static-mock-server">Use as static mock server</h3>
 <p>TBD.</p>
 <h3 id="use-as-static-content-provider-of-docs-and-webui">Use as static content provider of docs and webui</h3>
 <p>TBD.</p>

@@ -40,10 +40,10 @@ Where
 - __monitoring.js__  
   A sample module, which demonstrates how an implementation should be written.
 
-In a newly created API project the server is configured to work immediatly. The default `config.yml` looks like this:
+In a newly created API project the server is configured to work immediately. The default `config.yml` looks like this:
 
     # Use this environment by default,
-    # if server is started without the --env switch.
+    # if server is started without the <env> parameter
     useEnvironment: development
     #useEnvironment: production
 
@@ -75,10 +75,49 @@ In a newly created API project the server is configured to work immediatly. The 
         port: 3008
         documentRoot: ../webui/build/crm-api/production
 
+in general the configuration file can contain any property, but should contain at leas two mandatory properties. These are: `environments` and `useEnvironment`.
+
+The configuration parameters are grouped into _environments_ which are described under the `environments` array propery. Each _environment_ is identified by its name and describe a  specific server configuration. The configuration file must define at least one _environment_, that is the __default__.
+
+The `useEnvironment` tells the server that which environment should be used by default, if it was not specified explicitly when the it is started.
+
+An environment usually has the following configuration properties:
+
+- __documentRoot:__
+  (string)
+  Defines the path to the folder, which is used as the document root to the static content provided by the server. This content can be anything: static HTML pages, Fontend JavaScript application (Backbone, ExtJs, etc.), or anything.
+  For example: ../webui
+
+- __port:__
+  _(integer)_  
+  The port where the server is listening.
+  For example: 3007
+
+- __restapiRoot:__
+  _(string)_  
+  Path of the project root folder. server needs this in order to be able to access to the service descriptions and mock data files.
+  For example: ..
+
+- __useRemoteServices:__
+  _(boolean)_  
+  If true, the server acts as a proxy server, and forwards the serivce requests to a nremote host. It is false by default.
+  For example:  false
+
+- __remoteHost:__
+  _(string)_  
+  The host name of the remote host. Used only if the server is in proxy mode (`useRemoteServices: true`).
+  For example: localhost
+
+- __remotePort:__
+  _(integer)_  
+  The port of remote host. Used only if the server is in proxy mode (`useRemoteServices: true`).
+  For example: 3008
+
+Beside the parameters listed above, you can add further ones to the config file, if you want to extend the funcionalities of the server.
 
 ### Start the server
 
-To start the mock server, execute the following command:
+To start the mock server with the default configuration, execute the following command:
 
     $ node server/server.js
 
@@ -89,6 +128,36 @@ After starting the server, you can can try it with a browser, or the `curl` comm
     $ curl http://localhost:3007/rest/monitoring/isAlive
     true
 
+If you want to start the server with an other configuration (`devProxy` for example), define it as a parameter in the following format:
+
+    $ node server/server.js devProxy
+
+    { documentRoot: '../webui',
+      port: 3006,
+      restapiRoot: '..',
+      useRemoteServices: true,
+      environment: 'devProxy',
+      remoteHost: 'localhost',
+      remotePort: 3008 }
+    restapi config: { projectName: 'crm-api',
+      apiVersion: 'v0.0.0',
+      author: 'TBD.',
+      licence: 'TBD.',
+      serviceUrlPrefix: '/rest',
+      servicePort: 3007,
+      baseUrl: 'http://localhost:3007/rest',
+      servicesRoot: 'services',
+      services: [ '/monitoring/isAlive', '/customers' ],
+      loginCredentials: { user: 'username', pass: 'password' } }
+    register service GET /monitoring/isAlive
+    /monitoring/isAlive
+    register service GET /customers
+    /customers
+    register service POST /customers
+    /customers
+    Express server listening on port 3006 in devProxy mode
+
+As you can see, the server is listening now on port 3006, and proxying the HTTP requests to the `localhost:3008`.
 
 ### Use as static mock server
 TBD.
