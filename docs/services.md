@@ -59,6 +59,10 @@ This sample desciptor file also can be used as a baseline to write your own defi
 
 ### The structure of the service.yml file
 
+This section describes the structure of the `service.yml` file, and the meaning of its properties.
+
+In the whole service descriptor, you can use multiline text in case of string-type fields. Moreover you can use [Markdown](http://daringfireball.net/projects/markdown/) format text in fields named such as: 'description', 'summary' and 'details'.
+
 The top-level structure of a service descriptor is the following:
 
 - __name:__
@@ -120,18 +124,149 @@ The top-level structure of a service descriptor is the following:
         but at least one `OK` response must be defined.
 
     - __testCases:__  
+      _(mandatory, array)_  
         The detailed specification of test cases.
         A method can contain zero or more test cases.
 
-In the whole service descriptor, you can use multiline text in case of string-type fields. moreover you can use [Markdown](http://daringfireball.net/projects/markdown/) format text in fields named such as: 'description', 'summary' and 'details'.
+Every __method__ must have a __request__ property which describes the main attributes of the method to the given URL:
+
+- __parameters:__
+  _(mandatory, array)_  
+  An array of request parameter descriptors.
+  Specification of the request parameters:
+    - __name:__
+        _(mandatory, string)_  
+        The name of the parameter.
+    - __kind:__
+        _(mandatory, enum: URL, QUERY, BODY)_  
+        Tells where the parameter is placed.
+    - __required:__
+        _(mandatory, boolean)_  
+        Tells if the parameter is mandatory.
+    - __type:__
+        _(mandatory, enum: string, number, boolean, object, array)_  
+        Defines the type of the parameter
+    - __summary:__
+        _(mandatory, string)_  
+        Short summary of the parameter.
+    - __default:__
+        _(optional, anyOf: string, number, boolean, object "null")_  
+        Default value of the parameter.
+
+- __headers:__
+  _(mandatory, array)_  
+  Specification of the headers.
+    - __field:__
+      _(mandatory, string)_  
+      The header field name.
+    - __content:__
+      _(mandatory, string)_  
+      The header content.
+
+- __cookies:__
+  _(mandatory, array)_  
+  Specification of the cookies.
+    - __field:__
+      _(mandatory, string)_  
+      The cookie field name.
+    - __content:__
+      _(mandatory, string)_  
+      The cookie content.
+
+- __mockBody:__
+  _(optional, string)_  
+  The path to the file which contain the mock request body.
+  For example: `postOperation-requestBody.json`.
+
+Every __method__ must have a __responses__ array property which describes the main attributes of the possible responses to the request of the given URL. At least an `OK` response must exist. Each response has the following structure:
+
+- __name:__
+  _(mandatory, string)_  
+  The name of the response.
+  At least one 'OK' response must be defined.
+- __statusCode:__
+  _(mandatory, string | integer)_  
+  The status code of the response
+- __reason:__
+  _(mandatory, string)_  
+  The reason of the status code
+- __description:__
+  _(mandatory, string | "null")_  
+  Details and notes about the response
+- __validationSchema:__
+  _(mandatory, string)_  
+  The JSON-schema to validate the content of the response
+  for example: getMonitoringIsAlive-responseBody-validationSchema.json
+- __cookies:__
+  _(mandatory, array)_  
+  The definitions of the response cookies.
+  (See also: request.cookies).
+- __headers:__
+  _(mandatory, array)_  
+  The definitions of the response headers.
+  (See also: request.headers).
+- __mockBody:__
+  _(optional, string)_  
+  The path to the file which contain the mock response body.
+  For example: getMonitoringIsAlive-responseBody.json
+
+Every __method__ must have a __testCases__ array property which describes the main attributes of the individual test cases to the request of the given URL. Each __testCase__ has the following structure:
+
+- __name:__
+  _(mandatory, string)_  
+  The name of the test case.
+- __description:__
+  _(mandatory, string)_  
+  The description of the test case.
+- __url:__
+  _(mandatory, string)_  
+  The URL of the test case.
+- __template:__
+  _(mandatory, string)_  
+  The path to the template which is used to generate the test case.
+  for example: testGetMethod.mustache.
+- __request:__
+  _(mandatory, object)_  
+  The specification of the request of the test case.
+    - __parameters:__
+      _(mandatory, object)_  
+    - __cookies:__
+      _(mandatory, array)_  
+      (See also: request.cookies).
+    - __headers:__
+      _(mandatory, array)_  
+      (See also: request.headers).
+    - __mockBody:__
+      _(optional, string)_  
+      The path to the file which contain the mock request body.
+      For example: postOperation-requestBody.json
+- __response:__
+  _(mandatory, object)_  
+  The specification of the response of the test case.
+    - __statusCode:__
+      The status code of the response.
+    - __validationSchema:__
+     _(optional, string)_  
+      The JSON-schema to validate the content of the response.
+      for example: `getMonitoringIsAlive-responseBody-validationSchema.json`.
+    - __cookies:__
+     _(mandatory, array)_  
+      The definitions of the response cookies.
+      (See also: request.cookies).
+    - __headers:__
+     _(mandatory, array)_  
+      The definitions of the response headers.
+      (See also: request.headers).
+    - __mockBody:__
+     _(optional, string)_  
+      The path to the file which contain the mock response body.
+      For example: `getMonitoringIsAlive-responseBody.json`.
 
 <!--
 TODO:
     - Cite REST principles and application patterns
     - Add book references
     - Describe the differences among
-        - request
-        - responses
         - testCases
     - Add links to relevant cookbook pages
 -->
@@ -149,6 +284,45 @@ These properties are all available during the documentation and test case genera
 
 ### Create new services
 
+#### Service stereotypes
+
+The `rest-tool` divides the services into two main classes: 
+
+- __RPC-like services:__
+  These are RPC-like calls through HTTP requests/responses. Typically using POST methods with complex body content. Such kind of services are identified by the `OPERATION` style.
+- __Resource oriented (or RESTful) services:__
+  These are further divided into two classes:
+  - Collection manager services:
+    These services are executing the CRUD operations on arrays of individual resources, and labelled with the `COLLECTION` style. The URL pattern typically looks like this: `/<collection-name>`, for example: `/customers`.
+  - Resource manager services:
+    These services are executing the CRUD operations on individual resources, and labelled with the `RESOURCE` style. The URL pattern typically looks like this: `/<collection-name>/<resource-id>`, for example: `/customers/0012301`.
+
+The following table summarizes the meaning of methods in case of the `COLLECTION` style services:
+
+<table class="table table-striped table-bordered table-condensed">
+<thead><tr><th>Method</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>POST</td><td>Create a new Resource of collection</td></tr>
+<tr><td>GET</td><td>Retrieves the whole collection</td></tr>
+<tr><td>PUT</td><td>Updates the whole collection</td></tr>
+<tr><td>DELETE</td><td>Delete the whole collection</td></tr>
+</tbody>
+</table>
+
+The following table summarizes the meaning of methods in case of the `RESOURCE` style services:
+
+<table class="table table-striped table-bordered table-condensed">
+<thead><tr><th>Method</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>POST</td><td>Create a new sub-resource of the resource</td></tr>
+<tr><td>GET</td><td>Retrieves one individual resource</td></tr>
+<tr><td>PUT</td><td>Updates one individual resource</td></tr>
+<tr><td>DELETE</td><td>Delete the identified resource</td></tr>
+</tbody>
+</table>
+
+The `rest-tool` provides built-in command and templates for creating new services from any of the the tree styles mentioned above.
+
 #### Add new service to the project
 
 You can create a new service either manually creating and editing `service.yml` files, or using the `rest-tool` with the `add` and/or `add-bulk` command.
@@ -162,12 +336,17 @@ To add one service, you can use the `rest-tool add` command:
       Options:
 
         -h, --help                     output usage information
-        -t, --type [type]              Defines the type (OPERATION|COLLECTION|RESOURCE) of the service (default: RESOURCE)
-        -p, --path <path>              The path of the service description relative to project-root/service/
+        -t, --type [type]              Defines the type
+                                       (OPERATION|COLLECTION|RESOURCE)
+                                       of the service (default: RESOURCE)
+        -p, --path <path>              The path of the service description
+                                       relative to project-root/service/
         -u, --urlPattern <urlPattern>  The unique URL pattern of the service
-        -n, --name <name>              The name of the operation/collection/resource
+        -n, --name <name>              The name of the 
+                                       operation/collection/resource
         -d, --desc <desc>              The description of the service
-        -c, --config [configFileName]  The name of the configuration file (default: config.yml)
+        -c, --config [configFileName]  The name of the configuration file
+                                       (default: config.yml)
         -v, --verbose                  Verbose mode
 
 
@@ -178,13 +357,6 @@ For example, to create a collection manager service, execute the following comma
         -u /customers \
         -n Customers \
         -d "A service to manage the collection of customers"
-
-#### Service stereotypes
-
-TBD:
-- operation
-- collection
-- resource
 
 
 #### Add new service to the project in bulk mode

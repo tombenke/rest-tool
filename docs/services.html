@@ -95,6 +95,8 @@ methods:
 <p>You also can observe the usage of referencing feature provided by YAML. For example the value of the <code>mockBody</code> property of the <code>OK</code> response is labeled with <code>&amp;OkMockBody</code> and referenced by <code>*OkMockBody</code> from the test-case. This allows you to define the mock file name that is <code>getMonitoringIsAlive-responseBody.json</code> only once, and refer to it anywhere in the same file. </p>
 <p>This sample desciptor file also can be used as a baseline to write your own definitions. </p>
 <h3 id="the-structure-of-the-service-yml-file">The structure of the service.yml file</h3>
+<p>This section describes the structure of the <code>service.yml</code> file, and the meaning of its properties.</p>
+<p>In the whole service descriptor, you can use multiline text in case of string-type fields. Moreover you can use <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format text in fields named such as: &#39;description&#39;, &#39;summary&#39; and &#39;details&#39;.</p>
 <p>The top-level structure of a service descriptor is the following:</p>
 <ul>
 <li><p><strong>name:</strong>
@@ -135,20 +137,127 @@ There must be at least one method defined for the resource.</p>
   There can be several possible responses, 
   but at least one <code>OK</code> response must be defined.</p>
 </li>
-<li><p><strong>testCases:</strong><br>  The detailed specification of test cases.
+<li><p><strong>testCases:</strong><br><em>(mandatory, array)</em><br>  The detailed specification of test cases.
   A method can contain zero or more test cases.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p>In the whole service descriptor, you can use multiline text in case of string-type fields. moreover you can use <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format text in fields named such as: &#39;description&#39;, &#39;summary&#39; and &#39;details&#39;.</p>
+<p>Every <strong>method</strong> must have a <strong>request</strong> property which describes the main attributes of the method to the given URL:</p>
+<ul>
+<li><p><strong>parameters:</strong>
+<em>(mandatory, array)</em><br>An array of request parameter descriptors.
+Specification of the request parameters:</p>
+<ul>
+<li><strong>name:</strong>
+  <em>(mandatory, string)</em><br>  The name of the parameter.</li>
+<li><strong>kind:</strong>
+  <em>(mandatory, enum: URL, QUERY, BODY)</em><br>  Tells where the parameter is placed.</li>
+<li><strong>required:</strong>
+  <em>(mandatory, boolean)</em><br>  Tells if the parameter is mandatory.</li>
+<li><strong>type:</strong>
+  <em>(mandatory, enum: string, number, boolean, object, array)</em><br>  Defines the type of the parameter</li>
+<li><strong>summary:</strong>
+  <em>(mandatory, string)</em><br>  Short summary of the parameter.</li>
+<li><strong>default:</strong>
+  <em>(optional, anyOf: string, number, boolean, object &quot;null&quot;)</em><br>  Default value of the parameter.</li>
+</ul>
+</li>
+<li><p><strong>headers:</strong>
+<em>(mandatory, array)</em><br>Specification of the headers.</p>
+<ul>
+<li><strong>field:</strong>
+<em>(mandatory, string)</em><br>The header field name.</li>
+<li><strong>content:</strong>
+<em>(mandatory, string)</em><br>The header content.</li>
+</ul>
+</li>
+<li><p><strong>cookies:</strong>
+<em>(mandatory, array)</em><br>Specification of the cookies.</p>
+<ul>
+<li><strong>field:</strong>
+<em>(mandatory, string)</em><br>The cookie field name.</li>
+<li><strong>content:</strong>
+<em>(mandatory, string)</em><br>The cookie content.</li>
+</ul>
+</li>
+<li><p><strong>mockBody:</strong>
+<em>(optional, string)</em><br>The path to the file which contain the mock request body.
+For example: <code>postOperation-requestBody.json</code>.</p>
+</li>
+</ul>
+<p>Every <strong>method</strong> must have a <strong>responses</strong> array property which describes the main attributes of the possible responses to the request of the given URL. At least an <code>OK</code> response must exist. Each response has the following structure:</p>
+<ul>
+<li><strong>name:</strong>
+<em>(mandatory, string)</em><br>The name of the response.
+At least one &#39;OK&#39; response must be defined.</li>
+<li><strong>statusCode:</strong>
+<em>(mandatory, string | integer)</em><br>The status code of the response</li>
+<li><strong>reason:</strong>
+<em>(mandatory, string)</em><br>The reason of the status code</li>
+<li><strong>description:</strong>
+<em>(mandatory, string | &quot;null&quot;)</em><br>Details and notes about the response</li>
+<li><strong>validationSchema:</strong>
+<em>(mandatory, string)</em><br>The JSON-schema to validate the content of the response
+for example: getMonitoringIsAlive-responseBody-validationSchema.json</li>
+<li><strong>cookies:</strong>
+<em>(mandatory, array)</em><br>The definitions of the response cookies.
+(See also: request.cookies).</li>
+<li><strong>headers:</strong>
+<em>(mandatory, array)</em><br>The definitions of the response headers.
+(See also: request.headers).</li>
+<li><strong>mockBody:</strong>
+<em>(optional, string)</em><br>The path to the file which contain the mock response body.
+For example: getMonitoringIsAlive-responseBody.json</li>
+</ul>
+<p>Every <strong>method</strong> must have a <strong>testCases</strong> array property which describes the main attributes of the individual test cases to the request of the given URL. Each <strong>testCase</strong> has the following structure:</p>
+<ul>
+<li><strong>name:</strong>
+<em>(mandatory, string)</em><br>The name of the test case.</li>
+<li><strong>description:</strong>
+<em>(mandatory, string)</em><br>The description of the test case.</li>
+<li><strong>url:</strong>
+<em>(mandatory, string)</em><br>The URL of the test case.</li>
+<li><strong>template:</strong>
+<em>(mandatory, string)</em><br>The path to the template which is used to generate the test case.
+for example: testGetMethod.mustache.</li>
+<li><strong>request:</strong>
+<em>(mandatory, object)</em><br>The specification of the request of the test case.<ul>
+<li><strong>parameters:</strong>
+<em>(mandatory, object)</em>  </li>
+<li><strong>cookies:</strong>
+<em>(mandatory, array)</em><br>(See also: request.cookies).</li>
+<li><strong>headers:</strong>
+<em>(mandatory, array)</em><br>(See also: request.headers).</li>
+<li><strong>mockBody:</strong>
+<em>(optional, string)</em><br>The path to the file which contain the mock request body.
+For example: postOperation-requestBody.json</li>
+</ul>
+</li>
+<li><strong>response:</strong>
+<em>(mandatory, object)</em><br>The specification of the response of the test case.<ul>
+<li><strong>statusCode:</strong>
+The status code of the response.</li>
+<li><strong>validationSchema:</strong>
+<em>(optional, string)</em><br>The JSON-schema to validate the content of the response.
+for example: <code>getMonitoringIsAlive-responseBody-validationSchema.json</code>.</li>
+<li><strong>cookies:</strong>
+<em>(mandatory, array)</em><br>The definitions of the response cookies.
+(See also: request.cookies).</li>
+<li><strong>headers:</strong>
+<em>(mandatory, array)</em><br>The definitions of the response headers.
+(See also: request.headers).</li>
+<li><strong>mockBody:</strong>
+<em>(optional, string)</em><br>The path to the file which contain the mock response body.
+For example: <code>getMonitoringIsAlive-responseBody.json</code>.</li>
+</ul>
+</li>
+</ul>
 <!--
 TODO:
     - Cite REST principles and application patterns
     - Add book references
     - Describe the differences among
-        - request
-        - responses
         - testCases
     - Add links to relevant cookbook pages
 -->
@@ -164,6 +273,43 @@ TODO:
 </ul>
 <p>These properties are all available during the documentation and test case generation process in the templates. It is also possible to place additional properties beside the mandatory ones, and they also can be used in templates, so you can customize your documentation or test cases using your own extensional data just like in case of the central <code>config.yml</code> file.</p>
 <h3 id="create-new-services">Create new services</h3>
+<h4 id="service-stereotypes">Service stereotypes</h4>
+<p>The <code>rest-tool</code> divides the services into two main classes: </p>
+<ul>
+<li><strong>RPC-like services:</strong>
+These are RPC-like calls through HTTP requests/responses. Typically using POST methods with complex body content. Such kind of services are identified by the <code>OPERATION</code> style.</li>
+<li><strong>Resource oriented (or RESTful) services:</strong>
+These are further divided into two classes:<ul>
+<li>Collection manager services:
+These services are executing the CRUD operations on arrays of individual resources, and labelled with the <code>COLLECTION</code> style. The URL pattern typically looks like this: <code>/&lt;collection-name&gt;</code>, for example: <code>/customers</code>.</li>
+<li>Resource manager services:
+These services are executing the CRUD operations on individual resources, and labelled with the <code>RESOURCE</code> style. The URL pattern typically looks like this: <code>/&lt;collection-name&gt;/&lt;resource-id&gt;</code>, for example: <code>/customers/0012301</code>.</li>
+</ul>
+</li>
+</ul>
+<p>The following table summarizes the meaning of methods in case of the <code>COLLECTION</code> style services:</p>
+<table class="table table-striped table-bordered table-condensed">
+<thead><tr><th>Method</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>POST</td><td>Create a new Resource of collection</td></tr>
+<tr><td>GET</td><td>Retrieves the whole collection</td></tr>
+<tr><td>PUT</td><td>Updates the whole collection</td></tr>
+<tr><td>DELETE</td><td>Delete the whole collection</td></tr>
+</tbody>
+</table>
+
+<p>The following table summarizes the meaning of methods in case of the <code>RESOURCE</code> style services:</p>
+<table class="table table-striped table-bordered table-condensed">
+<thead><tr><th>Method</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>POST</td><td>Create a new sub-resource of the resource</td></tr>
+<tr><td>GET</td><td>Retrieves one individual resource</td></tr>
+<tr><td>PUT</td><td>Updates one individual resource</td></tr>
+<tr><td>DELETE</td><td>Delete the identified resource</td></tr>
+</tbody>
+</table>
+
+<p>The <code>rest-tool</code> provides built-in command and templates for creating new services from any of the the tree styles mentioned above.</p>
 <h4 id="add-new-service-to-the-project">Add new service to the project</h4>
 <p>You can create a new service either manually creating and editing <code>service.yml</code> files, or using the <code>rest-tool</code> with the <code>add</code> and/or <code>add-bulk</code> command.</p>
 <p>To add one service, you can use the <code>rest-tool add</code> command:</p>
@@ -174,12 +320,17 @@ TODO:
   Options:
 
     -h, --help                     output usage information
-    -t, --type [type]              Defines the type (OPERATION|COLLECTION|RESOURCE) of the service (default: RESOURCE)
-    -p, --path &lt;path&gt;              The path of the service description relative to project-root/service/
+    -t, --type [type]              Defines the type
+                                   (OPERATION|COLLECTION|RESOURCE)
+                                   of the service (default: RESOURCE)
+    -p, --path &lt;path&gt;              The path of the service description
+                                   relative to project-root/service/
     -u, --urlPattern &lt;urlPattern&gt;  The unique URL pattern of the service
-    -n, --name &lt;name&gt;              The name of the operation/collection/resource
+    -n, --name &lt;name&gt;              The name of the 
+                                   operation/collection/resource
     -d, --desc &lt;desc&gt;              The description of the service
-    -c, --config [configFileName]  The name of the configuration file (default: config.yml)
+    -c, --config [configFileName]  The name of the configuration file
+                                   (default: config.yml)
     -v, --verbose                  Verbose mode
 </code></pre><p>For example, to create a collection manager service, execute the following command:</p>
 <pre><code>$ rest-tool add -t COLLECTION \
@@ -187,14 +338,7 @@ TODO:
     -u /customers \
     -n Customers \
     -d &quot;A service to manage the collection of customers&quot;
-</code></pre><h4 id="service-stereotypes">Service stereotypes</h4>
-<p>TBD:</p>
-<ul>
-<li>operation</li>
-<li>collection</li>
-<li>resource</li>
-</ul>
-<h4 id="add-new-service-to-the-project-in-bulk-mode">Add new service to the project in bulk mode</h4>
+</code></pre><h4 id="add-new-service-to-the-project-in-bulk-mode">Add new service to the project in bulk mode</h4>
 <p>It is also possible to create more than one service in one step with the <code>rest-tool add-bulk</code> command:</p>
 <pre><code>$ rest-tool add-bulk -h
 

@@ -37,4 +37,6 @@ When the server starts, you should see something like this:
 
 The `config.yml` file contains the configuration parameters for the server.
 
-TODO: Describe the config parameters.
+## Further readings
+
+To learn more about the server and its configuration, visit the [homepage](http://tombenke.github.io/rest-tool/) of the project, or directly the [server documentation](http://tombenke.github.io/rest-tool/docs/server.html) pages.

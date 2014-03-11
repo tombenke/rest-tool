@@ -77,7 +77,7 @@ methods:
                 name: OK
                 statusCode: *OkStatusCode
                 reason: *OkReason
-                # validationSchema: getCollection-responseBody-validationSchema.json
+                # validationSchema: postCollection-responseBody-validationSchema.json
                 cookies: []
                 headers:
                     -
