@@ -1,3 +1,12 @@
+## 0.4.9
+- Implement test/manual_test.sh to run the most fundamental usage scenario.
+- Upgrade to rest-tool-common v0.3.8
+- Fix service template bugs. Write service.yml related documentation.
+- Extend the server documentation:
+    - Detailing the server configuration description.
+    - Split documentation pages into subsections.
+    - Reorganize the documentation file, and add service description to it.
+
 ## 0.4.8
 - Bugfix: index.html is missing from tesmplate/docs/ folder.
 - Extend the getStarted documentation page.
@@ -7,6 +16,7 @@
 - Add bulk service generation feature 'rest-tool add-bulk --help'
 - Add Add response.description field to the schema and document template
 - Upgrade to rest-tool-common v0.3.7
+
 ## 0.4.0
 - Upgrade to should v3.1.2
 - Upgrade to rest-tool-common v0.3.6
