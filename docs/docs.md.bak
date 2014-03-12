@@ -6,7 +6,7 @@ To create or update the HTML format documentation, execute the following command
 
     $ rest-tool docs --update
 
-This will create the documentation under the `docs` folder. the HTML documentation can be opened via a browser directly as a static file, or through the mock server, loading the following URL: (http://localhost:3007/docs/index.html).
+This will create the documentation under the `docs` folder. the HTMl documentation can be opened via a browser directly as a static file, or through the mock server, loading the following URL: (http://localhost:3007/docs/index.html).
 
 Generate the documentation for the predefined service with the following command:
 

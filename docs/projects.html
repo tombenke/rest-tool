@@ -78,7 +78,7 @@ $ npm install
 │   │   └── RESOURCE
 │   └── test
 └── test
-</code></pre><p>In most of the cases the configuration files, service descriptors and even the schema files are writtem in <a href="http://en.wikipedia.org/wiki/YAML">YAML</a> format. Contentwise YAML fully covers the capabilities of JSON but it is a more human readable format. Also it offers some extra features that JSON can not provide, such as referencing reusable content, which helps to avoid unnecessary copy-paste.</p>
+</code></pre><p>In most of the cases the configuration files, service descriptors and even the schema files are written in <a href="http://en.wikipedia.org/wiki/YAML">YAML</a> format. Content-wise YAML fully covers the capabilities of JSON but it is a more human readable format. Also it offers some extra features that JSON can not provide, such as referencing reusable content, which helps to avoid unnecessary copy-paste.</p>
 <p>The role of the of the directories and files:</p>
 <ul>
 <li><p><strong>config.yml</strong> :<br>  It holds the configuration parameters of the REST API project. 
@@ -86,7 +86,7 @@ $ npm install
 </li>
 <li><p><strong>server</strong> :<br>  This folder contains the mock server with the mock implementation of the API.</p>
 </li>
-<li><p><strong>services</strong> :<br>  This folder contains the service descriptors. Each service should be put into its own subfolder, and must have a <code>service.yml</code> file in it. All the other supplementary files, which belongs to the specific service, and used to the specification must be put here, beside the <code>service.yml</code> file. Such files are for example the test-data and schema files.</p>
+<li><p><strong>services</strong> :<br>  This folder contains the service descriptors. Each service should be put into its own sub-folder, and must have a <code>service.yml</code> file in it. All the other supplementary files, which belongs to the specific service, and used to the specification must be put here, beside the <code>service.yml</code> file. Such files are for example the test-data and schema files.</p>
 <p>  The service implementation files, which are referred by the <code>service.yml</code> via the <code>implementation</code> fields should be put beside the server code, and not here.</p>
 </li>
 <li><p><strong>docs</strong> :<br>  Contains the HTML format documentation of the REST API. This folder will be totally removed, and recreated during updating the documentation, so you should not modify its content manually.</p>
@@ -149,7 +149,7 @@ loginCredentials:
 <em>(mandatory, string)</em><br>The base url of the services</p>
 </li>
 <li><p><strong>servicesRoot:</strong>
-<em>(mandatory, string)</em><br>The path to the folder that is the base for the service descriptor subfolders</p>
+<em>(mandatory, string)</em><br>The path to the folder that is the base for the service descriptor sub-folders</p>
 </li>
 <li><p><strong>services:</strong>
 <em>(mandatory, array)</em><br>A list of usb-folders under &#39;services&#39; that which contain the active services. The list items are relative paths to the service descriptor under the services folder.</p>
@@ -171,7 +171,7 @@ loginCredentials:
 <p>These properties are all available during the documentation and test case generation process in the templates. It is also possible to place additional properties beside the mandatory ones, and they also can be used in templates, so you can customize your documentation or test cases using your own extensional data.</p>
 <h3 id="upgrade-an-existing-api-project">Upgrade an existing API project</h3>
 <p>Currently the <code>rest-tool</code> is under intensive development. The content of the generated projects might change with the new versions. </p>
-<p>A given project is generated to refer to a specific <code>rest-tool-common</code> module, which ensures that the project will work even the rest-tool is significantly changing, however it only guarantees that the server, and the previuously generated test cases will work.</p>
+<p>A given project is generated to refer to a specific <code>rest-tool-common</code> module, which ensures that the project will work even the rest-tool is significantly changing, however it only guarantees that the server, and the previously generated test cases will work.</p>
 <p>In case you are upgrading to a new <code>rest-tool</code> version, the document generation and test case generation may not work any more with an older project. If you would like to leverage the new features, you have to upgrade your old project to the new version.</p>
 <p>In order to do this, an <code>rest-tool upgrade</code> command will be developed soon.
 Until it will be implemented, you can upgrade an old project executing the following steps:</p>
@@ -179,7 +179,7 @@ Until it will be implemented, you can upgrade an old project executing the follo
 <li>Install the newest version of the <code>rest-tool</code>.</li>
 <li>Generate a new, empty project with the new version.</li>
 <li>Replace the version of <code>rest-tool-common</code> in the old project&#39;s <code>package.json</code> with the new value found in the newly generated project&#39;s <code>package.json</code>.</li>
-<li>Merge the new module dependencies might fuond in the new version of <code>package.json</code> to the old <code>projects&#39; package.json</code>.</li>
+<li>Merge the new module dependencies might found in the new version of <code>package.json</code> to the old <code>projects&#39; package.json</code>.</li>
 <li>Copy/merge the templates folder from the new project to the old project.</li>
 <li>Copy/merge the server folder from the new project to the old project.</li>
 <li>Merge the config.yml file from the new project to the config.yml file of the old project.</li>

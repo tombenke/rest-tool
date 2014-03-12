@@ -51,17 +51,17 @@ Below you can see its (a bit shortened) content:
 
 The sample service descriptor defines a service, which is able to response to GET requests, and the response will be the content of the `getMonitoringIsAlive-responseBody.json` file placed into the same directory where the `service.yml` is there, as the `mockBody` property determines.
 
-The response also could be dynamically created by implementing it in JavaScript. The `implementation` property of the request identifies the module and function of the code which defines the behavior of the service. At the moment it is commented out using the `#` character, because only one of `mockBody` or `implementation` can exist.
+The response also could be dynamically created by implementing it in JavaScript. The `implementation` property of the request identifies the module and function of the code which defines the behaviour of the service. At the moment it is commented out using the `#` character, because only one of `mockBody` or `implementation` can exist.
 
 You also can observe the usage of referencing feature provided by YAML. For example the value of the `mockBody` property of the `OK` response is labeled with `&OkMockBody` and referenced by `*OkMockBody` from the test-case. This allows you to define the mock file name that is `getMonitoringIsAlive-responseBody.json` only once, and refer to it anywhere in the same file. 
 
-This sample descriptor file also can be used as a baseline to write your own definitions. 
+This sample desciptor file also can be used as a baseline to write your own definitions. 
 
 ### The structure of the service.yml file
 
 This section describes the structure of the `service.yml` file, and the meaning of its properties.
 
-In the whole service descriptor, you can use multi-line text in case of string-type fields. Moreover you can use [Markdown](http://daringfireball.net/projects/markdown/) format text in fields named such as: 'description', 'summary' and 'details'.
+In the whole service descriptor, you can use multiline text in case of string-type fields. Moreover you can use [Markdown](http://daringfireball.net/projects/markdown/) format text in fields named such as: 'description', 'summary' and 'details'.
 
 The top-level structure of a service descriptor is the following:
 
@@ -73,7 +73,7 @@ The top-level structure of a service descriptor is the following:
 
 - __description:__
   _(mandatory, string)_  
-  Short description of the service.
+  Short desciption of the service.
 
   For example: `It is a very simple service, which makes possible to...`
 
@@ -109,7 +109,7 @@ The top-level structure of a service descriptor is the following:
     - __implementation:__  
       _(optional, string)_  
         The implementation of the call in the following format:
-        `<module>.<function>`. For details see the ["Implement dynamic mocking behavior"](server.html#implement-dynamic-mocking-behavior) section.
+        `<module>.<function>`. For details see the ["Implement dynamic mocking behaviour"](server.html#implement-dynamic-mocking-behaviour) section.
 
         For example: `monitoring.isalive`
 
@@ -403,6 +403,6 @@ TBD.
 
 The service descriptor either contains `mockBody` properties under the response and test case objects that refer to mock data files, or it contains an `implementation` property of the `request` object. In this latter case you can call a server module, with your own implementation.  
 
-For more details see the [Implement dynamic mocking behavior](server.html#implement-dynamic-mocking-behavior) section.
+For more detaions see the [Implement dynamic mocking behaviour](server.html#implement-dynamic-mocking-behaviour) section.
 
-If none of these properties are defined, the service is responding a JSON object, that is the service descriptor itself by default, in order to show the server is listening to the given URL.
+If none ot these properties are defined, the service is responding a JSON object, that is the service descriptor itself by default, in order to show the server is listening to the given URL.

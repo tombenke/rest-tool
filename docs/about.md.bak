@@ -17,14 +17,14 @@ You can do the following things with `rest-tool`:
 - Generate/Update the HTML format documentation of the REST API
 - Generate/Update test cases which can be used to test either the mock server 
   and the real test/production servers to verify that the server is working according to the API.
-- Use the mock server's to provide your web UI front-end source as static content 
+- Use the mock server's to provide your web UI frontend source as static content 
   during the development, without the need for deployment.
-- Use the mock server's proxy feature to test your web UI front-end directly against 
+- Use the mock server's proxy feature to test your web UI frontend diretly against 
   3rd party application servers (JBoss, Tomcat, Apache, etc.) without deployment.
 - Define your own templates to generate test cases and server side implementations 
   which best fit to your needs. (the server side templating is currently under development).
 
-Using the tool the front-end and back-end developers can work concurrently and independently from each other. They can assure that their implementation is fully comply to the REST API specification.
+Using the tool the frontent and backend developers can work concurrently and independently from each other. They can assure that their implementation is fully comply to the REST API specification.
 
 The 'rest-tool' relies on the HTTP protocol specification, and NOT on language specific implementations. You can keep your communicating agents loosely coupled, and fully language agnostic.
 

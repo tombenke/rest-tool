@@ -91,12 +91,12 @@ methods:
                     headers: []
                 mockBody: *OkMockBody
 </code></pre><p>The sample service descriptor defines a service, which is able to response to GET requests, and the response will be the content of the <code>getMonitoringIsAlive-responseBody.json</code> file placed into the same directory where the <code>service.yml</code> is there, as the <code>mockBody</code> property determines.</p>
-<p>The response also could be dynamically created by implementing it in JavaScript. The <code>implementation</code> property of the request identifies the module and function of the code which defines the behaviour of the service. At the moment it is commented out using the <code>#</code> character, because only one of <code>mockBody</code> or <code>implementation</code> can exist.</p>
+<p>The response also could be dynamically created by implementing it in JavaScript. The <code>implementation</code> property of the request identifies the module and function of the code which defines the behavior of the service. At the moment it is commented out using the <code>#</code> character, because only one of <code>mockBody</code> or <code>implementation</code> can exist.</p>
 <p>You also can observe the usage of referencing feature provided by YAML. For example the value of the <code>mockBody</code> property of the <code>OK</code> response is labeled with <code>&amp;OkMockBody</code> and referenced by <code>*OkMockBody</code> from the test-case. This allows you to define the mock file name that is <code>getMonitoringIsAlive-responseBody.json</code> only once, and refer to it anywhere in the same file. </p>
-<p>This sample desciptor file also can be used as a baseline to write your own definitions. </p>
+<p>This sample descriptor file also can be used as a baseline to write your own definitions. </p>
 <h3 id="the-structure-of-the-service-yml-file">The structure of the service.yml file</h3>
 <p>This section describes the structure of the <code>service.yml</code> file, and the meaning of its properties.</p>
-<p>In the whole service descriptor, you can use multiline text in case of string-type fields. Moreover you can use <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format text in fields named such as: &#39;description&#39;, &#39;summary&#39; and &#39;details&#39;.</p>
+<p>In the whole service descriptor, you can use multi-line text in case of string-type fields. Moreover you can use <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format text in fields named such as: &#39;description&#39;, &#39;summary&#39; and &#39;details&#39;.</p>
 <p>The top-level structure of a service descriptor is the following:</p>
 <ul>
 <li><p><strong>name:</strong>
@@ -104,7 +104,7 @@ methods:
 <p>For example: <code>Monitoring that server is alive</code></p>
 </li>
 <li><p><strong>description:</strong>
-<em>(mandatory, string)</em><br>Short desciption of the service.</p>
+<em>(mandatory, string)</em><br>Short description of the service.</p>
 <p>For example: <code>It is a very simple service, which makes possible to...</code></p>
 </li>
 <li><p><strong>style:</strong>
@@ -128,7 +128,7 @@ There must be at least one method defined for the resource.</p>
 <li><p><strong>notes:</strong><br><em>(optional, string)</em><br>  Details and notes about the method.</p>
 </li>
 <li><p><strong>implementation:</strong><br><em>(optional, string)</em><br>  The implementation of the call in the following format:
-  <code>&lt;module&gt;.&lt;function&gt;</code>. For details see the <a href="server.html#implement-dynamic-mocking-behaviour">&quot;Implement dynamic mocking behaviour&quot;</a> section.</p>
+  <code>&lt;module&gt;.&lt;function&gt;</code>. For details see the <a href="server.html#implement-dynamic-mocking-behavior">&quot;Implement dynamic mocking behavior&quot;</a> section.</p>
 <p>  For example: <code>monitoring.isalive</code></p>
 </li>
 <li><p><strong>request:</strong><br><em>(mandatory, object)</em><br>  The detailed specification of request.</p>
@@ -257,8 +257,6 @@ For example: <code>getMonitoringIsAlive-responseBody.json</code>.</li>
 TODO:
     - Cite REST principles and application patterns
     - Add book references
-    - Describe the differences among
-        - testCases
     - Add links to relevant cookbook pages
 -->
 
@@ -363,10 +361,17 @@ These services are executing the CRUD operations on individual resources, and la
 <p>Just simply put any files beside the <code>service.yml</code> and refer to them using the <code>mockBody</code> fields in the service descriptor.</p>
 <h3 id="validation">Validation</h3>
 <p>TBD.</p>
+<!-- TODO:
+- Implement JSONSchema validation for cookbook:
+  - server side
+  - client side
+  - static?
+- and refer to it from here with some code fragments. -->
+
 <h3 id="create-dynamic-services">Create dynamic services</h3>
 <p>The service descriptor either contains <code>mockBody</code> properties under the response and test case objects that refer to mock data files, or it contains an <code>implementation</code> property of the <code>request</code> object. In this latter case you can call a server module, with your own implementation.  </p>
-<p>For more detaions see the <a href="server.html#implement-dynamic-mocking-behaviour">Implement dynamic mocking behaviour</a> section.</p>
-<p>If none ot these properties are defined, the service is responding a JSON object, that is the service descriptor itself by default, in order to show the server is listening to the given URL.</p>
+<p>For more details see the <a href="server.html#implement-dynamic-mocking-behavior">Implement dynamic mocking behavior</a> section.</p>
+<p>If none of these properties are defined, the service is responding a JSON object, that is the service descriptor itself by default, in order to show the server is listening to the given URL.</p>
 
         </div>
       </div>
