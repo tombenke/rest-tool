@@ -17,6 +17,7 @@
     - [Validation](services.html#validation)
     - [Create dynamic services](services.html#create-dynamic-services)
 - [Using the server](server.html#using-the-server)
+    - [The mock server configuration](server.html#the-mock-server-configuration)
     - [Start the server](server.html#start-the-server)
     - [Use as static mock server](server.html#use-as-static-mock-server)
     - [Use as static content provider](server.html#use-as-static-content-provider)

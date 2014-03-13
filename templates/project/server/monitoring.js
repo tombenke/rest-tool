@@ -1,4 +1,4 @@
-function isAlive( request, response )
+function isAlive( request, response, serviceDescriptor )
 {
     response.header( 'Content-Type', 'application/json' );
     response.header( 'X-Application-API-Version', 'v0.0.0' );

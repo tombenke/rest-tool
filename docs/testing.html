@@ -49,7 +49,8 @@
 <p>Before you run the tests, you have to generate/update the test cases.
 You can do this with the following command:</p>
 <pre><code>$ rest-tool test --update --overwrite
-</code></pre><p>The <code>--overwrite</code> option tells the tool to overwrite the existing cases, otherwise it will keep the if they exist yet.</p>
+</code></pre><p>The <code>--overwrite</code> option tells the tool to overwrite the existing cases, otherwise it will keep they if they exist yet.</p>
+<p>During the generation process the <code>rest-tool</code> load all the services and builds an internal tree-like data structure, which represents every <strong>service/method/test-case</strong>. The rest tool traverses this structure, and puts each test-case into the template that is referred by that given instance. The results are put into the <strong>test</strong> folder.</p>
 <h3 id="run-test-cases">Run test cases</h3>
 <p>After the test cases is generated, you can run the tests, directly from the command line, or by the continuous integration server. Use one of the following commands:</p>
 <pre><code>$ make test
@@ -63,13 +64,78 @@ test:
 
 .PHONY: test
 </code></pre><h3 id="add-new-test-case-templates">Add new test-case templates</h3>
-<p>In case you would like to extend the test cases (for example to add JSON or XML validation), you should execute the following steps:</p>
+<p>You can use your own test programs, which can be built from the service descriptors. Only the templates should be written and placed into the <code>templates/test</code> folder, and must be referred from the test cases using the <code>template</code> property. For example: <code>template: testGetMethod.mustache</code>.</p>
+<p>The following code example shows the <code>testGetMethod.mustache</code> template, which is used for basic testing of GET requests:</p>
+<pre><code>var request = require(&#39;superagent&#39;),
+    should = require(&#39;should&#39;),
+    mocha = require(&#39;mocha&#39;);
+
+describe(&#39;{{description}}&#39;, function() {
+    var agent = request.agent();
+
+    it(&#39;should {{description}}&#39;, function(done) {
+        agent
+            .get(&#39;{{baseUrl}}{{url}}&#39;)
+            {{#loginCredentials}}.auth(&#39;{{user}}&#39;,
+               &#39;{{pass}}&#39;){{/loginCredentials}}
+            .set(&#39;Accept&#39;, &#39;application/json&#39;)
+            .end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status({{response.statusCode}});
+                res.should.have.property(&#39;body&#39;);
+                // FIXME add further checks if appropriate
+                {{#jsonschema}}
+                var path = require(&#39;path&#39;);
+                var JaySchema = require(&#39;jayschema&#39;);
+                var js = new JaySchema(JaySchema.loaders.http);
+                var schema = require(path.join(__dirname,
+                    &#39;..&#39;, &#39;schemas&#39;, &#39;{{jsonschema}}.json&#39;));
+                js.validate(res.body, schema, function(errs) {
+                    should.not.exist(errs);
+                    done();
+                });
+                {{/jsonschema}}
+                {{^jsonschema}}done();{{/jsonschema}}
+            });
+    });
+});
+</code></pre><p>The code using this template with the <code>monitoring/isAlive/service.yml</code> service descriptor will be generate into the <code>test/Get Monitoring Is Alive.js</code> file, looks like this:</p>
+<pre><code>var request = require(&#39;superagent&#39;),
+    should = require(&#39;should&#39;),
+    mocha = require(&#39;mocha&#39;);
+
+describe(&#39;Successfully checks if server is alive&#39;, function() {
+    var agent = request.agent();
+
+    it(&#39;should Successfully checks if server is alive&#39;, function(done) {
+        agent
+            .get(&#39;http://localhost:3007/rest/monitoring/isAlive&#39;)
+            .auth(&#39;username&#39;, &#39;password&#39;)
+            .set(&#39;Accept&#39;, &#39;application/json&#39;)
+            .end(function(err, res) {
+                should.not.exist(err);
+                res.should.have.status(200);
+                res.should.have.property(&#39;body&#39;);
+                // FIXME add further checks if appropriate
+
+                done();
+            });
+    });
+});
+</code></pre><!-- TODO:
+    - Add link to Mu2, and mustache doc pages.
+    - Add details to internal structure of testCases during template usage.
+    - Add link to rest-tool-common doc pages.
+-->
+
+<p>During the test-case generation process, each template got the whole service description, and some additional data. </p>
+<p>In case you would like to extend the template set of your test cases (for example to add JSON or XML validation), you should execute the following steps:</p>
 <ol>
 <li>Write a working sample test case, and try it to make sure, that is working properly.</li>
 <li>Make a mustache template from it, and put into the <code>templates/test</code> folder.</li>
 <li>Refer to it in the <code>service.yml</code> files using the <code>template</code> property of the testCases.</li>
 </ol>
-<p>During the test-case generation process, each template got the whole service description, and some additional data. </p>
+<p>It also means that you can write test cases in any programming language (Java, Ruby, Perl, etc.). So for example it is possible to generate JUnit test cases into your Java project, and run them on a Continuous Integration server.  </p>
 <!-- TODO: describe additional fields for test-case generation. -->
 
         </div>

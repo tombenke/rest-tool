@@ -175,8 +175,7 @@ register service POST /customers
 Express server listening on port 3006 in devProxy mode
 </code></pre><p>As you can see, the server is listening now on port 3006, and proxying the HTTP requests to the <code>localhost:3008</code>.</p>
 <h3 id="use-as-static-mock-server">Use as static mock server</h3>
-<p>TBD.
-The following code fragment shows how the middle-ware is configured for the mock server: </p>
+<p>The following code fragment shows how the middle-ware is configured for the mock server: </p>
 <pre><code>// Configure the middle-wares
 server.configure( function() {
         server.use( apiProxy(config.remoteHost, config.remotePort) );
@@ -202,8 +201,8 @@ server.configure( function() {
 <h3 id="use-as-static-content-provider">Use as static content provider</h3>
 <p>As it is described in the previous section, the HTTP middle-ware is configured to process the incoming request in the following order:</p>
 <ol>
-<li>Catches and forwards the service calls to remote host is proxying is enabled.</li>
-<li>Catching and handling service calls according to the URL patterns described in the <code>service.yml</code> files.</li>
+<li>Catches and forwards the service calls to remote host if proxying is enabled.</li>
+<li>Handling and serving service calls according to the URL patterns described in the <code>service.yml</code> files.</li>
 <li>Providing static content from several folders, such as <code>docs</code>, <code>data</code>, etc.</li>
 </ol>
 <p>The the mock server is providing generated documentation by default. You also can configure a so called <em>document root</em> folder, for your web UI.  </p>
@@ -226,20 +225,31 @@ server.configure( function() {
 };
 
 exports.isAlive = isAlive;
+</code></pre><p>Note that you have to export those functions you would like to use externally. This is done by the <code>exports.isAlive = isAlive;</code> line of the code fragment above.</p>
+<p>You must add a line to the <code>server.js</code> which tells the server to load this module when starts. In case of the previous example the following line must be added:</p>
+<pre><code>var monitoring = require(&#39;./monitoring.js&#39;);
 </code></pre><p>As you can see, the function gets all the request parameters, as well as the response object, which is used to compose the response.</p>
 <p>In order to be able to behave the expected way, the function gets a third parameter (<code>serviceDescriptor</code>), which holds all the data found in the corresponding <code>service.yml</code> file. This object also provides methods to access to the mock files situated beside the service descriptor.</p>
+<p>The mock server implementation is built on top of the <a href="http://expressjs.com">express.js</a> web framework. In order to learn more about how to use the <code>request</code> and <code>response</code> parameters, visit its <a href="http://expressjs.com">API documentation pages</a>.</p>
 <!-- TODO:
+    - The role of export in a module, and refer to the node.js spec.
+    - put require module into the server.js
+    - Why is the api.js module there?! Where to put my function
+
     - Add link to the
         - rest-tool-common documentation pages,
-        - express.js pages
         - relevant cookbook examples
+        - node.js modules doc pages
+
+     - How to access to the request parameters in a module?
+     - Add reference to express.js API doc pages
  -->
 
 <h3 id="use-the-proxy">Use the proxy</h3>
-<p> It is very likely that your server implementation will be written in a different language, not in JavaScript, and developed by an other team. </p>
+<p>It is very likely that your server implementation will be written in a different language, not in JavaScript, and developed by an other team. </p>
 <p>However one of the advantages of using <strong>rest-tool</strong> is to let the development teams working parallel with each other, you have to integrate your front-end with the back-end, for several reasons, but the most obvious one is, to see how the two parts work together, and do bug-fixing.</p>
 <p>In such situations you need your independent front-end environment as well as you should be able to connect to the real implementation instead of the mock server. For security reasons, in such cases you usually should deploy your front-end to the application server, that can be rather time consuming. This is the case, when the proxy comes into the picture. You can continue using your mock server as static content provider, to load your front-end application, but you can switch on its proxy function to forward the service calls to a remote server, that is the application server your front-end should be tested with.</p>
-<p>In order to use this feature, create a configuration of the server to enable the proxy function that forwards the requests to the test application server, and continue using the mock to provide its static content that you have been used so far for development. This way, you can connect to the real, or test application server without the long-lasting deployment process, and easily switch back and forth between the mock and the other back-end implementation.</p>
+<p>In order to use this feature, create a configuration of the server (according to the <a href="server.html#the-mock-server-configuration">The mock server configuration</a> section) to enable the proxy function that forwards the requests to the test application server, and continue using the mock to provide its static content that you have been used so far for development. This way, you can connect to the real, or test application server without the long-lasting deployment process, and easily switch back and forth between the mock and the other back-end implementation.</p>
 
         </div>
       </div>
