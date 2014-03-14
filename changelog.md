@@ -1,3 +1,9 @@
+## 0.4.10
+- Cleansing in the templates/project/server/api.js
+- Extend the server documentation:
+    - Add references
+    - Add some hints on dynamic mock service implementations
+
 ## 0.4.9
 - Implement test/manual_test.sh to run the most fundamental usage scenario.
 - Upgrade to rest-tool-common v0.3.8

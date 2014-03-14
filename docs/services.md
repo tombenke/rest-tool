@@ -2,6 +2,8 @@
 
 ### Service definitions
 
+If you have never defined RESTful services yet, then you might find useful the books and other readings listed in the [References](references.html).
+
 The services can be specified under the `services` folder. Each service should have its own subdirectory. A service subdirectory must contain at least a `service.yml` descriptor file, and any other files, mainly JSON or XML mock data and validation schemas.
 
 The newly created project contains a sample service descriptor such as `services/monitoring/isAlive/service.yml`.

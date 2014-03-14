@@ -12,7 +12,8 @@ all: about.html \
 	services.html \
 	server.html \
 	docs.html \
-	testing.html
+	testing.html \
+	references.html
 
 # .PHONY: clean
 # clean:

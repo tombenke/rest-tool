@@ -30,3 +30,4 @@
     - [Generate test cases](testing.html#generate-test-cases)
     - [Run test cases](testing.html#run-test-cases)
     - [Add new test-case templates](testing.html#add-new-test-case-templates)
+- [References](references.html)
