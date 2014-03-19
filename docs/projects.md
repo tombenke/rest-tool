@@ -165,21 +165,26 @@ These properties are all available during the documentation and test case genera
 
 ### Upgrade an existing API project
 
-Currently the `rest-tool` is under intensive development. The content of the generated projects might change with the new versions. 
+The content of the generated projects might change with the new versions of the `rest-tool`.
 
 A given project is generated to refer to a specific `rest-tool-common` module, which ensures that the project will work even the rest-tool is significantly changing, however it only guarantees that the server, and the previously generated test cases will work.
 
 In case you are upgrading to a new `rest-tool` version, the document generation and test case generation may not work any more with an older project. If you would like to leverage the new features, you have to upgrade your old project to the new version.
 
-In order to do this, an `rest-tool upgrade` command will be developed soon.
-Until it will be implemented, you can upgrade an old project executing the following steps:
+In order to do this, you can upgrade the old project manually or via the `rest-tool upgrade` command.
+
+The manual steps are the following:
 
 1. Install the newest version of the `rest-tool`.
 2. Generate a new, empty project with the new version.
 3. Replace the version of `rest-tool-common` in the old project's `package.json` with the new value found in the newly generated project's `package.json`.
 4. Merge the new module dependencies might found in the new version of `package.json` to the old `projects' package.json`.
-4. Copy/merge the templates folder from the new project to the old project.
-5. Copy/merge the server folder from the new project to the old project.
-6. Merge the config.yml file from the new project to the config.yml file of the old project.
-7. Regenerate the docs and test cases.
+5. Copy/merge the templates folder from the new project to the old project.
+6. Copy/merge the server folder from the new project to the old project.
+7. Merge the config.yml file from the new project to the config.yml file of the old project.
+8. Regenerate the docs and test cases.
 
+In case, you are using the `rest-tool upgrade` command, you have to execute it in the project root folder. The steps are mainly similar to the manual process, but you can skip the steps: 2-3. The tool will make a copy of the current files and directories into a subdirectory named `orig`. Then overwrites the files that changed since the last upgrade. The services folder will not change, so there is no copy made on it.
+
+After executing the command, you should execute the merging of changes (steps: 4-8).
+You can remove the `orig` folder, when everything is successfully merged, and running.

@@ -170,11 +170,11 @@ loginCredentials:
 <p>To see the detailed schema specification of the <code>config.yml</code> see the <a href="https://github.com/tombenke/rest-tool-common/blob/master/schemas/serviceConfigSchema.yml">serviceConfigSchema.yml</a> file, defined in the <code>rest-tool-common</code> module.</p>
 <p>These properties are all available during the documentation and test case generation process in the templates. It is also possible to place additional properties beside the mandatory ones, and they also can be used in templates, so you can customize your documentation or test cases using your own extensional data.</p>
 <h3 id="upgrade-an-existing-api-project">Upgrade an existing API project</h3>
-<p>Currently the <code>rest-tool</code> is under intensive development. The content of the generated projects might change with the new versions. </p>
+<p>The content of the generated projects might change with the new versions of the <code>rest-tool</code>.</p>
 <p>A given project is generated to refer to a specific <code>rest-tool-common</code> module, which ensures that the project will work even the rest-tool is significantly changing, however it only guarantees that the server, and the previously generated test cases will work.</p>
 <p>In case you are upgrading to a new <code>rest-tool</code> version, the document generation and test case generation may not work any more with an older project. If you would like to leverage the new features, you have to upgrade your old project to the new version.</p>
-<p>In order to do this, an <code>rest-tool upgrade</code> command will be developed soon.
-Until it will be implemented, you can upgrade an old project executing the following steps:</p>
+<p>In order to do this, you can upgrade the old project manually or via the <code>rest-tool upgrade</code> command.</p>
+<p>The manual steps are the following:</p>
 <ol>
 <li>Install the newest version of the <code>rest-tool</code>.</li>
 <li>Generate a new, empty project with the new version.</li>
@@ -185,6 +185,9 @@ Until it will be implemented, you can upgrade an old project executing the follo
 <li>Merge the config.yml file from the new project to the config.yml file of the old project.</li>
 <li>Regenerate the docs and test cases.</li>
 </ol>
+<p>In case, you are using the <code>rest-tool upgrade</code> command, you have to execute it in the project root folder. The steps are mainly similar to the manual process, but you can skip the steps: 2-3. The tool will make a copy of the current files and directories into a subdirectory named <code>orig</code>. Then overwrites the files that changed since the last upgrade. The services folder will not change, so there is no copy made on it.</p>
+<p>After executing the command, you should execute the merging of changes (steps: 4-8).
+You can remove the <code>orig</code> folder, when everything is successfully merged, and running.</p>
 
         </div>
       </div>
