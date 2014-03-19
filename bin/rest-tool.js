@@ -40,10 +40,12 @@
                 verbose = options.verbose;
                 require('../prjgen.js').create({
                         projectName: projectName,
-                        port: "3007",
-                        urlPrefix: "/rest",
-                        username: "username",
-                        password: "password",
+                        servicePort: "3007",
+                        serviceUrlPrefix: "/rest",
+                        loginCredentials: {
+                            user: "username",
+                            pass: "password"
+                        },
                         servicesRoot: "services",
                         author: "TBD.",
                         licence: "TBD."
@@ -133,15 +135,16 @@
                 }
             });
 
-    // Setup the feature generator command
-    // program
-    //     .command('upgrade')
-    //     .description('Upgrade the project to the latest version of rest-tool version')
-    //     .option("-v, --verbose", "Verbose mode", Boolean, false)
-    //     .action(function(options) {
-    //             verbose = options.verbose;
-    //             console.log('Not implemented yet');
-    //         });
+    // Setup the upgrade command
+    program
+        .command('upgrade')
+        .description('Upgrade the project to the latest version of rest-tool version')
+        .option("-c, --config <configFileName>", "The name of the configuration file (default: config.yml)", String, 'config.yml')
+        .option("-v, --verbose", "Verbose mode", Boolean, false)
+        .action(function(options) {
+                verbose = options.verbose;
+                require('../prjgen.js').upgrade(readConfig(options.config), verbose);
+            });
 
     program.parse(process.argv);
 })();

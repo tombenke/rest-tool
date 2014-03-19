@@ -107,7 +107,7 @@ environments:
   production:
     port: 3008
     documentRoot: ../webui/build/crm-api/production
-</code></pre><p>in general the configuration file can contain any property, but should contain at leas two mandatory properties. These are: <code>environments</code> and <code>useEnvironment</code>.</p>
+</code></pre><p>In general the configuration file can contain any property, but should contain at leas two mandatory properties. These are: <code>environments</code> and <code>useEnvironment</code>.</p>
 <p>The configuration parameters are grouped into <em>environments</em> which are described under the <code>environments</code> array propery. Each <em>environment</em> is identified by its name and describe a  specific server configuration. The configuration file must define at least one <em>environment</em>, that is the <strong>default</strong>.</p>
 <p>The <code>useEnvironment</code> tells the server that which environment should be used by default, if it was not specified explicitly when the it is started.</p>
 <p>An environment usually has the following configuration properties:</p>
@@ -228,8 +228,10 @@ exports.isAlive = isAlive;
 </code></pre><p>As you can see, the function gets all the request parameters, as well as the response object, which is used to compose the response.</p>
 <p>In order to be able to behave the expected way, the function gets a third parameter (<code>serviceDescriptor</code>), which holds all the data found in the corresponding <code>service.yml</code> file. This object also provides methods to access to the mock files situated beside the service descriptor.</p>
 <p>The mock server implementation is built on top of the <a href="http://expressjs.com">express.js</a> web framework. In order to learn more about how to use the <a href="http://expressjs.com/3x/api.html#req.params"><code>request</code></a> and <a href="http://expressjs.com/3x/api.html#res.status"><code>response</code></a> parameters, visit its <a href="http://expressjs.com/3x/api.html">API documentation pages</a>.</p>
+<blockquote>
 <p>Note that you have to export those functions you would like to use externally. This is done by the <code>exports.isAlive = isAlive;</code> line of the code fragment above.</p>
 <p>You must add a line to the <code>server.js</code> which tells the server to load this module when starts. In case of the previous example the following line must be added:</p>
+</blockquote>
 <pre><code>var monitoring = require(&#39;./monitoring.js&#39;);
 </code></pre><p>If you are not familiar with how to create <a href="http://nodejs.org/api/modules.html">modules</a>, and how to use <code>exports</code>, etc. read the <a href="http://nodejs.org/api/">Node.js documentation</a>.</p>
 <p>The <code>rest-tool</code> creates the following empty extension module with the new project that is called <code>api.js</code>.</p>

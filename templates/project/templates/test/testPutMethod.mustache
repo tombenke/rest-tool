@@ -26,7 +26,7 @@ describe('{{description}}', function() {
                 {{#response.validationSchema}}
                 var JaySchema = require('jayschema');
                 var js = new JaySchema();
-                var schema = require(path.join(__dirname, '..', 'schemas', '{{response.validationSchema}}'));
+                var schema = require(path.join(path.resolve('{{contentPath}}', '{{response.validationSchema}}'));
                 js.validate(res.body, schema, function(errs) {
                     should.not.exist(errs);
                     done();

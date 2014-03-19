@@ -75,7 +75,7 @@ In a newly created API project the server is configured to work immediately. The
         port: 3008
         documentRoot: ../webui/build/crm-api/production
 
-in general the configuration file can contain any property, but should contain at leas two mandatory properties. These are: `environments` and `useEnvironment`.
+In general the configuration file can contain any property, but should contain at leas two mandatory properties. These are: `environments` and `useEnvironment`.
 
 The configuration parameters are grouped into _environments_ which are described under the `environments` array propery. Each _environment_ is identified by its name and describe a  specific server configuration. The configuration file must define at least one _environment_, that is the __default__.
 
@@ -228,9 +228,9 @@ In order to be able to behave the expected way, the function gets a third parame
 
 The mock server implementation is built on top of the [express.js](http://expressjs.com) web framework. In order to learn more about how to use the [`request`](http://expressjs.com/3x/api.html#req.params) and [`response`](http://expressjs.com/3x/api.html#res.status) parameters, visit its [API documentation pages](http://expressjs.com/3x/api.html).
 
-Note that you have to export those functions you would like to use externally. This is done by the `exports.isAlive = isAlive;` line of the code fragment above.
+> Note that you have to export those functions you would like to use externally. This is done by the `exports.isAlive = isAlive;` line of the code fragment above.
 
-You must add a line to the `server.js` which tells the server to load this module when starts. In case of the previous example the following line must be added:
+> You must add a line to the `server.js` which tells the server to load this module when starts. In case of the previous example the following line must be added:
 
     var monitoring = require('./monitoring.js');
 

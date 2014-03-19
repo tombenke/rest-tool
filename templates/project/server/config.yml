@@ -9,13 +9,13 @@ environments:
   # This is the default configuration set
   default:
     documentRoot: .
-    port: {{port}}
+    port: {{servicePort}}
     restapiRoot: ..
     useRemoteServices: false
 
   # Override the default config parameters with values specific to the development environment
   development:
-    port: {{port}}
+    port: {{servicePort}}
     documentRoot: ../webui
 
   # development environment with proxying the 'serviceUrlPrefix' requests to the local host

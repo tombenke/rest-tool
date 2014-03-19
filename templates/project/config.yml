@@ -2,14 +2,16 @@ projectName: {{projectName}}
 apiVersion: v0.0.0
 author: {{author}}
 licence: {{licence}}
-serviceUrlPrefix: {{urlPrefix}}
-servicePort: {{port}}
-baseUrl: http://localhost:{{port}}{{urlPrefix}}
+serviceUrlPrefix: {{serviceUrlPrefix}}
+servicePort: {{servicePort}}
+baseUrl: http://localhost:{{servicePort}}{{serviceUrlPrefix}}
 servicesRoot: {{servicesRoot}}
 services:
     - /monitoring/isAlive
     # To add new services, put here the path of the directory that contains the service.yml
 
+{{#loginCredentials}}
 loginCredentials:
-    user: {{username}}
-    pass: {{password}}
+    user: {{user}}
+    pass: {{pass}}
+{{/loginCredentials}}
