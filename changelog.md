@@ -1,3 +1,6 @@
+## 0.4.11
+- Implement `rest-tool upgrade` command to upgrade an existing API project.
+
 ## 0.4.10
 - Upgrade docs/templates to use jquery-1.11.0.
 - Title is a link to the docs/index.html in service documentation pages.
