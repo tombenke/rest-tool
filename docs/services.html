@@ -109,11 +109,15 @@ methods:
 <p>For example: <code>It is a very simple service, which makes possible to...</code></p>
 </li>
 <li><p><strong>style:</strong>
-<em>(mandatory, string)</em><br>Tells whether it is an RPC-like OPERATION,
+<em>(optional, string)</em><br>Tells whether it is an RPC-like OPERATION,
 or a RESOURCE, which fully comply to the REST principles</p>
 <p>Possible values: OPERATION | COLLECTION | RESOURCE</p>
+<p>Default: OPERATION</p>
 </li>
 <li><p><strong>urlPattern:</strong>
+<em>(deprecated)</em><br>Use the <strong>uriTemplate</strong> instead of it.</p>
+</li>
+<li><p><strong>uriTemplate:</strong>
 <em>(mandatory, string)</em><br>The URL pattern of the service.</p>
 <p>For example: <code>/monitoring/isAlive</code>.</p>
 </li>
@@ -132,14 +136,15 @@ There must be at least one method defined for the resource.</p>
   <code>&lt;module&gt;.&lt;function&gt;</code>. For details see the <a href="server.html#implement-dynamic-mocking-behavior">&quot;Implement dynamic mocking behavior&quot;</a> section.</p>
 <p>  For example: <code>monitoring.isalive</code></p>
 </li>
-<li><p><strong>request:</strong><br><em>(mandatory, object)</em><br>  The detailed specification of request.</p>
+<li><p><strong>request:</strong><br><em>(optional, object)</em><br>  The detailed specification of request.</p>
 </li>
 <li><p><strong>responses:</strong><br><em>(mandatory, array)</em><br>  The detailed specification of responses.
   There can be several possible responses, 
   but at least one <code>OK</code> response must be defined.</p>
 </li>
-<li><p><strong>testCases:</strong><br><em>(mandatory, array)</em><br>  The detailed specification of test cases.
-  A method can contain zero or more test cases.</p>
+<li><p><strong>testCases:</strong><br><em>(optional, array)</em><br>  The detailed specification of test cases.
+  A method can contain zero or more test cases.
+  Default: an empty array</p>
 </li>
 </ul>
 </li>
@@ -147,7 +152,7 @@ There must be at least one method defined for the resource.</p>
 <p>Every <strong>method</strong> must have a <strong>request</strong> property which describes the main attributes of the method to the given URL:</p>
 <ul>
 <li><p><strong>parameters:</strong>
-<em>(mandatory, array)</em><br>An array of request parameter descriptors.
+<em>(optional, array)</em><br>An array of request parameter descriptors.
 Specification of the request parameters:</p>
 <ul>
 <li><strong>name:</strong>
@@ -163,24 +168,27 @@ Specification of the request parameters:</p>
 <li><strong>default:</strong>
   <em>(optional, anyOf: string, number, boolean, object &quot;null&quot;)</em><br>  Default value of the parameter.</li>
 </ul>
+<p>Default: an empty array</p>
 </li>
 <li><p><strong>headers:</strong>
-<em>(mandatory, array)</em><br>Specification of the headers.</p>
+<em>(optional, array)</em><br>Specification of the headers.</p>
 <ul>
 <li><strong>field:</strong>
 <em>(mandatory, string)</em><br>The header field name.</li>
 <li><strong>content:</strong>
 <em>(mandatory, string)</em><br>The header content.</li>
 </ul>
+<p>Default: an empty array</p>
 </li>
 <li><p><strong>cookies:</strong>
-<em>(mandatory, array)</em><br>Specification of the cookies.</p>
+<em>(optional, array)</em><br>Specification of the cookies.</p>
 <ul>
 <li><strong>field:</strong>
 <em>(mandatory, string)</em><br>The cookie field name.</li>
 <li><strong>content:</strong>
 <em>(mandatory, string)</em><br>The cookie content.</li>
 </ul>
+<p>Default: an empty array</p>
 </li>
 <li><p><strong>mockBody:</strong>
 <em>(optional, string)</em><br>The path to the file which contain the mock request body.
@@ -202,16 +210,14 @@ At least one &#39;OK&#39; response must be defined.</li>
 <em>(mandatory, string)</em><br>The JSON-schema to validate the content of the response
 for example: getMonitoringIsAlive-responseBody-validationSchema.json</li>
 <li><strong>cookies:</strong>
-<em>(mandatory, array)</em><br>The definitions of the response cookies.
-(See also: request.cookies).</li>
+<em>(optional, array)</em><br>The definitions of the response cookies.<br>Default: an empty array<br>(See also: request.cookies).</li>
 <li><strong>headers:</strong>
-<em>(mandatory, array)</em><br>The definitions of the response headers.
-(See also: request.headers).</li>
+<em>(optional, array)</em><br>The definitions of the response headers.<br>Default: an empty array<br>(See also: request.headers).</li>
 <li><strong>mockBody:</strong>
 <em>(optional, string)</em><br>The path to the file which contain the mock response body.
 For example: getMonitoringIsAlive-responseBody.json</li>
 </ul>
-<p>Every <strong>method</strong> must have a <strong>testCases</strong> array property which describes the main attributes of the individual test cases to the request of the given URL. Each <strong>testCase</strong> has the following structure:</p>
+<p>Every <strong>method</strong> can have a <strong>testCases</strong> array property which describes the main attributes of the individual test cases to the request of the given URL. Each <strong>testCase</strong> has the following structure:</p>
 <ul>
 <li><strong>name:</strong>
 <em>(mandatory, string)</em><br>The name of the test case.</li>

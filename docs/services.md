@@ -80,13 +80,19 @@ The top-level structure of a service descriptor is the following:
   For example: `It is a very simple service, which makes possible to...`
 
 - __style:__
-  _(mandatory, string)_  
+  _(optional, string)_  
   Tells whether it is an RPC-like OPERATION,
   or a RESOURCE, which fully comply to the REST principles
 
   Possible values: OPERATION | COLLECTION | RESOURCE
 
+  Default: OPERATION
+
 - __urlPattern:__
+  _(deprecated)_  
+  Use the __uriTemplate__ instead of it.
+
+- __uriTemplate:__
   _(mandatory, string)_  
   The URL pattern of the service.
 
@@ -116,7 +122,7 @@ The top-level structure of a service descriptor is the following:
         For example: `monitoring.isalive`
 
     - __request:__  
-      _(mandatory, object)_  
+      _(optional, object)_  
         The detailed specification of request.
 
     - __responses:__  
@@ -126,14 +132,15 @@ The top-level structure of a service descriptor is the following:
         but at least one `OK` response must be defined.
 
     - __testCases:__  
-      _(mandatory, array)_  
+      _(optional, array)_  
         The detailed specification of test cases.
         A method can contain zero or more test cases.
+        Default: an empty array
 
 Every __method__ must have a __request__ property which describes the main attributes of the method to the given URL:
 
 - __parameters:__
-  _(mandatory, array)_  
+  _(optional, array)_  
   An array of request parameter descriptors.
   Specification of the request parameters:
     - __name:__
@@ -155,8 +162,10 @@ Every __method__ must have a __request__ property which describes the main attri
         _(optional, anyOf: string, number, boolean, object "null")_  
         Default value of the parameter.
 
+  Default: an empty array
+
 - __headers:__
-  _(mandatory, array)_  
+  _(optional, array)_  
   Specification of the headers.
     - __field:__
       _(mandatory, string)_  
@@ -165,8 +174,10 @@ Every __method__ must have a __request__ property which describes the main attri
       _(mandatory, string)_  
       The header content.
 
+  Default: an empty array
+
 - __cookies:__
-  _(mandatory, array)_  
+  _(optional, array)_  
   Specification of the cookies.
     - __field:__
       _(mandatory, string)_  
@@ -174,6 +185,8 @@ Every __method__ must have a __request__ property which describes the main attri
     - __content:__
       _(mandatory, string)_  
       The cookie content.
+
+  Default: an empty array
 
 - __mockBody:__
   _(optional, string)_  
@@ -200,19 +213,21 @@ Every __method__ must have a __responses__ array property which describes the ma
   The JSON-schema to validate the content of the response
   for example: getMonitoringIsAlive-responseBody-validationSchema.json
 - __cookies:__
-  _(mandatory, array)_  
-  The definitions of the response cookies.
+  _(optional, array)_  
+  The definitions of the response cookies.  
+  Default: an empty array  
   (See also: request.cookies).
 - __headers:__
-  _(mandatory, array)_  
-  The definitions of the response headers.
+  _(optional, array)_  
+  The definitions of the response headers.  
+  Default: an empty array  
   (See also: request.headers).
 - __mockBody:__
   _(optional, string)_  
   The path to the file which contain the mock response body.
   For example: getMonitoringIsAlive-responseBody.json
 
-Every __method__ must have a __testCases__ array property which describes the main attributes of the individual test cases to the request of the given URL. Each __testCase__ has the following structure:
+Every __method__ can have a __testCases__ array property which describes the main attributes of the individual test cases to the request of the given URL. Each __testCase__ has the following structure:
 
 - __name:__
   _(mandatory, string)_  
