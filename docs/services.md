@@ -243,15 +243,15 @@ Every __method__ can have a __testCases__ array property which describes the mai
   The path to the template which is used to generate the test case.
   for example: testGetMethod.mustache.
 - __request:__
-  _(mandatory, object)_  
+  _(optional, object)_  
   The specification of the request of the test case.
-    - __parameters:__
-      _(mandatory, object)_  
     - __cookies:__
-      _(mandatory, array)_  
+      _(optional, array)_  
+      Default: an empty array.  
       (See also: request.cookies).
     - __headers:__
-      _(mandatory, array)_  
+      _(optional, array)_  
+      Default: an empty array.  
       (See also: request.headers).
     - __mockBody:__
       _(optional, string)_  
@@ -267,12 +267,14 @@ Every __method__ can have a __testCases__ array property which describes the mai
       The JSON-schema to validate the content of the response.
       for example: `getMonitoringIsAlive-responseBody-validationSchema.json`.
     - __cookies:__
-     _(mandatory, array)_  
-      The definitions of the response cookies.
+     _(optional, array)_  
+      The definitions of the response cookies.  
+      Default: an empty array.  
       (See also: request.cookies).
     - __headers:__
-     _(mandatory, array)_  
-      The definitions of the response headers.
+     _(optional, array)_  
+      The definitions of the response headers.  
+      Default: an empty array.  
       (See also: request.headers).
     - __mockBody:__
      _(optional, string)_  

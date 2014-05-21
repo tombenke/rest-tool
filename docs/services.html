@@ -229,13 +229,11 @@ For example: getMonitoringIsAlive-responseBody.json</li>
 <em>(mandatory, string)</em><br>The path to the template which is used to generate the test case.
 for example: testGetMethod.mustache.</li>
 <li><strong>request:</strong>
-<em>(mandatory, object)</em><br>The specification of the request of the test case.<ul>
-<li><strong>parameters:</strong>
-<em>(mandatory, object)</em>  </li>
+<em>(optional, object)</em><br>The specification of the request of the test case.<ul>
 <li><strong>cookies:</strong>
-<em>(mandatory, array)</em><br>(See also: request.cookies).</li>
+<em>(optional, array)</em><br>Default: an empty array.<br>(See also: request.cookies).</li>
 <li><strong>headers:</strong>
-<em>(mandatory, array)</em><br>(See also: request.headers).</li>
+<em>(optional, array)</em><br>Default: an empty array.<br>(See also: request.headers).</li>
 <li><strong>mockBody:</strong>
 <em>(optional, string)</em><br>The path to the file which contain the mock request body.
 For example: postOperation-requestBody.json</li>
@@ -249,11 +247,9 @@ The status code of the response.</li>
 <em>(optional, string)</em><br>The JSON-schema to validate the content of the response.
 for example: <code>getMonitoringIsAlive-responseBody-validationSchema.json</code>.</li>
 <li><strong>cookies:</strong>
-<em>(mandatory, array)</em><br>The definitions of the response cookies.
-(See also: request.cookies).</li>
+<em>(optional, array)</em><br>The definitions of the response cookies.<br>Default: an empty array.<br>(See also: request.cookies).</li>
 <li><strong>headers:</strong>
-<em>(mandatory, array)</em><br>The definitions of the response headers.
-(See also: request.headers).</li>
+<em>(optional, array)</em><br>The definitions of the response headers.<br>Default: an empty array.<br>(See also: request.headers).</li>
 <li><strong>mockBody:</strong>
 <em>(optional, string)</em><br>The path to the file which contain the mock response body.
 For example: <code>getMonitoringIsAlive-responseBody.json</code>.</li>
