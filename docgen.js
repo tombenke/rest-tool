@@ -177,6 +177,9 @@ exports.update = function (context, mode) {
         });
     });
 
+    // Set the time of generation
+    context.lastUpdate = new Date();
+
     // Generate the documents for each service
     mapOwnProperties( allServices, function( serviceDesc, property ) {
         generateServiceDoc(serviceDesc, context);
