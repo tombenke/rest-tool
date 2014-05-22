@@ -130,7 +130,7 @@ var generateServiceDoc = function(serviceDesc, context) {
         outFileName = path.join(process.cwd(), 'docs', generateDocFileName(serviceDesc)),
         view = {};
     var relPath = "";
-    for (var l=0; l<serviceDesc.contentPath.split(path.sep).length; l++ ) {
+    for (var l=0; l<serviceDesc.contentPath.split('/').length; l++ ) {
         relPath = relPath + ".." + path.sep;
     }
     context.relPath = relPath;
