@@ -2,7 +2,11 @@
 <!-- Begin Cookies -->
 <div class="block-container">
     <div class="block-title">
-        <h5>Cookies:</h5>
+        <h5>Cookies: 
+            {{^cookies}}
+            <span class="notDefined">Not Defined</span>
+            {{/cookies}}
+        </h5>
     </div>
     <div id="cookies">
         <table>

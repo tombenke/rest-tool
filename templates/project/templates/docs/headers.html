@@ -2,7 +2,11 @@
 <!-- Begin Headers -->
 <div class="block-container">
     <div class="block-title">
-        <h5>Headers:</h5>
+        <h5>Headers: 
+            {{^headers}}
+            <span class="notDefined">Not Defined</span>
+            {{/headers}}
+        </h5>
     </div>
     <div id="headers">
     <table>

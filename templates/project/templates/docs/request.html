@@ -7,9 +7,26 @@
     <div id="request">
     {{#request}}
 
+        <p>
+            {{#validationSchema}}
+            Validation schema: 
+            <a href="{{relPath}}/{{contentPath}}/{{validationSchema}}">{{validationSchema}}</a>
+            <br/>
+            {{/validationSchema}}
+
+            {{#mockBody}}
+            mock body: 
+            <a href="{{relPath}}/{{contentPath}}/{{mockBody}}">"{{mockBody}}"</a>
+            {{/mockBody}}
+        </p>
+
         <div class="block-container">
             <div class="block-title">
-                <h5>Parameters:</h5>
+                <h5>Parameters: 
+                    {{^parameters}}
+                    <span class="notDefined">Not Defined</span>
+                    {{/parameters}}
+                </h5>
             </div>
             <div id="parameters">
                 <table>
@@ -34,13 +51,7 @@
             </div>
         </div>
 
-        <p>Validation schema: 
-            <a href="{{relPath}}/{{contentPath}}/{{validationSchema}}">{{validationSchema}}</a></p>
-        <p>mock body: 
-            <a href="{{relPath}}/{{contentPath}}/{{mockBody}}">{{mockBody}}</a></p>
-
         {{> headers.html}}
-
         {{> cookies.html}}
 
     {{/request}}

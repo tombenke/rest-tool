@@ -3,16 +3,16 @@
 <div class="block-container">
     <div id="methodHeader" class="block-title">
         <div class="methodNameBox">
-            <div class="method">{{methodName}}</div>
+            <div class="method {{methodName}}-method">{{methodName}}</div>
         </div>
 
-        <div class="urlPatternBox">
-            <div class="urlPatterns">{{urlPattern}}</div>
+        <div class="uriTemplateBox">
+            <div class="uriTemplate">{{uriTemplate}}</div>
         </div>
     </div>
     <div id="method">
-        <p>{{{summary}}}</p>
-        <p>{{{details}}}</p>
+        {{{summary}}}
+        {{{details}}}
         {{> request.html}}
         {{> responses.html}}
         {{> testCases.html}}

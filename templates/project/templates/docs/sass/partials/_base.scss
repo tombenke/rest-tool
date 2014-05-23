@@ -1,5 +1,5 @@
 // Here is where you can define your constants for your application and to configure the blueprint framework.
-// Feel free to delete these if you want keep the defaults:
+// Feel free to delete these if you want to keep the defaults:
 
 $baseColor: #336699;
 
@@ -16,7 +16,7 @@ $font-color: $baseColor;
 @import "compass/utilities";
 @import "compass/css3";
 
-.urlFont {
+.uriFont {
   font-family: "Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace;
   // font-family: "Blooming Grove";
   // font-size: 1em;
@@ -24,6 +24,11 @@ $font-color: $baseColor;
 
 .methodFont {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+.notDefined {
+  font-style: italic;
+  font-weight: normal;
+  color: lighten($font-color, 20)}
 
 @mixin rounded($vert, $horz, $radius: 10px) {
   border-#{$vert}-#{$horz}-radius: $radius;
@@ -42,50 +47,87 @@ $font-color: $baseColor;
     @include rounded(bottom, right, 8px);
 }
 
+.toggle-updown:hover {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.toggle-updown {
+    background-repeat: no-repeat;
+    background-position: right top;
+    @extend .toggle-updown:hover;
+}
+
+.toggle-up {
+    background-image: url('../images/collapse_arrow.gif');
+    @extend .toggle-updown;
+}
+
+.toggle-down {
+    background-image: url('../images/expand_arrow.gif');
+    @extend .toggle-updown;
+}
+
 .block-container {
     @include block-container; }
 
 .shady-block-container {
-    @include block-container(tint($baseColor, 80));
-}
+    @include block-container(tint($baseColor, 80)); }
 
-@mixin stretchBox($width) {
-    border: 1px solid #f2f2ff;
+@mixin stretchBox($width, $height) {
+    border: none;//1px solid #f2f2ff;
     width: $width;
-    height: 2em;
+    height: $height;
     position: relative;
     @include inline-block; }
 
 .serviceNameBox {
-    @include stretchBox(400px); }
+    // @include stretchBox(400px, 3em);
+     }
 
-.urlPatternBox {
-    @include stretchBox(400px); }
+.uriTemplateBox {
+    @include stretchBox(500px, 2em); }
 
 .methodNameBox {
-    @include stretchBox(50px); }
+    @include stretchBox(60px, 2em); }
 
-.stretchBox {
-    @include stretchBox(510px); }
-
-.white_button {
+.button {
     padding: 4px;
     background: white;
-    font-weight: bold; }
+    font-weight: bold;
+    @include rounded(top, left, 4px);
+    @include rounded(top, right, 4px);
+    @include rounded(bottom, left, 4px);
+    @include rounded(bottom, right, 4px); }
 
-.blue_button {
-  @extend .white_button;
+.inverse_button {
+  @extend .button;
   background: #336699;
   font-size: 1em;
-  color: white;
-  }
+  color: white; }
 
 .method {
-  @extend .blue_button;
+  @extend .inverse_button;
   @include stretch;
   background: tint($font-color, 30) }
 
-.urlPatterns {
-  @extend .white_button;
-  @extend .urlFont;
+.GET-method {
+  @extend .method;
+  background: tint(#006600, 30) }
+
+.PUT-method {
+  @extend .method;
+  background: tint(#000066, 30) }
+
+.POST-method {
+  @extend .method;
+  background: tint(#660066, 30) }
+
+.DELETE-method {
+  @extend .method;
+  background: tint(#660000, 30) }
+
+.uriTemplate {
+  @extend .button;
+  @extend .uriFont;
   @include stretch; }
