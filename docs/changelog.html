@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Get Help to the rest-tool.">
+    <meta name="author" content="Tamás Benke">
+    <meta name="Keywords" content="rest, restful, utility, tools, rest-tool, node.js, api, development" />
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>rest-tool</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="getStarted.html">Get Started</a></li>
+          <li><a href="changelog.html">Blog</a></li>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li><a href="http://tombenke.github.io/rest-tool-cookbook/">Examples</a></li>
+          <li><a href="getHelp.html">Get Help</a></li>
+        </ul>
+        <h3 class="text-muted">rest-tool</h3>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-12">
+          <h2 id="0-4-12">0.4.12</h2>
+<ul>
+<li>Bugfix: documentation generator rel-path does not work in Windows environment.</li>
+<li>Add the timestamp of last-update to the footer of the generated HTML pages.</li>
+<li>Some fine tuning is done on SASS classes and HTML templates.</li>
+<li>Add icons/classes and functions to: expand / collapse blocks.</li>
+</ul>
+<h2 id="0-4-11">0.4.11</h2>
+<ul>
+<li>Implement <code>rest-tool upgrade</code> command to upgrade an existing API project.</li>
+</ul>
+<h2 id="0-4-10">0.4.10</h2>
+<ul>
+<li>Upgrade docs/templates to use jquery-1.11.0.</li>
+<li>Title is a link to the docs/index.html in service documentation pages.</li>
+<li>Fix the missing jquery-min.map bug.</li>
+<li>Fix validationSchema bugs in test templates.</li>
+<li>Cleansing in the templates/project/server/api.js</li>
+<li>Extend the server documentation:<ul>
+<li>Add references</li>
+<li>Add some hints on dynamic mock service implementations</li>
+</ul>
+</li>
+</ul>
+<h2 id="0-4-9">0.4.9</h2>
+<ul>
+<li>Implement test/manual_test.sh to run the most fundamental usage scenario.</li>
+<li>Upgrade to rest-tool-common v0.3.8</li>
+<li>Fix service template bugs. Write service.yml related documentation.</li>
+<li>Extend the server documentation:<ul>
+<li>Detailing the server configuration description.</li>
+<li>Split documentation pages into subsections.</li>
+<li>Reorganize the documentation file, and add service description to it.</li>
+</ul>
+</li>
+</ul>
+<h2 id="0-4-8">0.4.8</h2>
+<ul>
+<li>Bugfix: index.html is missing from tesmplate/docs/ folder.</li>
+<li>Extend the getStarted documentation page.</li>
+<li>Extend the documentation page.</li>
+</ul>
+<h2 id="0-4-1">0.4.1</h2>
+<ul>
+<li>Add bulk service generation feature &#39;rest-tool add-bulk --help&#39;</li>
+<li>Add Add response.description field to the schema and document template</li>
+<li>Upgrade to rest-tool-common v0.3.7</li>
+</ul>
+<h2 id="0-4-0">0.4.0</h2>
+<ul>
+<li>Upgrade to should v3.1.2</li>
+<li>Upgrade to rest-tool-common v0.3.6</li>
+<li>Add service generation feature &#39;rest-tool add --help&#39;</li>
+<li>Add changelog.md</li>
+</ul>
+<h2 id="0-3-0">0.3.0</h2>
+<ul>
+<li>Create static pages for docs with relative paths, including all service details.</li>
+</ul>
+<h2 id="0-2-5">0.2.5</h2>
+<ul>
+<li>Add .gitignore to the project template. Upgrade to rest-tool-common v0.3.3</li>
+<li>Upgrade to rest-tool-common v0.3.1</li>
+<li>Bugfix the test client templates of relete and put methods. Upgrade to rest-tool-common v0.3.1.</li>
+<li>Add Google Analytics code to the index page.</li>
+<li>Merge branch &#39;gh-pages&#39; of github.com:tombenke/rest-tool</li>
+<li>Create gh-pages branch via GitHub</li>
+</ul>
+<h2 id="0-2-4">0.2.4</h2>
+<ul>
+<li>Add purpose to the readme file.</li>
+</ul>
+<h2 id="0-2-3">0.2.3</h2>
+<ul>
+<li>Update README.md</li>
+</ul>
+<h2 id="0-2-2">0.2.2</h2>
+<ul>
+<li>Replace restapi to rest-tool in all places where it is relevant. Update the content of the README.md file.</li>
+</ul>
+<h2 id="0-2-1">0.2.1</h2>
+<ul>
+<li>Add placeholder for server templates.</li>
+</ul>
+<h2 id="0-2-0">0.2.0</h2>
+<ul>
+<li>Add templates and modify commands according to the changes in rest-tool-common</li>
+</ul>
+<h2 id="0-1-1">0.1.1</h2>
+<ul>
+<li>First commit</li>
+</ul>
+
+        </div>
+      </div>
+
+      <div class="footer">
+        <p class="copyright">rest-tool is maintained by <a href="https://github.com/tombenke">tombenke</a><br>
+        Theme borrowed from <a href="http://getbootstrap.com/examples/jumbotron-narrow/">Bootstrap</a></p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>

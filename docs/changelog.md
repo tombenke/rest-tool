@@ -1,7 +1,9 @@
 ## 0.4.12
 
-- Bugfix: documentation generator rel-path does not work in Windows environment
+- Bugfix: documentation generator rel-path does not work in Windows environment.
 - Add the timestamp of last-update to the footer of the generated HTML pages.
+- Some fine tuning is done on SASS classes and HTML templates.
+- Add icons/classes and functions to: expand / collapse blocks.
 
 ## 0.4.11
 - Implement `rest-tool upgrade` command to upgrade an existing API project.
