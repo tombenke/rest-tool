@@ -108,7 +108,8 @@
                 verbose = options.verbose;
                 if( options.services ) {
                     try {
-                        var bulkServicesPath = process.cwd() + pathSep + options.services;
+                        // var bulkServicesPath = process.cwd() + pathSep + options.services;
+                        var bulkServicesPath = path.resolve(options.services);
                         var bulkServices = require(bulkServicesPath);
                         require('../serviceGen.js').bulkAdd(
                             bulkServices, readConfig(options.config), verbose);

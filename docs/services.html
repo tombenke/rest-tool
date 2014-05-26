@@ -340,7 +340,10 @@ These services are executing the CRUD operations on individual resources, and la
     -u /customers \
     -n Customers \
     -d &quot;A service to manage the collection of customers&quot;
-</code></pre><h4 id="add-new-service-to-the-project-in-bulk-mode">Add new service to the project in bulk mode</h4>
+</code></pre><p>After the successful execution, you will find a new service under the
+<code>project-root/services/customers</code> folder. You can add/edit the files under this directory according to your needs.</p>
+<p>Do not forget, that the service descriptors you created will not be activated automatically. in order to do this, you need to put them into the <code>project-root/config.yml</code>.</p>
+<h4 id="add-new-service-to-the-project-in-bulk-mode">Add new service to the project in bulk mode</h4>
 <p>It is also possible to create more than one service in one step with the <code>rest-tool add-bulk</code> command:</p>
 <pre><code>$ rest-tool add-bulk -h
 
@@ -349,11 +352,48 @@ These services are executing the CRUD operations on individual resources, and la
   Options:
 
     -h, --help                     output usage information
-    -s, --services [services]      The filename of which contains the list of services to create (for example: bulk.json)
-    -c, --config [configFileName]  The name of the configuration file (default: config.yml)
+    -s, --services [services]      The filename of which contains 
+                                   the list of services to create
+                                   (for example: services.json)
+    -c, --config [configFileName]  The name of the configuration file
+                                   (default: config.yml)
     -v, --verbose                  Verbose mode
-</code></pre><!-- TODO: Show example, and demo bulk config file -->
-
+</code></pre><p>The following code fragment demonstrates a possible service list that can be used by the <code>add-bulk</code> bulk command.</p>
+<pre><code>[
+  {
+    &quot;type&quot;: &quot;COLLECTION&quot;,
+    &quot;path&quot;: &quot;orders&quot;,
+    &quot;urlPattern&quot;: &quot;/orders&quot;,
+    &quot;name&quot;: &quot;Orders&quot;,
+    &quot;description&quot;: &quot;Order collection management&quot;,
+    &quot;methods&quot;: [
+      &quot;POST&quot;
+    ]
+  },
+  {
+    &quot;type&quot;: &quot;RESOURCE&quot;,
+    &quot;path&quot;: &quot;orders/order&quot;,
+    &quot;urlPattern&quot;: &quot;/orders/order&quot;,
+    &quot;name&quot;: &quot;Order&quot;,
+    &quot;description&quot;: &quot;Order management&quot;,
+    &quot;methods&quot;: [
+      &quot;POST&quot;
+    ]
+  },
+  {
+    &quot;type&quot;: &quot;OPERATION&quot;,
+    &quot;path&quot;: &quot;filterOrders&quot;,
+    &quot;urlPattern&quot;: &quot;/filterOrders&quot;,
+    &quot;name&quot;: &quot;Complex order filtering&quot;,
+    &quot;description&quot;: &quot;Complex filtering of orders collection&quot;,
+    &quot;methods&quot;: [
+      &quot;POST&quot;
+    ]
+  }
+]
+</code></pre><p>If the JSON content listed above is stored into a file named <code>services.json</code>, it can be used with the following command:</p>
+<pre><code>$ rest-tool add-bulk -s services.json
+</code></pre><p>Similar to the normal <code>add</code> command, the newly created services must be added to the <code>project-root/config.yml</code> file, in order to be activated.</p>
 <h3 id="configure-the-services">Configure the services</h3>
 <p>The service descriptors you create will not be activated automatically. You have to manually list them under the <code>services</code> property of the <code>config.yml</code> file:</p>
 <pre><code>services:

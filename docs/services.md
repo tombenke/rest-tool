@@ -375,6 +375,10 @@ For example, to create a collection manager service, execute the following comma
         -n Customers \
         -d "A service to manage the collection of customers"
 
+After the successful execution, you will find a new service under the
+`project-root/services/customers` folder. You can add/edit the files under this directory according to your needs.
+
+Do not forget, that the service descriptors you created will not be activated automatically. in order to do this, you need to put them into the `project-root/config.yml`.
 
 #### Add new service to the project in bulk mode
 
@@ -387,11 +391,53 @@ It is also possible to create more than one service in one step with the `rest-t
       Options:
 
         -h, --help                     output usage information
-        -s, --services [services]      The filename of which contains the list of services to create (for example: bulk.json)
-        -c, --config [configFileName]  The name of the configuration file (default: config.yml)
+        -s, --services [services]      The filename of which contains 
+                                       the list of services to create
+                                       (for example: services.json)
+        -c, --config [configFileName]  The name of the configuration file
+                                       (default: config.yml)
         -v, --verbose                  Verbose mode
 
-<!-- TODO: Show example, and demo bulk config file -->
+The following code fragment demonstrates a possible service list that can be used by the `add-bulk` bulk command.
+
+    [
+      {
+        "type": "COLLECTION",
+        "path": "orders",
+        "urlPattern": "/orders",
+        "name": "Orders",
+        "description": "Order collection management",
+        "methods": [
+          "POST"
+        ]
+      },
+      {
+        "type": "RESOURCE",
+        "path": "orders/order",
+        "urlPattern": "/orders/order",
+        "name": "Order",
+        "description": "Order management",
+        "methods": [
+          "POST"
+        ]
+      },
+      {
+        "type": "OPERATION",
+        "path": "filterOrders",
+        "urlPattern": "/filterOrders",
+        "name": "Complex order filtering",
+        "description": "Complex filtering of orders collection",
+        "methods": [
+          "POST"
+        ]
+      }
+    ]
+
+If the JSON content listed above is stored into a file named `services.json`, it can be used with the following command:
+
+    $ rest-tool add-bulk -s services.json
+
+Similar to the normal `add` command, the newly created services must be added to the `project-root/config.yml` file, in order to be activated.
 
 ### Configure the services
 
