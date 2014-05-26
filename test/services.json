@@ -2,7 +2,7 @@
   {
     "type": "COLLECTION",
     "path": "orders",
-    "urlPattern": "/orders",
+    "uriTemplate": "/orders",
     "name": "Orders",
     "description": "Order collection management",
     "methods": [
@@ -12,7 +12,7 @@
   {
     "type": "RESOURCE",
     "path": "orders/order",
-    "urlPattern": "/orders/order",
+    "uriTemplate": "/orders/order",
     "name": "Order",
     "description": "Order management",
     "methods": [
@@ -22,7 +22,7 @@
   {
     "type": "OPERATION",
     "path": "filterOrders",
-    "urlPattern": "/filterOrders",
+    "uriTemplate": "/filterOrders",
     "name": "Complex order filtering",
     "description": "Complex filtering of orders collection",
     "methods": [

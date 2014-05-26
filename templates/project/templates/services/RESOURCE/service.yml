@@ -2,7 +2,7 @@ name: {{name}} service
 description: |
     {{description}}
 style: RESOURCE
-urlPattern: {{urlPattern}}
+uriTemplate: {{uriTemplate}}
 methods:
     GET:
         summary: Get one {{name}}
@@ -34,7 +34,7 @@ methods:
             -
                 name: Get {{cName}}
                 description: Successfully retrieves one customer
-                url: {{urlPattern}}
+                url: {{uriTemplate}}
                 template: testGetMethod.mustache
                 request:
                     cookies: []
@@ -93,7 +93,7 @@ methods:
             -
                 name: Delete {{cName}}
                 description: Successfully delete the {{name}}
-                url: {{urlPattern}}
+                url: {{uriTemplate}}
                 template: testDelMethod.mustache
                 request:
                     cookies: []
@@ -151,7 +151,7 @@ methods:
             -
                 name: Update {{cName}}
                 description: Succesfully updates a {{name}}
-                url: {{urlPattern}}
+                url: {{uriTemplate}}
                 template: testPutMethod.mustache
                 request:
                     cookies: []

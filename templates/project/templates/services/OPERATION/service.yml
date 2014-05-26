@@ -2,13 +2,13 @@ name: {{name}} service
 description: |
     {{description}}
 style: OPERATION
-urlPattern: {{urlPattern}}
+uriTemplate: {{uriTemplate}}
 methods:
     POST:
         summary: Execute the {{cName}} operation
         notes: Execute the {{cName}} operation
         # implementation: api.post{{cName}}
-        urlPattern: {{urlPattern}}
+        uriTemplate: {{uriTemplate}}
         request:
             parameters: []
             cookies: []
@@ -36,7 +36,7 @@ methods:
             -
                 name: Execute the {{cName}} operation
                 description: Execute the {{cName}} operation
-                url: {{urlPattern}}
+                url: {{uriTemplate}}
                 template: testPostMethod.mustache
                 request:
                     cookies: []

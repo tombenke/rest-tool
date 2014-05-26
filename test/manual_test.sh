@@ -4,6 +4,7 @@ declare -rx SCRIPT_DESCRIPTION="Manual testing of the rest-tool utility."
 declare -rx SCRIPT=${0##*/}         # SCRIPT is the name of this script
 declare -rx test_project="test-api"
 declare -x rest_tool_cmd="rest-tool"
+declare -r SCRIPT_PATH=`dirname $0`
 
 # Process the parameters
 while [ $# -gt 0 ] ; do
@@ -70,7 +71,7 @@ $rest_tool_cmd add \
     -n "Users" \
     -d "User collection management"
 
-sed -i -e '/^    - \/monitoring\/isAlive/a\    - \/users' config.yml
+sed -i -e '/^services:/a\    - \/users' config.yml
 
 $rest_tool_cmd add \
     -t RESOURCE \
@@ -79,7 +80,7 @@ $rest_tool_cmd add \
     -n "User" \
     -d "User management"
 
-sed -i -e '/^    - \/monitoring\/isAlive/a\    - \/users\/user' config.yml
+sed -i -e '/^services:/a\    - \/users\/user' config.yml
 
 $rest_tool_cmd add \
     -t OPERATION \
@@ -88,8 +89,16 @@ $rest_tool_cmd add \
     -n "Complex user filtering" \
     -d "Complex filtering of users collection"
 
-sed -i -e '/^    - \/monitoring\/isAlive/a\    - \/filterUsers' config.yml
+sed -i -e '/^services:/a\    - \/filterUsers' config.yml
 
+# Create some services in bulk mode and add them to the config.yml
+
+# TODO
+$rest_tool_cmd add-bulk -s ${SCRIPT_PATH}/services.json
+
+sed -i -e '/^services:/a\    - \/orders' config.yml
+sed -i -e '/^services:/a\    - \/orders\/order' config.yml
+sed -i -e '/^services:/a\    - \/filterOrders' config.yml
 
 # Update the documentation
 rm -fr test/*

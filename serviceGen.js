@@ -36,7 +36,7 @@ exports.add = function( serviceConfig, projectConfig, mode ) {
     var servicePath = projectConfig.servicesRoot + pathSep + serviceConfig.path;
 
     console.log('Create the "%s/%s" %s-type service with the following URL: %s',
-        process.cwd(), servicePath, serviceConfig.type, serviceConfig.urlPattern);
+        process.cwd(), servicePath, serviceConfig.type, serviceConfig.uriTemplate);
 
     if ( generator.createDirectoryTree(servicePath, [], false) ) {
         console.log('%s directory created', servicePath );
@@ -83,7 +83,7 @@ exports.bulkAdd = function( bulkServices, projectConfig, mode ) {
             type: service.type,
             path: service.path,
             name: service.name,
-            urlPattern: service.urlPattern,
+            uriTemplate: service.uriTemplate,
             description: service.description
         },
         projectConfig, 

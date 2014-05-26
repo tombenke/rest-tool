@@ -72,21 +72,21 @@
         .description('Add new service to the project')
         .option("-t, --type [type]", "Defines the type (OPERATION|COLLECTION|RESOURCE) of the service (default: RESOURCE)", String, "OPERATION")
         .option("-p, --path <path>", "The path of the service description relative to project-root/service/", String)
-        .option("-u, --urlPattern <urlPattern>", "The unique URL pattern of the service", String)
+        .option("-u, --uriTemplate <uriTemplate>", "The unique URL pattern of the service", String)
         .option("-n, --name <name>", "The name of the operation/collection/resource", String)
         .option("-d, --desc <desc>", "The description of the service", String, "This is the description of the service")
         .option("-c, --config [configFileName]", "The name of the configuration file (default: config.yml)", String, 'config.yml')
         .option("-v, --verbose", "Verbose mode", Boolean, false)
         .action(function(options) {
                 verbose = options.verbose;
-                if( options.type && options.path && options.urlPattern ) {
+                if( options.type && options.path && options.uriTemplate ) {
                     try {
                         ['OPERATION', 'COLLECTION', 'RESOURCE'].should.containEql(options.type);
                         require('../serviceGen.js').add({
                             type: options.type,
                             path: options.path,
                             name: options.name,
-                            urlPattern: options.urlPattern,
+                            uriTemplate: options.uriTemplate,
                             description: options.desc
                         }, readConfig(options.config), verbose);
                     } catch (error) {

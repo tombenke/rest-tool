@@ -57,7 +57,7 @@ description: |
     which makes possible to monitor that the server is running
     and is able to answer HTTP requests
 style: OPERATION
-urlPattern: /monitoring/isAlive
+uriTemplate: /monitoring/isAlive
 methods:
     GET:
         summary: Is server alive?
@@ -321,19 +321,19 @@ These services are executing the CRUD operations on individual resources, and la
 
   Options:
 
-    -h, --help                     output usage information
-    -t, --type [type]              Defines the type
-                                   (OPERATION|COLLECTION|RESOURCE)
-                                   of the service (default: RESOURCE)
-    -p, --path &lt;path&gt;              The path of the service description
-                                   relative to project-root/service/
-    -u, --urlPattern &lt;urlPattern&gt;  The unique URL pattern of the service
-    -n, --name &lt;name&gt;              The name of the 
-                                   operation/collection/resource
-    -d, --desc &lt;desc&gt;              The description of the service
-    -c, --config [configFileName]  The name of the configuration file
-                                   (default: config.yml)
-    -v, --verbose                  Verbose mode
+    -h, --help                       Output usage information
+    -t, --type [type]                Defines the type
+                                     (OPERATION|COLLECTION|RESOURCE)
+                                     of the service (default: RESOURCE)
+    -p, --path &lt;path&gt;                The path of the service description
+                                     relative to project-root/service/
+    -u, --uriTemplate &lt;uriTemplate&gt;  The unique URL pattern of the service
+    -n, --name &lt;name&gt;                The name of the 
+                                     operation/collection/resource
+    -d, --desc &lt;desc&gt;                The description of the service
+    -c, --config [configFileName]    The name of the configuration file
+                                     (default: config.yml)
+    -v, --verbose                    Verbose mode
 </code></pre><p>For example, to create a collection manager service, execute the following command:</p>
 <pre><code>$ rest-tool add -t COLLECTION \
     -p customers \
@@ -363,7 +363,7 @@ These services are executing the CRUD operations on individual resources, and la
   {
     &quot;type&quot;: &quot;COLLECTION&quot;,
     &quot;path&quot;: &quot;orders&quot;,
-    &quot;urlPattern&quot;: &quot;/orders&quot;,
+    &quot;uriTemplate&quot;: &quot;/orders&quot;,
     &quot;name&quot;: &quot;Orders&quot;,
     &quot;description&quot;: &quot;Order collection management&quot;,
     &quot;methods&quot;: [
@@ -373,7 +373,7 @@ These services are executing the CRUD operations on individual resources, and la
   {
     &quot;type&quot;: &quot;RESOURCE&quot;,
     &quot;path&quot;: &quot;orders/order&quot;,
-    &quot;urlPattern&quot;: &quot;/orders/order&quot;,
+    &quot;uriTemplate&quot;: &quot;/orders/order&quot;,
     &quot;name&quot;: &quot;Order&quot;,
     &quot;description&quot;: &quot;Order management&quot;,
     &quot;methods&quot;: [
@@ -383,7 +383,7 @@ These services are executing the CRUD operations on individual resources, and la
   {
     &quot;type&quot;: &quot;OPERATION&quot;,
     &quot;path&quot;: &quot;filterOrders&quot;,
-    &quot;urlPattern&quot;: &quot;/filterOrders&quot;,
+    &quot;uriTemplate&quot;: &quot;/filterOrders&quot;,
     &quot;name&quot;: &quot;Complex order filtering&quot;,
     &quot;description&quot;: &quot;Complex filtering of orders collection&quot;,
     &quot;methods&quot;: [

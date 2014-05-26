@@ -2,7 +2,7 @@ name: {{name}} service
 description:  |
     {{description}}
 style: COLLECTION
-urlPattern: {{urlPattern}}
+uriTemplate: {{uriTemplate}}
 methods:
     GET:
         summary: List all the {{name}}
@@ -34,7 +34,7 @@ methods:
             -
                 name: Get {{cName}}
                 description: Successfully retrieves all the {{name}}
-                url: {{urlPattern}}
+                url: {{uriTemplate}}
                 template: testGetMethod.mustache
                 request:
                     cookies: []
@@ -60,7 +60,7 @@ methods:
         summary: Create a new instance of {{cName}}
         notes: Create a new instance {{cName}}
         # implementation: api.post{{cName}}
-        urlPattern: {{urlPattern}}
+        uriTemplate: {{uriTemplate}}
         request:
             parameters: []
             cookies: []
@@ -88,7 +88,7 @@ methods:
             -
                 name: Create one instance of {{cName}}
                 description: Succesfully creates a new instance of {{cName}}
-                url: {{urlPattern}}
+                url: {{uriTemplate}}
                 template: testPostMethod.mustache
                 request:
                     cookies: []

@@ -15,7 +15,7 @@ Below you can see its (a bit shortened) content:
         which makes possible to monitor that the server is running
         and is able to answer HTTP requests
     style: OPERATION
-    urlPattern: /monitoring/isAlive
+    uriTemplate: /monitoring/isAlive
     methods:
         GET:
             summary: Is server alive?
@@ -352,19 +352,19 @@ To add one service, you can use the `rest-tool add` command:
 
       Options:
 
-        -h, --help                     output usage information
-        -t, --type [type]              Defines the type
-                                       (OPERATION|COLLECTION|RESOURCE)
-                                       of the service (default: RESOURCE)
-        -p, --path <path>              The path of the service description
-                                       relative to project-root/service/
-        -u, --urlPattern <urlPattern>  The unique URL pattern of the service
-        -n, --name <name>              The name of the 
-                                       operation/collection/resource
-        -d, --desc <desc>              The description of the service
-        -c, --config [configFileName]  The name of the configuration file
-                                       (default: config.yml)
-        -v, --verbose                  Verbose mode
+        -h, --help                       Output usage information
+        -t, --type [type]                Defines the type
+                                         (OPERATION|COLLECTION|RESOURCE)
+                                         of the service (default: RESOURCE)
+        -p, --path <path>                The path of the service description
+                                         relative to project-root/service/
+        -u, --uriTemplate <uriTemplate>  The unique URL pattern of the service
+        -n, --name <name>                The name of the 
+                                         operation/collection/resource
+        -d, --desc <desc>                The description of the service
+        -c, --config [configFileName]    The name of the configuration file
+                                         (default: config.yml)
+        -v, --verbose                    Verbose mode
 
 
 For example, to create a collection manager service, execute the following command:
@@ -404,7 +404,7 @@ The following code fragment demonstrates a possible service list that can be use
       {
         "type": "COLLECTION",
         "path": "orders",
-        "urlPattern": "/orders",
+        "uriTemplate": "/orders",
         "name": "Orders",
         "description": "Order collection management",
         "methods": [
@@ -414,7 +414,7 @@ The following code fragment demonstrates a possible service list that can be use
       {
         "type": "RESOURCE",
         "path": "orders/order",
-        "urlPattern": "/orders/order",
+        "uriTemplate": "/orders/order",
         "name": "Order",
         "description": "Order management",
         "methods": [
@@ -424,7 +424,7 @@ The following code fragment demonstrates a possible service list that can be use
       {
         "type": "OPERATION",
         "path": "filterOrders",
-        "urlPattern": "/filterOrders",
+        "uriTemplate": "/filterOrders",
         "name": "Complex order filtering",
         "description": "Complex filtering of orders collection",
         "methods": [

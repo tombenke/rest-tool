@@ -3,7 +3,7 @@ description: |
     It is a very simple service, 
     which makes possible to monitor that the server is running
     and is able to answer HTTP requests
-urlPattern: /monitoring/isAlive
+uriTemplate: /monitoring/isAlive
 style: OPERATION
 methods:
     GET:
