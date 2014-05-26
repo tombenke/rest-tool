@@ -4,7 +4,8 @@ declare -rx SCRIPT_DESCRIPTION="Manual testing of the rest-tool utility."
 declare -rx SCRIPT=${0##*/}         # SCRIPT is the name of this script
 declare -rx test_project="test-api"
 declare -x rest_tool_cmd="rest-tool"
-declare -r SCRIPT_PATH=`dirname $0`
+declare -r SCRIPT_PATH=`realpath $0`
+declare -r SCRIPT_DIR=`dirname $SCRIPT_PATH`
 
 # Process the parameters
 while [ $# -gt 0 ] ; do
@@ -94,7 +95,7 @@ sed -i -e '/^services:/a\    - \/filterUsers' config.yml
 # Create some services in bulk mode and add them to the config.yml
 
 # TODO
-$rest_tool_cmd add-bulk -s ${SCRIPT_PATH}/services.json
+$rest_tool_cmd add-bulk -s ${SCRIPT_DIR}/services.json
 
 sed -i -e '/^services:/a\    - \/orders' config.yml
 sed -i -e '/^services:/a\    - \/orders\/order' config.yml
