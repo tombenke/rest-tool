@@ -67,39 +67,39 @@ npm install
 # Create some services and add them to the config.yml
 $rest_tool_cmd add \
     -t COLLECTION \
-    -p "users" \
+    -p "/users" \
     -u "/users" \
     -n "Users" \
     -d "User collection management"
 
-sed -i -e '/^services:/a\    - \/users' config.yml
+# sed -i -e '/^services:/a\    - \/users' config.yml
 
 $rest_tool_cmd add \
     -t RESOURCE \
-    -p "users/user" \
+    -p "/users/user" \
     -u "/users/user" \
     -n "User" \
     -d "User management"
 
-sed -i -e '/^services:/a\    - \/users\/user' config.yml
+# sed -i -e '/^services:/a\    - \/users\/user' config.yml
 
 $rest_tool_cmd add \
     -t OPERATION \
-    -p "filterUsers" \
+    -p "/filterUsers" \
     -u "/filterUsers" \
     -n "Complex user filtering" \
     -d "Complex filtering of users collection"
 
-sed -i -e '/^services:/a\    - \/filterUsers' config.yml
+# sed -i -e '/^services:/a\    - \/filterUsers' config.yml
 
 # Create some services in bulk mode and add them to the config.yml
 
 # TODO
 $rest_tool_cmd add-bulk -s ${SCRIPT_DIR}/services.json
 
-sed -i -e '/^services:/a\    - \/orders' config.yml
-sed -i -e '/^services:/a\    - \/orders\/order' config.yml
-sed -i -e '/^services:/a\    - \/filterOrders' config.yml
+# sed -i -e '/^services:/a\    - \/orders' config.yml
+# sed -i -e '/^services:/a\    - \/orders\/order' config.yml
+# sed -i -e '/^services:/a\    - \/filterOrders' config.yml
 
 # Update the documentation
 rm -fr test/*

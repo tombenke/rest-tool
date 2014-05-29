@@ -378,7 +378,7 @@ For example, to create a collection manager service, execute the following comma
 After the successful execution, you will find a new service under the
 `project-root/services/customers` folder. You can add/edit the files under this directory according to your needs.
 
-Do not forget, that the service descriptors you created will not be activated automatically. in order to do this, you need to put them into the `project-root/config.yml`.
+The service descriptors you created will be added to the `project-root/config.yml` and activated automatically.
 
 #### Add new service to the project in bulk mode
 
@@ -403,7 +403,7 @@ The following code fragment demonstrates a possible service list that can be use
     [
       {
         "type": "COLLECTION",
-        "path": "orders",
+        "path": "/orders",
         "uriTemplate": "/orders",
         "name": "Orders",
         "description": "Order collection management",
@@ -413,7 +413,7 @@ The following code fragment demonstrates a possible service list that can be use
       },
       {
         "type": "RESOURCE",
-        "path": "orders/order",
+        "path": "/orders/order",
         "uriTemplate": "/orders/order",
         "name": "Order",
         "description": "Order management",
@@ -423,7 +423,7 @@ The following code fragment demonstrates a possible service list that can be use
       },
       {
         "type": "OPERATION",
-        "path": "filterOrders",
+        "path": "/filterOrders",
         "uriTemplate": "/filterOrders",
         "name": "Complex order filtering",
         "description": "Complex filtering of orders collection",
@@ -437,18 +437,18 @@ If the JSON content listed above is stored into a file named `services.json`, it
 
     $ rest-tool add-bulk -s services.json
 
-Similar to the normal `add` command, the newly created services must be added to the `project-root/config.yml` file, in order to be activated.
+Similar to the normal `add` command, the newly created services will be added to the `project-root/config.yml` file.
 
 ### Configure the services
 
-The service descriptors you create will not be activated automatically. You have to manually list them under the `services` property of the `config.yml` file:
+The service descriptors you create will be activated automatically, and they are listed under the `services` property of the `config.yml` file:
 
     services:
         - /monitoring/isAlive
         # To add new services, put here the path of the directory
         # that contains the service.yml
 
-This way, you can write your new services until they will be stable enough to activate them, and they will be loaded and start working only if you have added them to the config file.
+In case you want to disable a given service, you only have to comment that line out, or simply you can just remove it.
 
 ### Create mock data
 

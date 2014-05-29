@@ -1,5 +1,6 @@
 ## 0.4.14
 
+- 'add' and 'add-bulk' commands automatically register the newly created services into the config.yml
 - Upgrade to rest-tool-common v0.4.2
     - Fix: add service command does not create recursively the missing directories
 

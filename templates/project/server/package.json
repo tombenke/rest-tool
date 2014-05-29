@@ -9,6 +9,6 @@
         "rest-tool-common": "0.4.2",
         "http-proxy": "0.10.3",
         "js-yaml" : "*",
-        "should" : "*"
+        "should" : "3.1.2"
     }
 }

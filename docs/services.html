@@ -342,7 +342,7 @@ These services are executing the CRUD operations on individual resources, and la
     -d &quot;A service to manage the collection of customers&quot;
 </code></pre><p>After the successful execution, you will find a new service under the
 <code>project-root/services/customers</code> folder. You can add/edit the files under this directory according to your needs.</p>
-<p>Do not forget, that the service descriptors you created will not be activated automatically. in order to do this, you need to put them into the <code>project-root/config.yml</code>.</p>
+<p>The service descriptors you created will be added to the <code>project-root/config.yml</code> and activated automatically.</p>
 <h4 id="add-new-service-to-the-project-in-bulk-mode">Add new service to the project in bulk mode</h4>
 <p>It is also possible to create more than one service in one step with the <code>rest-tool add-bulk</code> command:</p>
 <pre><code>$ rest-tool add-bulk -h
@@ -362,7 +362,7 @@ These services are executing the CRUD operations on individual resources, and la
 <pre><code>[
   {
     &quot;type&quot;: &quot;COLLECTION&quot;,
-    &quot;path&quot;: &quot;orders&quot;,
+    &quot;path&quot;: &quot;/orders&quot;,
     &quot;uriTemplate&quot;: &quot;/orders&quot;,
     &quot;name&quot;: &quot;Orders&quot;,
     &quot;description&quot;: &quot;Order collection management&quot;,
@@ -372,7 +372,7 @@ These services are executing the CRUD operations on individual resources, and la
   },
   {
     &quot;type&quot;: &quot;RESOURCE&quot;,
-    &quot;path&quot;: &quot;orders/order&quot;,
+    &quot;path&quot;: &quot;/orders/order&quot;,
     &quot;uriTemplate&quot;: &quot;/orders/order&quot;,
     &quot;name&quot;: &quot;Order&quot;,
     &quot;description&quot;: &quot;Order management&quot;,
@@ -382,7 +382,7 @@ These services are executing the CRUD operations on individual resources, and la
   },
   {
     &quot;type&quot;: &quot;OPERATION&quot;,
-    &quot;path&quot;: &quot;filterOrders&quot;,
+    &quot;path&quot;: &quot;/filterOrders&quot;,
     &quot;uriTemplate&quot;: &quot;/filterOrders&quot;,
     &quot;name&quot;: &quot;Complex order filtering&quot;,
     &quot;description&quot;: &quot;Complex filtering of orders collection&quot;,
@@ -393,14 +393,14 @@ These services are executing the CRUD operations on individual resources, and la
 ]
 </code></pre><p>If the JSON content listed above is stored into a file named <code>services.json</code>, it can be used with the following command:</p>
 <pre><code>$ rest-tool add-bulk -s services.json
-</code></pre><p>Similar to the normal <code>add</code> command, the newly created services must be added to the <code>project-root/config.yml</code> file, in order to be activated.</p>
+</code></pre><p>Similar to the normal <code>add</code> command, the newly created services will be added to the <code>project-root/config.yml</code> file.</p>
 <h3 id="configure-the-services">Configure the services</h3>
-<p>The service descriptors you create will not be activated automatically. You have to manually list them under the <code>services</code> property of the <code>config.yml</code> file:</p>
+<p>The service descriptors you create will be activated automatically, and they are listed under the <code>services</code> property of the <code>config.yml</code> file:</p>
 <pre><code>services:
     - /monitoring/isAlive
     # To add new services, put here the path of the directory
     # that contains the service.yml
-</code></pre><p>This way, you can write your new services until they will be stable enough to activate them, and they will be loaded and start working only if you have added them to the config file.</p>
+</code></pre><p>In case you want to disable a given service, you only have to comment that line out, or simply you can just remove it.</p>
 <h3 id="create-mock-data">Create mock data</h3>
 <p>Just simply put any files beside the <code>service.yml</code> and refer to them using the <code>mockBody</code> fields in the service descriptor.</p>
 <h3 id="validation">Validation</h3>

@@ -24,7 +24,7 @@
     var readConfig = function( fileName ) {
         if (verbose) console.log('Read configuration from ' + fileName);
         var pathSep = require('path').sep;
-        var inFileName = process.cwd() + pathSep + fileName;
+        var inFileName = path.resolve(fileName); //process.cwd() + pathSep + fileName;
         var config = require( inFileName );
         // TODO: validate config
         return config;
@@ -88,7 +88,7 @@
                             name: options.name,
                             uriTemplate: options.uriTemplate,
                             description: options.desc
-                        }, readConfig(options.config), verbose);
+                        }, readConfig(options.config), options.config, verbose);
                     } catch (error) {
                         console.log('ERROR: ', error.message);
                     }
@@ -112,7 +112,7 @@
                         var bulkServicesPath = path.resolve(options.services);
                         var bulkServices = require(bulkServicesPath);
                         require('../serviceGen.js').bulkAdd(
-                            bulkServices, readConfig(options.config), verbose);
+                            bulkServices, readConfig(options.config), options.config, verbose);
                     } catch (error) {
                         console.log('ERROR: ', error.message);
                     }

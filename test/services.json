@@ -1,7 +1,7 @@
 [
   {
     "type": "COLLECTION",
-    "path": "orders",
+    "path": "/orders",
     "uriTemplate": "/orders",
     "name": "Orders",
     "description": "Order collection management",
@@ -11,7 +11,7 @@
   },
   {
     "type": "RESOURCE",
-    "path": "orders/order",
+    "path": "/orders/order",
     "uriTemplate": "/orders/order",
     "name": "Order",
     "description": "Order management",
@@ -21,7 +21,7 @@
   },
   {
     "type": "OPERATION",
-    "path": "filterOrders",
+    "path": "/filterOrders",
     "uriTemplate": "/filterOrders",
     "name": "Complex order filtering",
     "description": "Complex filtering of orders collection",
@@ -39,5 +39,5 @@
       "GET",
       "POST"
     ]
-  },
+  }
 ]

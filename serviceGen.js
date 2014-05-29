@@ -4,8 +4,10 @@
 
 var mu = require('mu2'),
     fs = require('fs'),
+    path = require('path'),
     generator = require('rest-tool-common').generator,
     extend = require('rest-tool-common').extend;
+var jsyaml = require( 'js-yaml' );
 var verbose = false;
 
 var capitalizeFirstLetter = function(string)
@@ -20,6 +22,21 @@ var extendConfig = function(serviceConfig) {
     return serviceConfig;
 };
 
+var updateProjectConfig = function(serviceConfig, projectConfig, configFileName) {
+    var pathFound = projectConfig.services.some(function(servicePath) {
+        if (servicePath === serviceConfig.path) {
+            return true;
+        }
+    });
+
+    if( ! pathFound ) {
+        projectConfig.services.push(serviceConfig.path);
+    }
+
+    fs.writeFileSync(path.resolve(configFileName),
+        jsyaml.dump(projectConfig, {indent: 4}));
+};
+
 /**
  * Add a new service descriptor to the project
  * @param  {Object} serviceConfig   Configuration parameters of the new service
@@ -27,7 +44,7 @@ var extendConfig = function(serviceConfig) {
  * @param  {bool} verbose           Work in verbose mode if `true`
  * @return {bool}                   `true` if succesfully executed, `false` otherwise
  */
-exports.add = function( serviceConfig, projectConfig, mode ) {
+exports.add = function( serviceConfig, projectConfig, configFileName, mode ) {
     verbose = mode;
     var path = require('path'),
         pathSep = path.sep,
@@ -73,9 +90,10 @@ exports.add = function( serviceConfig, projectConfig, mode ) {
             });
         });
     }
+    updateProjectConfig(serviceConfig, projectConfig, configFileName);
 };
 
-exports.bulkAdd = function( bulkServices, projectConfig, mode ) {
+exports.bulkAdd = function( bulkServices, projectConfig, configFileName, mode ) {
     var serviceConfig;
     // console.log('bulk-add ', bulk);
     bulkServices.forEach(function(service) {
@@ -86,7 +104,8 @@ exports.bulkAdd = function( bulkServices, projectConfig, mode ) {
             uriTemplate: service.uriTemplate,
             description: service.description
         },
-        projectConfig, 
+        projectConfig,
+        configFileName, 
         mode);
     });
 };
