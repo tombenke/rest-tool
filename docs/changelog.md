@@ -1,6 +1,11 @@
+## 0.4.14
+
+- Upgrade to rest-tool-common v0.4.2
+    - Fix: add service command does not create recursively the missing directories
+
 ## 0.4.13
 
-- Upgrade server template to rest-tool-common v0.4.1.
+- Upgrade server template to rest-tool-common v0.4.1
 - Replace urlPattern to uriTemplate in rest-tool.
 - Fix the relative path resolution problem of loading the server/config.js.
 - Add test case and sample code for add-bulk command.

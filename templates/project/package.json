@@ -11,7 +11,7 @@
   "dependencies": {
     "should": "latest",
     "superagent": "0.15.x",
-    "rest-tool-common": "0.4.1",
+    "rest-tool-common": "0.4.2",
     "mu2": "latest",
     "mocha": "latest",
     "jayschema": "0.2.x",

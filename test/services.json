@@ -28,5 +28,16 @@
     "methods": [
       "POST"
     ]
-  }
+  },
+  {
+    "type": "COLLECTION",
+    "path": "/pmo/projects",
+    "uriTemplate": "/projects",
+    "name": "Projects",
+    "description": "Projects",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
 ]

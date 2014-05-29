@@ -28,7 +28,7 @@
     "commander": "2.0.0",
     "wrench": "1.5.6",
     "proper": "0.5.0",
-    "rest-tool-common": "0.4.1",
+    "rest-tool-common": "0.4.2",
     "js-yaml": "2.1.0",
     "should": "3.1.2",
     "mu2": "0.5.20",
