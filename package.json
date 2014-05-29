@@ -1,7 +1,7 @@
 {
   "name": "rest-tool",
   "description": "A tool to document emulate and test RESTful APIs.",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "tags": [
     "rest",
     "restful",
