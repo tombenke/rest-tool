@@ -79,14 +79,77 @@ docs
     ├── ie.css
     ├── print.css
     └── screen.css
-</code></pre><p>The generated documentation can be opened with a browser either as a static content 
-opening the <code>docs/index.html</code> or through the server using the <code>http://localhost:3007/docs/</code> URL.</p>
+</code></pre><p>The generated documentation can be opened with a browser either as a static content opening the <code>docs/index.html</code> or through the server using the <code>http://localhost:3007/docs/index.html</code> URL.</p>
+<p>A mock server implementation (<code>server/server.js</code>) contains the following middleware: </p>
+<pre><code>...
+server.use( &#39;/docs&#39;, express.static( __dirname + &#39;/&#39; + &#39;../docs&#39; ) );
+...
+</code></pre><p>Which allows the server to provide the documentation pages through the <code>/docs</code> URL prefix.</p>
+<p>The intention with the links in the generated HTML pages was to make it possible to access to them both statically and through the mock server. So the documentation pages refer to each other via the <code>../docs</code> prefix, which is satisfying for both the <code>file://</code> and <code>http://</code> way of retrieving. However it might be uncomfortable if you want to provide them through a third party server (tomcat, apache, etc.) or a static file-server.</p>
+<p>In this latter case, you can eliminate the <code>../docs</code> prefix from the service links, modifying the <code>project-root/templates/docs/servicesMenu.html</code> template file.</p>
+<pre><code>&lt;!-- Begin ServicesMenu --&gt;
+&lt;div id=&quot;servicesMenu&quot;&gt;
+    &lt;div class=&quot;&quot;&gt;Services:&lt;/div&gt;
+    &lt;ul&gt;
+    {{#serviceDocNames}}
+        &lt;li&gt;&lt;a href=&quot;../docs/{{relPath}}{{docFileName}}&quot;&gt;{{name}}&lt;/a&gt;&lt;/li&gt;
+    {{/serviceDocNames}}
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- End of ServicesMenu --&gt;
+</code></pre><p>The following section describes the customization a bit deeper.</p>
 <h3 id="customize-the-generated-documentation">Customize the generated documentation</h3>
-<p>TBD.</p>
+<p>The documentation  generation process is made of the following steps:</p>
+<ol>
+<li><code>service.yml</code> files are loaded.</li>
+<li>An empty <code>docs</code> folder is (re)created.</li>
+<li>The look-and-feel related files are copied into it from the <code>templates/docs</code> folder.</li>
+<li>The whole <code>services</code> folder are also copied out to the <code>docs</code> folder.</li>
+<li>Generate a <code>service.html</code> beside the corresponding <code>service.yml</code> using its content.</li>
+<li>Generate the <code>docs/index.html</code> file.</li>
+</ol>
+<p>To generate the <code>index.html</code> and the individual <code>service.html</code> files, the <code>rest-tool</code> is using <a href="https://github.com/raycmorgan/Mu">mustache</a> templates, which are situated in the <code>templates/docs</code> folder. The templates are decomposed into partials, in order to make it easier to maintain and customize.</p>
+<p>Each <code>service.html</code> is build from the following template/partial structure:</p>
+<pre><code>restapi.html
+    &gt; service.html
+        #methodList
+            &gt; method.html
+                &gt; request.html
+                    &gt; headers.html
+                    &gt; cookies.html
+
+                &gt; responses.html
+                    #responses
+                        &gt; headers.html
+                        &gt; cookies.html
+                    /responses
+
+                &gt; testCases.html
+                    #request
+                        &gt; headers.html
+                        &gt; cookies.html
+                    /request
+
+                    #response
+                        &gt; headers.html
+                        &gt; cookies.html
+                    /response
+
+        /methodList
+
+    &gt; servicesMenu.html
+    &gt; footer.html
+</code></pre><p>The pages are using some simple JavaScript to expand and collapse the details of the services. You should modify the original files under the <code>docs/js</code> in case of necessity.</p>
+<p>If you want to change the stylesheets of the generated documentation of the API, you will also need:</p>
 <ul>
-<li>structure</li>
-<li>look-and-feel</li>
+<li><a href="http://sass-lang.com/">Sass</a>, and</li>
+<li><a href="http://compass-style.org/">Compass</a>.</li>
 </ul>
+<p>To change the CSS you most probably need to modify the <code>templates/docs/sass/partials/_base.scss</code>, then you have to compile it, to refresh the CSS files under the <code>templates/docs/stylesheets</code> folder:</p>
+<pre><code>$ cd templates/docs/
+$ compass compile
+</code></pre><p>The images referred by the pages or the stylesheet shoud be put into the <code>templates/docs/images</code> folder.</p>
+<p>All the JavaScript files, images and CSS files will be copied into the (re)generated documentation with the next execution of <code>rest-tool docs --update</code> command.</p>
 
         </div>
       </div>

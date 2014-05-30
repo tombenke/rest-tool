@@ -60,7 +60,6 @@ var initDocsFolder = function(context, mode) {
 };
 
 var generateDocFileName = function (serviceDesc) {
-    // return serviceDesc.name.toLowerCase().replace(/ /g, "_") + '.html';
     console.log('generateDocFileName: ', serviceDesc.contentPath + '/service.html');
     return serviceDesc.contentPath + '/service.html';
 };

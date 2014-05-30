@@ -370,7 +370,7 @@ To add one service, you can use the `rest-tool add` command:
 For example, to create a collection manager service, execute the following command:
 
     $ rest-tool add -t COLLECTION \
-        -p customers \
+        -p /customers \
         -u /customers \
         -n Customers \
         -d "A service to manage the collection of customers"

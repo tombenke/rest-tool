@@ -1,3 +1,10 @@
+## 0.4.15
+
+- Write some docs about how to customize the generated documentation.
+- Fix: docs/index.html missing 'docs' at the beginning of url-path ~line 28 #1
+  add '../docs' prefix to the links in the generated documentation files in the
+  templates/docs/servicesMenu.html.
+
 ## 0.4.14
 
 - 'add' and 'add-bulk' commands automatically register the newly created services into the config.yml
