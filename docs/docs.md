@@ -114,7 +114,10 @@ Each `service.html` is build from the following template/partial structure:
         > servicesMenu.html
         > footer.html
 
-The pages are using some simple JavaScript to expand and collapse the details of the services. You should modify the original files under the `docs/js` in case of necessity.
+
+Each template got the corresponding service description to expose. Before exposing the service descriptors via the templates, the rest-tool pre-processes all those properties of the descriptor, which are named `description`, `summary` or `details`. It takes them as markdown format text fields and converts them onto HTML.
+
+The resulted HTML pages are using some simple JavaScript to expand and collapse the details of the services. You should modify the original files under the `docs/js` in case of necessity.
 
 If you want to change the stylesheets of the generated documentation of the API, you will also need:
 
