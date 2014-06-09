@@ -61,6 +61,7 @@ exports.create = function (context, mode) {
             "server/Readme.md",
             "server/api.js",
             "server/server.js",
+            "server/proxy.js",
             "server/config.js",
             "server/config.yml",
             "server/monitoring.js",

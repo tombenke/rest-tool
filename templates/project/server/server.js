@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*jshint node: true */
 "use strict";
 
@@ -8,8 +9,7 @@ var request = require( 'request' );
 var api = require('./api.js');
 var monitoring = require('./monitoring.js');
 var services = require('rest-tool-common').services;
-var httpProxy = require('http-proxy');
-var proxy = new httpProxy.RoutingProxy();
+var proxy = require('./proxy');
 
 // Get configured
 var config = {};
@@ -28,26 +28,12 @@ var allServices = services.getServices();
 var servicesConfig = services.getConfig();
 // console.log('rest-tool config:', servicesConfig);
 
-function apiProxy(host, port) {
-    return function (req, res, next) {
-        // console.log('apiProxy called to ' + req.host + ' ' + req.ip);
-        if ((req.url.match(new RegExp('^' + servicesConfig.serviceUrlPrefix.replace(/\//gi, '\\/') + '\\/')) ) &&
-            config.useRemoteServices) {
-            console.log('forwarding ' + req.method + ' ' + req.url + ' request to ' + req.method + ' ' + host + ':' + port + req.url + '  from '+ req.host + ' - ' + req.ip);
-            var proxyBuffer = httpProxy.buffer(req);
-            proxy.proxyRequest(req, res, {host: host, port: port, buffer: proxyBuffer});
-        } else {
-            next();
-        }
-    };
-}
-
 var server = module.exports = express();
 server.set('env', config.environment );
 
 // Configure the middlewares
 server.configure( function() {
-        server.use( apiProxy(config.remoteHost, config.remotePort) );
+        server.use( proxy(servicesConfig.serviceUrlPrefix, config.remoteServices) );
         server.use( express.bodyParser() );
         server.use( express.methodOverride() );
         server.use( express.cookieParser() );

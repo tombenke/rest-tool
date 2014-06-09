@@ -54,7 +54,7 @@ In a newly created API project the server is configured to work immediately. The
         documentRoot: .
         port: 3007
         restapiRoot: ..
-        useRemoteServices: false
+        remoteServices: []
 
       # Override the default config parameters
       # with values specific to the development environment
@@ -66,9 +66,17 @@ In a newly created API project the server is configured to work immediately. The
       devProxy:
         port: 3006
         documentRoot: ../webui
-        useRemoteServices: true
-        remoteHost: localhost
-        remotePort: 3008
+        remoteServices:
+          -
+            uri: /monitoring
+            active: true
+            host: localhost
+            port: 3007
+          -
+            uri: /*
+            active: true
+            host: localhost
+            port: 3008
 
       # production environment specific values
       production:
@@ -98,19 +106,27 @@ An environment usually has the following configuration properties:
   Path of the project root folder. server needs this in order to be able to access to the service descriptions and mock data files.
   For example: ..
 
-- __useRemoteServices:__
+- __remoteServices:__
+  _(Array)_  
+  An array of server-side forwarding rules used by the proxy middleware. If the proxy middleware is used, it iterates through this array, and try to match the requested URI with the `uri` property of each item of this array. Each rule contains the following properties: __active__, __uri__, __host__ and __port__ respectively. These properties are described below. The itema are matched in order, and the first matching `uri` will be used. If none of the `uri` is matching, then no forwarding happens.
+
+- __uri:__
   _(boolean)_  
-  If true, the server acts as a proxy server, and forwards the service requests to a remote host. It is false by default.
+  A regular expression which fully or partially matches an existing service defined under the `services` folder. For example: `/monitoring/isAlive` identifies exactly one service. `/monitoring/*` stands for any service starting with `/monitoring/`. `/*` means _all services_.
+
+- __active:__
+  _(boolean)_  
+  If true, the server acts as a proxy server, and forwards the service requests to a remote host.
   For example:  false
 
-- __remoteHost:__
+- __host:__
   _(string)_  
-  The host name of the remote host. Used only if the server is in proxy mode (`useRemoteServices: true`).
+  The host name of the remote host. Used only if the server is in proxy mode with the given service (`uri` matches and `active: true`).
   For example: localhost
 
-- __remotePort:__
+- __port:__
   _(integer)_  
-  The port of remote host. Used only if the server is in proxy mode (`useRemoteServices: true`).
+  The port of remote host. Used only if the server is in proxy mode with the given service (`uri` matches and `active: true`).
   For example: 3008
 
 Beside the parameters listed above, you can add further ones to the config file, if you want to extend the functionalities of the server.
@@ -132,23 +148,7 @@ If you want to start the server with an other configuration (`devProxy` for exam
 
     $ node server/server.js devProxy
 
-    { documentRoot: '../webui',
-      port: 3006,
-      restapiRoot: '..',
-      useRemoteServices: true,
-      environment: 'devProxy',
-      remoteHost: 'localhost',
-      remotePort: 3008 }
-    restapi config: { projectName: 'crm-api',
-      apiVersion: 'v0.0.0',
-      author: 'TBD.',
-      licence: 'TBD.',
-      serviceUrlPrefix: '/rest',
-      servicePort: 3007,
-      baseUrl: 'http://localhost:3007/rest',
-      servicesRoot: 'services',
-      services: [ '/monitoring/isAlive', '/customers' ],
-      loginCredentials: { user: 'username', pass: 'password' } }
+
     register service GET /monitoring/isAlive
     /monitoring/isAlive
     register service GET /customers
@@ -165,7 +165,7 @@ The following code fragment shows how the middle-ware is configured for the mock
 
     // Configure the middle-wares
     server.configure( function() {
-            server.use( apiProxy(config.remoteHost, config.remotePort) );
+            server.use( proxy(servicesConfig.serviceUrlPrefix, config.remoteServices) );
             server.use( express.bodyParser() );
             server.use( express.methodOverride() );
             server.use( express.cookieParser() );
@@ -178,8 +178,8 @@ The following code fragment shows how the middle-ware is configured for the mock
         });
 
 The order of processing is the following:
-1. `server.use(apiProxy(config.remoteHost, config.remotePort));`  
-   If the `useRemoteServices` config parameter is `true` then catches every incoming call, and check the URL prefix. If it matches to the `serviceUrlPrefix` config parameter, then forwards the request to the `remoteHost:remotePort`. In other words, every service call is proxied to the remote server, but the other URLs are not.
+1. `server.use(proxy(servicesConfig.serviceUrlPrefix, config.remoteServices));`  
+   The middleware catches every incoming call, and check the URL prefix with the requested URL against each item in the `config.remoteServices` array. If any one of them is matching, and the proxying is activated with that matching `uri`, then forwards the request to the `remoteService.host:remoteService.port`. In other words, every matching service call is proxied to the remote server.
 2. `server.use(server.router);`  
    This is the next level of processing in order. When the server starts, it loads and registers all the services to the `server.router`, so  in this phase the service are provided on the normal way, if the proxy is not enabled.
 3. `server.use('/data', express.static(__dirname + '/' + '../data'));`  
@@ -266,3 +266,7 @@ However one of the advantages of using __rest-tool__ is to let the development t
 In such situations you need your independent front-end environment as well as you should be able to connect to the real implementation instead of the mock server. For security reasons, in such cases you usually should deploy your front-end to the application server, that can be rather time consuming. This is the case, when the proxy comes into the picture. You can continue using your mock server as static content provider, to load your front-end application, but you can switch on its proxy function to forward the service calls to a remote server, that is the application server your front-end should be tested with.
 
 In order to use this feature, create a configuration of the server (according to the [The mock server configuration](server.html#the-mock-server-configuration) section) to enable the proxy function that forwards the requests to the test application server, and continue using the mock to provide its static content that you have been used so far for development. This way, you can connect to the real, or test application server without the long-lasting deployment process, and easily switch back and forth between the mock and the other back-end implementation.
+
+Using an array of forwarding rules, it is possible to proxy different services toward differend servers. For example you can use the original mock server to provide the frontend code under development provided as static content directly by the mock server. Then you an also provide some basic REST services also by the mock server (`/monitoring/isAlive`, etc.). At the same time you can add some rules to forward the REST calls to an other Node.js, PHP or JEE backend server. Moreover you can add an other proxy rule to forward REST calls to a third party messaging middleware (RabbitMQ, HornetQ, etc.).
+
+You can individually enable/disable the forwarding of each service call, using the `active` field in the configuration. This way, you can first use the mock services, until the final implementation gets ready to use. Then you can switch out to the real backend service one-by-one.

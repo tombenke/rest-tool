@@ -1,3 +1,10 @@
+## 0.5.0
+
+- Change the proxy feature of the mock server:
+  Replace `useRemoteServices` with `remoteServices` array of service patterns.
+  The new feature allows to enable/disable the proxying of any service towards
+  different remote servers/ports.
+
 ## 0.4.15
 
 - Write some docs about how to customize the generated documentation.
