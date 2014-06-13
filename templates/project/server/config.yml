@@ -23,6 +23,11 @@ environments:
   devProxy:
     port: 3006
     documentRoot: ../webui
+    proxyException:
+      active: true
+      urlPrefixList:
+        - /monitoring/isAlive
+        - /monitnnoring/isAlive
     remoteServices:
       -
         uri: /*

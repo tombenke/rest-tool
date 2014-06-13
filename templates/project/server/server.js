@@ -33,8 +33,10 @@ server.set('env', config.environment );
 
 // Configure the middlewares
 server.configure( function() {
-        server.use( proxy(servicesConfig.serviceUrlPrefix, config.remoteServices) );
+        server.use( proxy(servicesConfig.serviceUrlPrefix, config.remoteServices, config.proxyException) );
         server.use( express.bodyParser() );
+        server.use( express.compress() );
+        server.use( express.responseTime() );
         server.use( express.methodOverride() );
         server.use( express.cookieParser() );
         server.use( express.session( {secret: 'keyboard cat'} ) );
