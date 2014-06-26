@@ -27,7 +27,7 @@ environments:
       active: true
       urlPrefixList:
         - /monitoring/isAlive
-        - /monitnnoring/isAlive
+        - /Flight/legs/.*/closeLeg
     remoteServices:
       -
         uri: /*
