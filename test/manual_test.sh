@@ -19,11 +19,7 @@ To test the rest-tool installed globally execute the following steps:
 
 2. Execute the following command:
 
-   <path-to-test-script>/manual_test.sh
-
-for example:
-
-   ~/rest-tool/test/manual_test.sh
+   rest-tool-manual_test
 
 3. See the results, which should be something like:
 

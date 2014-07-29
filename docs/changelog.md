@@ -1,3 +1,7 @@
+## 0.5.2
+
+- Fine tuning the help text to manual_test.sh script.
+
 ## 0.5.1
 
 - Add `proxyException` url patterns to environments.
