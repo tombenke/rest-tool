@@ -96,7 +96,8 @@ environments:
     port: 3007
     documentRoot: ../webui
 
-  # development environment with proxying the &#39;serviceUrlPrefix&#39; requests to the local host
+  # A development environment with proxying 
+  # the &#39;serviceUrlPrefix&#39; requests to the local host
   devProxy:
     port: 3006
     documentRoot: ../webui
@@ -106,6 +107,26 @@ environments:
         active: true
         host: localhost
         port: 3007
+      -
+        uri: /*
+        active: true
+        host: localhost
+        port: 3008
+
+  # A second development environment with proxying the 
+  # &#39;serviceUrlPrefix&#39; requests also to the local host
+  # but with some exceptions.
+  devProxyWithExceptions:
+    port: 3006
+    documentRoot: ../webui
+
+    proxyException:
+      active: true
+      urlPrefixList:
+        - /monitoring/isAlive
+        - /Flight/legs/.*/closeLeg
+
+    remoteServices:
       -
         uri: /*
         active: true
@@ -122,8 +143,9 @@ environments:
 <p>An environment usually has the following configuration properties:</p>
 <ul>
 <li><p><strong>documentRoot:</strong>
-(string)
+(string | Array)
 Defines the path to the folder, which is used as the document root to the static content provided by the server. This content can be anything: static HTML pages, Fontend JavaScript application (Backbone, ExtJs, etc.), or anything.
+This parameter can be an individual string or an array of strings.
 For example: ../webui</p>
 </li>
 <li><p><strong>port:</strong>
@@ -135,8 +157,8 @@ For example: 3007</p>
 For example: ..</p>
 </li>
 <li><p><strong>remoteServices:</strong>
-<em>(Array)</em><br>An array of server-side forwarding rules used by the proxy middleware. If the proxy middleware is used, it iterates through this array, and try to match the requested URI with the <code>uri</code> property of each item of this array. Each rule contains the following properties: <strong>active</strong>, <strong>uri</strong>, <strong>host</strong> and <strong>port</strong> respectively. These properties are described below. The itema are matched in order, and the first matching <code>uri</code> will be used. If none of the <code>uri</code> is matching, then no forwarding happens.</p>
-</li>
+<em>(Array)</em><br>An array of server-side forwarding rules used by the proxy middleware. If the proxy middleware is used, it iterates through this array, and try to match the requested URI with the <code>uri</code> property of each item of this array. Each rule contains the following properties: <strong>active</strong>, <strong>uri</strong>, <strong>host</strong> and <strong>port</strong> respectively. These properties are described below. The items are matched in order, and the first matching <code>uri</code> will be used. If none of the <code>uri</code> is matching, then no forwarding happens.</p>
+<ul>
 <li><p><strong>uri:</strong>
 <em>(boolean)</em><br>A regular expression which fully or partially matches an existing service defined under the <code>services</code> folder. For example: <code>/monitoring/isAlive</code> identifies exactly one service. <code>/monitoring/*</code> stands for any service starting with <code>/monitoring/</code>. <code>/*</code> means <em>all services</em>.</p>
 </li>
@@ -151,6 +173,21 @@ For example: localhost</p>
 <li><p><strong>port:</strong>
 <em>(integer)</em><br>The port of remote host. Used only if the server is in proxy mode with the given service (<code>uri</code> matches and <code>active: true</code>).
 For example: 3008</p>
+</li>
+</ul>
+</li>
+<li><p><strong>proxyException</strong>:
+<em>(Array)</em><br>Defines exceptions of remote services which should NOT be proxied.</p>
+<ul>
+<li><p><strong>active:</strong>
+<em>(boolean)</em><br>If true, the exception rules are active. Default value is: false.
+For example: true</p>
+</li>
+<li><p><strong>urlPrefixList:</strong>
+<em>(Array)</em><br>Provides <code>uri</code> patterns to match against requests, which should not by proxied.
+Example items: <code>/monitoring/isAlive</code>, <code>/Flight/legs/.*/closeLeg</code>.</p>
+</li>
+</ul>
 </li>
 </ul>
 <p>Beside the parameters listed above, you can add further ones to the config file, if you want to extend the functionalities of the server.</p>
@@ -256,8 +293,10 @@ var server = require(&#39;./server.js&#39;);
 <p>However one of the advantages of using <strong>rest-tool</strong> is to let the development teams working parallel with each other, you have to integrate your front-end with the back-end, for several reasons, but the most obvious one is, to see how the two parts work together, and do bug-fixing.</p>
 <p>In such situations you need your independent front-end environment as well as you should be able to connect to the real implementation instead of the mock server. For security reasons, in such cases you usually should deploy your front-end to the application server, that can be rather time consuming. This is the case, when the proxy comes into the picture. You can continue using your mock server as static content provider, to load your front-end application, but you can switch on its proxy function to forward the service calls to a remote server, that is the application server your front-end should be tested with.</p>
 <p>In order to use this feature, create a configuration of the server (according to the <a href="server.html#the-mock-server-configuration">The mock server configuration</a> section) to enable the proxy function that forwards the requests to the test application server, and continue using the mock to provide its static content that you have been used so far for development. This way, you can connect to the real, or test application server without the long-lasting deployment process, and easily switch back and forth between the mock and the other back-end implementation.</p>
-<p>Using an array of forwarding rules, it is possible to proxy different services toward differend servers. For example you can use the original mock server to provide the frontend code under development provided as static content directly by the mock server. Then you an also provide some basic REST services also by the mock server (<code>/monitoring/isAlive</code>, etc.). At the same time you can add some rules to forward the REST calls to an other Node.js, PHP or JEE backend server. Moreover you can add an other proxy rule to forward REST calls to a third party messaging middleware (RabbitMQ, HornetQ, etc.).</p>
+<p>Using an array of forwarding rules, it is possible to proxy different services toward differend servers. For example you can use the original mock server to provide the frontend code under development provided as static content directly by the mock server. Then you can also provide some basic REST services also by the mock server (<code>/monitoring/isAlive</code>, etc.). At the same time you can add some rules to forward the REST calls to an other Node.js, PHP or JEE backend server. Moreover you can add an other proxy rule to forward REST calls to a third party messaging middleware (RabbitMQ, HornetQ, etc.).</p>
 <p>You can individually enable/disable the forwarding of each service call, using the <code>active</code> field in the configuration. This way, you can first use the mock services, until the final implementation gets ready to use. Then you can switch out to the real backend service one-by-one.</p>
+<p>In some cases it is not easy to control the proxy-ing of individual services under development, meanwhile we want to forward all the other requests to a remote server.
+For such cases you can use the <code>proxyException</code> patterns. This is a different approach. Here you can allow the remote services in general, and add the exceptions one-by-one to the <code>proxyException</code> list.</p>
 
         </div>
       </div>

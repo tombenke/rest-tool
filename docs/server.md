@@ -62,7 +62,8 @@ In a newly created API project the server is configured to work immediately. The
         port: 3007
         documentRoot: ../webui
 
-      # development environment with proxying the 'serviceUrlPrefix' requests to the local host
+      # A development environment with proxying 
+      # the 'serviceUrlPrefix' requests to the local host
       devProxy:
         port: 3006
         documentRoot: ../webui
@@ -72,6 +73,26 @@ In a newly created API project the server is configured to work immediately. The
             active: true
             host: localhost
             port: 3007
+          -
+            uri: /*
+            active: true
+            host: localhost
+            port: 3008
+  
+      # A second development environment with proxying the 
+      # 'serviceUrlPrefix' requests also to the local host
+      # but with some exceptions.
+      devProxyWithExceptions:
+        port: 3006
+        documentRoot: ../webui
+
+        proxyException:
+          active: true
+          urlPrefixList:
+            - /monitoring/isAlive
+            - /Flight/legs/.*/closeLeg
+
+        remoteServices:
           -
             uri: /*
             active: true
@@ -92,8 +113,9 @@ The `useEnvironment` tells the server that which environment should be used by d
 An environment usually has the following configuration properties:
 
 - __documentRoot:__
-  (string)
+  (string | Array)
   Defines the path to the folder, which is used as the document root to the static content provided by the server. This content can be anything: static HTML pages, Fontend JavaScript application (Backbone, ExtJs, etc.), or anything.
+  This parameter can be an individual string or an array of strings.
   For example: ../webui
 
 - __port:__
@@ -108,26 +130,40 @@ An environment usually has the following configuration properties:
 
 - __remoteServices:__
   _(Array)_  
-  An array of server-side forwarding rules used by the proxy middleware. If the proxy middleware is used, it iterates through this array, and try to match the requested URI with the `uri` property of each item of this array. Each rule contains the following properties: __active__, __uri__, __host__ and __port__ respectively. These properties are described below. The itema are matched in order, and the first matching `uri` will be used. If none of the `uri` is matching, then no forwarding happens.
+  An array of server-side forwarding rules used by the proxy middleware. If the proxy middleware is used, it iterates through this array, and try to match the requested URI with the `uri` property of each item of this array. Each rule contains the following properties: __active__, __uri__, __host__ and __port__ respectively. These properties are described below. The items are matched in order, and the first matching `uri` will be used. If none of the `uri` is matching, then no forwarding happens.
 
-- __uri:__
-  _(boolean)_  
-  A regular expression which fully or partially matches an existing service defined under the `services` folder. For example: `/monitoring/isAlive` identifies exactly one service. `/monitoring/*` stands for any service starting with `/monitoring/`. `/*` means _all services_.
+    - __uri:__
+      _(boolean)_  
+      A regular expression which fully or partially matches an existing service defined under the `services` folder. For example: `/monitoring/isAlive` identifies exactly one service. `/monitoring/*` stands for any service starting with `/monitoring/`. `/*` means _all services_.
 
-- __active:__
-  _(boolean)_  
-  If true, the server acts as a proxy server, and forwards the service requests to a remote host.
-  For example:  false
+    - __active:__
+      _(boolean)_  
+      If true, the server acts as a proxy server, and forwards the service requests to a remote host.
+      For example:  false
 
-- __host:__
-  _(string)_  
-  The host name of the remote host. Used only if the server is in proxy mode with the given service (`uri` matches and `active: true`).
-  For example: localhost
+    - __host:__
+      _(string)_  
+      The host name of the remote host. Used only if the server is in proxy mode with the given service (`uri` matches and `active: true`).
+      For example: localhost
 
-- __port:__
-  _(integer)_  
-  The port of remote host. Used only if the server is in proxy mode with the given service (`uri` matches and `active: true`).
-  For example: 3008
+    - __port:__
+      _(integer)_  
+      The port of remote host. Used only if the server is in proxy mode with the given service (`uri` matches and `active: true`).
+      For example: 3008
+
+- __proxyException__:
+  _(Array)_  
+  Defines exceptions of remote services which should NOT be proxied.
+
+    - __active:__
+      _(boolean)_  
+      If true, the exception rules are active. Default value is: false.
+      For example: true
+
+    - __urlPrefixList:__
+      _(Array)_  
+      Provides `uri` patterns to match against requests, which should not by proxied.
+      Example items: `/monitoring/isAlive`, `/Flight/legs/.*/closeLeg`.
 
 Beside the parameters listed above, you can add further ones to the config file, if you want to extend the functionalities of the server.
 
@@ -267,6 +303,9 @@ In such situations you need your independent front-end environment as well as yo
 
 In order to use this feature, create a configuration of the server (according to the [The mock server configuration](server.html#the-mock-server-configuration) section) to enable the proxy function that forwards the requests to the test application server, and continue using the mock to provide its static content that you have been used so far for development. This way, you can connect to the real, or test application server without the long-lasting deployment process, and easily switch back and forth between the mock and the other back-end implementation.
 
-Using an array of forwarding rules, it is possible to proxy different services toward differend servers. For example you can use the original mock server to provide the frontend code under development provided as static content directly by the mock server. Then you an also provide some basic REST services also by the mock server (`/monitoring/isAlive`, etc.). At the same time you can add some rules to forward the REST calls to an other Node.js, PHP or JEE backend server. Moreover you can add an other proxy rule to forward REST calls to a third party messaging middleware (RabbitMQ, HornetQ, etc.).
+Using an array of forwarding rules, it is possible to proxy different services toward differend servers. For example you can use the original mock server to provide the frontend code under development provided as static content directly by the mock server. Then you can also provide some basic REST services also by the mock server (`/monitoring/isAlive`, etc.). At the same time you can add some rules to forward the REST calls to an other Node.js, PHP or JEE backend server. Moreover you can add an other proxy rule to forward REST calls to a third party messaging middleware (RabbitMQ, HornetQ, etc.).
 
 You can individually enable/disable the forwarding of each service call, using the `active` field in the configuration. This way, you can first use the mock services, until the final implementation gets ready to use. Then you can switch out to the real backend service one-by-one.
+
+In some cases it is not easy to control the proxy-ing of individual services under development, meanwhile we want to forward all the other requests to a remote server.
+For such cases you can use the `proxyException` patterns. This is a different approach. Here you can allow the remote services in general, and add the exceptions one-by-one to the `proxyException` list.

@@ -1,3 +1,12 @@
+## 0.5.1
+
+- Add `proxyException` url patterns to environments.
+- Improve `documentRoot` handling.
+- Mock server gzip compressing is switched on by default (server.use(express.compress())).
+- Mock server provides responseTime header by default (server.use(express.responseTime())).
+- Autoformatting source files, tuning whitespaces.
+- Add some help text to manual_test.sh script.
+
 ## 0.5.0
 
 - Change the proxy feature of the mock server:
