@@ -23,6 +23,11 @@ environments:
   devProxy:
     port: 3006
     documentRoot: ../webui
+    proxyException:
+      active: true
+      urlPrefixList:
+        - /monitoring/isAlive
+        - /Flight/legs/.*/closeLeg
     remoteServices:
       -
         uri: /*
