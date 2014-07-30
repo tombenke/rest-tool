@@ -1,6 +1,8 @@
 ## About
 
-rest-tool is simple Node.js module to document, emulate and test RESTful APIs. 
+The 'rest-tool' is simple Node.js module to document, emulate and test RESTful APIs. 
+
+[![NPM](https://nodei.co/npm-dl/rest-tool.png?months=12)](https://nodei.co/npm/rest-tool/)
 
 The main purpose of using 'rest-tool' is to create and maintain a well-defined REST API specification, which provides a solid basis for implementing, mocking and quality assure the RESTful interface.
 
