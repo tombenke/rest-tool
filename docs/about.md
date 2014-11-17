@@ -27,5 +27,3 @@ You can do the following things with `rest-tool`:
 Using the tool the front-end and back-end developers can work concurrently and independently from each other. They can assure that their implementation is fully comply to the REST API specification.
 
 The 'rest-tool' relies on the HTTP protocol specification, and NOT on language specific implementations. You can keep your communicating agents loosely coupled, and fully language agnostic.
-
-
