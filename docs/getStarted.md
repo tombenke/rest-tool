@@ -2,7 +2,7 @@
 
 ## Installation
 
-### Preprequisites:
+### Prerequisites:
 
 `rest-tool` needs [Node.js](http://nodejs.org/) and [NPM](https://npmjs.org/) installed on the machine, before start installing and using it.
 
