@@ -293,6 +293,87 @@ In case you only want to add a couple of simple function, and do not want to bot
         - relevant cookbook examples
  -->
 
+### Change the response status code
+
+By default rest-tool returns with only one response, described in the service.yml that is:
+
+    name: OK
+    statusCode: 200
+
+Each method must have at least one `OK` response. All the other codes listed under the responses provide documentation purposes by default.
+
+In order to decide which (other) code the server should response you have to built some logic into the server, so you have to make a module inside the server folder, and implement the function that the given method will call. You can refer to this method with the 'implementation' property of each method in the `service.yml` file.
+
+Also, you have to `require` the newly created module in the `server/server.js` file.
+
+Below I will explain how can you respond with `400`:
+
+After the creation of a new project, the rest-tool automatically creates a service, that is called `monitoring/isAlive`. You can find its descriptor in the `services/monitoring/isAlive/service.yml`.
+
+This file contains a GET method, and that has an implementation, that is:
+
+    implementation: monitoring.isAlive
+
+So there is an implementation module, under the server folder, that is: `monitoring.js`.
+
+    function isAlive( request, response, serviceDescriptor )
+    {
+        response.header( 'Content-Type', 'application/json' );
+        response.header( 'X-Application-API-Version', 'v0.0.0' );
+
+        response.write( 'true' );
+        response.end( '\n' );
+    };
+
+    exports.isAlive = isAlive;
+
+So, if the server is running, you will get the response of `true` is you call this service:
+
+    $ curl http://localhost:3007/rest/monitoring/isAlive 
+    true
+
+If you want to response a different status-code (400 for example), replace the body of the `isAlive` function with the following code:
+
+    function isAlive( request, response, serviceDescriptor )
+    {
+        response.status(400).send('Bad Request');
+    };
+
+Restart the server, and call again the service. The result will be the following:
+
+    $ curl http://localhost:3007/rest/monitoring/isAlive 
+    Bad Request
+
+To see also the code, call the `curl` with `-v`:
+
+    $ curl http://localhost:3007/rest/monitoring/isAlive -v
+    * About to connect() to localhost port 3007 (#0)
+    *   Trying 127.0.0.1...
+    * connected
+    * Connected to localhost (127.0.0.1) port 3007 (#0)
+    > GET /rest/monitoring/isAlive HTTP/1.1
+    > User-Agent: curl/7.27.0
+    > Host: localhost:3007
+    > Accept: */*
+    > 
+    * additional stuff not fine transfer.c:1037: 0 0
+    * HTTP 1.1 or later with persistent connection, pipelining supported
+    < HTTP/1.1 400 Bad Request
+    < X-Powered-By: Express
+    < Vary: Accept-Encoding
+    < Content-Type: text/html; charset=utf-8
+    < Content-Length: 11
+    < X-Response-Time: 1ms
+    < Set-Cookie: connect.sid=s%3As8tJdvyopZnjRndqPrh1U_Qh.N8Eln3hIcweFei1r6gkVeSr7f%2F3iKV3gxFI4Y44P8qo; Path=/; HttpOnly
+    < Date: Sat, 20 Dec 2014 14:54:30 GMT
+    < Connection: keep-alive
+    < 
+    * Connection #0 to host localhost left intact
+    Bad Request* Closing connection #0
+
+As you can see, the implementation function gets the whole service descriptor as its third parameter. So you can access to any proerty you have defined in the `service.yml`.
+
+
 ### Use the proxy
 
 It is very likely that your server implementation will be written in a different language, not in JavaScript, and developed by an other team. 
