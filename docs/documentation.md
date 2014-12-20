@@ -22,6 +22,7 @@
     - [Use as static mock server](server.html#use-as-static-mock-server)
     - [Use as static content provider](server.html#use-as-static-content-provider)
     - [Implement dynamic mocking behavior](server.html#implement-dynamic-mocking-behavior)
+        - [Change the response status code](server.html#change-the-response-status-code)
     - [Use the proxy](server.html#use-the-proxy)
 - [Documenting the REST API project](docs.html#documenting-the-rest-api-project)
     - [Generate documentation](docs.html#generate-documentation)
