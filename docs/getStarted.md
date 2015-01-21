@@ -225,7 +225,7 @@ opening the `docs/index.html` or through the server using the `http://localhost:
 Create a collection manager service with the following command:
 
     $ rest-tool add -t COLLECTION \
-        -p customers \
+        -p /customers \
         -u /customers \
         -n Customers \
         -d "A service to manage the collection of customers"

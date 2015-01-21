@@ -117,7 +117,7 @@ methods:
     PUT:
         summary: Update a {{cName}}
         notes: Update a {{cName}}
-        implementation: api.put{{cName}}
+        # implementation: api.put{{cName}}
         request:
             parameters:
                 -
