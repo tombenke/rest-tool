@@ -7,7 +7,7 @@ from the source tree.
 
 You can define which rest-tool should the script use via the -p parameter.
 The default is the rest-tool command installed globaly by the npm.
-If you want to test your rest-tool corrently under development, you should define its path with -p.
+If you want to test your rest-tool currently under development, you should define its path with -p.
 
 Note: This utility will create subdirectory under the current working directory.
 So move into a temporary directory, from the rest-tool source,
@@ -19,7 +19,7 @@ To test the rest-tool installed globally execute the following steps:
 
 2. Execute the following command:
 
-   rest-tool-manual_test
+   rest-tool-manual-test
 
 3. See the results, which should be something like:
 

@@ -1,0 +1,10 @@
+- type: COLLECTION
+  path: users
+  name: user profiles
+  uriTemplate: /users
+  desc: Holds all user profiles
+- type: RESOURCE
+  path: users/user
+  name: user profile
+  uriTemplate: /users/user
+  desc: Holds user profile details

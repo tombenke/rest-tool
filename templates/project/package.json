@@ -1,24 +1,28 @@
 {
   "name": "{{projectName}}",
-  "description": " API specification, test cases and mock server for the RESTful services of the CRM project",
-  "version": "0.0.2",
-  "author": "{{author}}",
-  "private": true,
-  "scripts": {
-    "test": "make test"
+  "description": "Specification of the inTime Shadow REST API endpoints",
+  "version": "1.0.0",
+  "tags": [
+    "rest",
+    "rest-api"
+  ],
+  "author": {
+    "name": "{{author}}"
+  },
+  "bugs": {
+    "url": "https://github.com/{{author}}/{{projectName}}/issues"
+  },
+  "homepage": "https://github.com/{{author}}/{{projectName}}",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/{{author}}/{{projectName}}.git"
   },
   "main": "index",
   "dependencies": {
-    "should": "3.1.2",
-    "superagent": "0.15.x",
-    "rest-tool-common": "0.4.2",
-    "mu2": "latest",
-    "mocha": "latest",
-    "jayschema": "0.2.x",
-    "js-yaml": "latest",
-    "express": "3.3.6",
-    "request" : "*",
-    "http-proxy": "0.10.3"
+    "rest-tool-common": "2.0.3"
   },
-  "license": "{{licence}}"
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo No tests defined!"
+  }
 }

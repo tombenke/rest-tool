@@ -1,0 +1,176 @@
+name: {{name}} service
+description: |
+    {{description}}
+style: RESOURCE
+uriTemplate: {{uriTemplate}}
+methods:
+    GET:
+        summary: Get one {{name}}
+        notes: Get one {{name}}
+        # implementation: api.get{{cName}}
+        request:
+            parameters: []
+            cookies: []
+            headers:
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
+        responses:
+            -
+                name: OK
+                statusCode: &OkStatusCode 200
+                reason: &OkReason Successful execution
+                # validationSchema: getResource-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    -
+                        field: Content-Type
+                        content: application/json
+                mockBody: getResource-responseBody.json
+        testCases:
+            -
+                name: Get {{cName}}
+                description: Successfully retrieves one customer
+                url: {{uriTemplate}}
+                template: testGetMethod.js
+                request:
+                    cookies: []
+                    headers:
+                        -
+                            field : "Accept"
+                            content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        -
+                            field: "Accept-Encoding"
+                            content: "gzip, deflate"
+                response:
+                    name: OK
+                    statusCode: *OkStatusCode
+                    reason: *OkReason
+                    cookies: []
+                    headers:
+                        -
+                            field: "Content-Type"
+                            content: "application/json"
+                    # validationSchema: getResource-responseBody-validationSchema.json
+
+    DELETE:
+        summary: Delete a {{cName}}
+        notes: Delete a {{cName}}
+        # implementation: api.delete{{cName}}
+        request:
+            parameters: 
+                -
+                    name: id
+                    kind: QUERY
+                    required: true
+                    type: number
+                    summary: The id of the {{name}} to be deleted
+                    default: 1
+            cookies: []
+            headers:
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
+        responses:
+            -
+                name: OK
+                statusCode: *OkStatusCode
+                reason: *OkReason
+                # validationSchema: deleteResource-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    -
+                        field: Content-Type
+                        content: application/json
+                mockBody: deleteResource-responseBody.json
+        testCases:
+            -
+                name: Delete {{cName}}
+                description: Successfully delete the {{name}}
+                url: {{uriTemplate}}/1
+                template: testDelMethod.js
+                request:
+                    cookies: []
+                    headers:
+                        -
+                            field : "Accept"
+                            content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        -
+                            field: "Accept-Encoding"
+                            content: "gzip, deflate"
+                response:
+                    name: OK
+                    statusCode: *OkStatusCode
+                    reason: *OkReason
+                    cookies: []
+                    headers:
+                        -
+                            field: "Content-Type"
+                            content: "application/json"
+
+    PUT:
+        summary: Update a {{cName}}
+        notes: Update a {{cName}}
+        # implementation: api.put{{cName}}
+        request:
+            parameters:
+                -
+                    name: id
+                    kind: QUERY
+                    required: true
+                    type: number
+                    summary: The id of the {{name}} to be updated
+                    default: 1
+            cookies: []
+            headers:
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
+        responses:
+            -
+                name: OK
+                statusCode: *OkStatusCode
+                reason: *OkReason
+                # validationSchema: putResource-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    -
+                        field: Content-Type
+                        content: application/json
+                mockBody: putResource-responseBody.json
+        testCases:
+            -
+                name: Update {{cName}}
+                description: Succesfully updates a {{name}}
+                url: {{uriTemplate}}/1
+                template: testPutMethod.js
+                request:
+                    cookies: []
+                    headers:
+                        -
+                            field : "Accept"
+                            content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        -
+                            field: "Accept-Encoding"
+                            content: "gzip, deflate"
+                    body: putResource-requestBody.json
+                response:
+                    name: OK
+                    statusCode: *OkStatusCode
+                    reason: *OkReason
+                    cookies: []
+                    headers:
+                        -
+                            field: "Content-Type"
+                            content: "application/json"
+                    body: putResource-responseBody.json
+                    # validationSchema: putResource-responseBody-validationSchema.json

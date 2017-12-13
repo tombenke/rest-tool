@@ -1,0 +1,61 @@
+name: {{name}} service
+description: |
+    {{description}}
+style: OPERATION
+uriTemplate: {{uriTemplate}}
+methods:
+    POST:
+        summary: Execute the {{cName}} operation
+        notes: Execute the {{cName}} operation
+        # implementation: api.post{{cName}}
+        uriTemplate: {{uriTemplate}}
+        request:
+            parameters: []
+            cookies: []
+            headers:
+                -
+                    field: Accept
+                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                -
+                    field: Accept-Encoding
+                    content: "gzip, deflate"
+            mockBody: postOperation-requestBody.json
+        responses:
+            -
+                name: OK
+                statusCode: &OkStatusCode 200
+                reason: &OkReason Successful execution
+                # validationSchema: postOperation-responseBody-validationSchema.json
+                cookies: []
+                headers:
+                    -
+                        field: Content-Type
+                        content: application/json
+                mockBody: postOperation-responseBody.json
+        testCases:
+            -
+                name: Execute the {{cName}} operation
+                description: Execute the {{cName}} operation
+                url: {{uriTemplate}}
+                template: testPostMethod.js
+                request:
+                    cookies: []
+                    headers:
+                        -
+                            field : "Accept"
+                            content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                        -
+                            field: "Accept-Encoding"
+                            content: "gzip, deflate"
+                    body: postOperation-requestBody.json
+                response:
+                    name: OK
+                    statusCode: *OkStatusCode
+                    reason: *OkReason
+                    cookies: []
+                    headers:
+                        -
+                            field: "Content-Type"
+                            content: "application/json"
+                    mockBody: postOperation-responseBody.json
+                    # validationSchema: postOperation-responseBody-validationSchema.json

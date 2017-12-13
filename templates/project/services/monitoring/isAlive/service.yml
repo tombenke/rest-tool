@@ -40,7 +40,7 @@ methods:
                 name: Get Monitoring Is Alive
                 description: Successfully checks if server is alive
                 url: /monitoring/isAlive
-                template: testGetMethod.mustache
+                template: testGetMethod.js
                 request:
                     cookies: []
                     headers:

@@ -1,3 +1,5 @@
+tmp
+coverage
 node_modules
 examples/private
 examples/*/node_modules

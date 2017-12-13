@@ -1,0 +1,84 @@
+
+<!-- Begin Test Cases -->
+<div class="shady-block-container">
+    <div class="block-title">
+        <h4>Test Cases: 
+            {{^testCases}}
+            <span class="notDefined">Not Defined</span>
+            {{/testCases}}
+        </h4>
+    </div>
+    <div id="responses">
+    {{#testCases}}
+
+        <!-- Begin Test Case -->
+        <div class="block-container">
+            <div class="block-title">
+                <h5>{{name}}</h5>
+            </div>
+            <div>
+                <div class="urlFont">{{url}}</div>
+                <p>{{{description}}}</p>
+
+                <!-- Begin Request -->
+                <div class="shady-block-container">
+                    <div class="block-title">
+                        <h4>Request:</4>
+                    </div>
+                    <div id="request">
+                    {{#request}}
+                        <p>
+                            {{#if validationSchema}}
+                            Validation schema: 
+                            <a target="_blank" href="{{../../relPath}}/{{../../contentPath}}/{{validationSchema}}">{{validationSchema}}</a>
+                            <br/>
+                            {{/if}}
+
+                            {{#if mockBody}}
+                            mock body: 
+                            <a target="_blank" href="{{../../relPath}}/{{../../contentPath}}/{{mockBody}}">{{mockBody}}</a>
+                            {{/if}}
+                        </p>
+
+                    {{> headers.html}}
+                    {{> cookies.html}}
+                    {{/request}}
+                    </div>
+                </div>
+                <!-- End of Request -->
+
+                <!-- Begin Response -->
+                <div class="shady-block-container">
+                    <div class="block-title">
+                        <h4>Response:</4>
+                    </div>
+                    <div id="response">
+                    {{#response}}
+                        <p>
+                            {{#if validationSchema}}
+                            Validation schema: 
+                            <a target="_blank" href="{{../../relPath}}/{{../../contentPath}}/{{validationSchema}}">{{validationSchema}}</a>
+                            <br/>
+                            {{/if}}
+
+                            {{#if mockBody}}
+                            mock body: 
+                            <a target="_blank" href="{{../../relPath}}/{{../../contentPath}}/{{mockBody}}">{{mockBody}}</a>
+                            {{/if}}
+                        </p>
+
+                    {{> headers.html}}
+                    {{> cookies.html}}
+                    {{/response}}
+                    </div>
+                </div>
+                <!-- End of Response -->
+            </div>
+
+        </div>
+        <!-- End of Test Case -->
+
+    {{/testCases}}
+    </div>
+</div>
+<!-- End of Test Cases -->

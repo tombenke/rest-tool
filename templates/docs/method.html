@@ -1,0 +1,21 @@
+
+<!-- Begin Method -->
+<div class="block-container">
+    <div id="methodHeader" class="block-title">
+        <div class="methodNameBox">
+            <div class="method {{methodName}}-method">{{methodName}}</div>
+        </div>
+
+        <div class="uriTemplateBox">
+            <div class="uriTemplate">{{uriTemplate}}</div>
+        </div>
+    </div>
+    <div id="method">
+        {{{summary}}}
+        {{{details}}}
+        {{> request.html contentPath=./contentPath relPath=./relPath contentPath=./contentPath }}
+        {{> responses.html contentPath=./contentPath relPath=./relPath contentPath=./contentPath }}
+        {{> testCases.html contentPath=./contentPath relPath=./relPath contentPath=./contentPath }}
+    </div>
+</div>
+<!-- End of Method -->

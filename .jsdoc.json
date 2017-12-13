@@ -1,0 +1,23 @@
+{
+    "opts": {
+       "template": "templates/default",
+        "encoding": "utf8",
+        "destination": "./docs/api/",
+        "recurse": true,
+        "readme": "./README.md"
+    },
+    "sourceType": "module",
+    "source": {
+        "include": [ "./src/" ]
+    },
+    "plugins": ["plugins/markdown"],
+    "markdown": {
+        "hardwrap": true
+    },
+    "templates": {
+        "default": {
+            "outputSourceFiles": false,
+            "includeDate": false
+        }
+    }
+}
