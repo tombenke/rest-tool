@@ -56,7 +56,7 @@ var processProjectTemplates = function processProjectTemplates(context, projectB
 exports.create = function (container, command) {
     var context = _lodash2.default.merge({}, container.config, command.args);
     var projectBaseDir = _path2.default.resolve(context.sourceDir, context.projectName);
-    console.log('Generate the "' + context.projectName + '" REST-API project', context, projectBaseDir);
+    console.log('Generate the "' + context.projectName + '" REST-API project into "' + projectBaseDir + '"');
     initProjectFolder(context, projectBaseDir);
     copyProjectFiles(context, projectBaseDir);
     processProjectTemplates(context, projectBaseDir);

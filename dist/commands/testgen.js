@@ -27,20 +27,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 exports.update = function (container, command) {
     var context = container.config;
-    var overwrite = command.args.overwrite || false;
     console.log('Update test cases or create them, if they are missing.');
-    if (overwrite) {
-        console.log('Overwrite the existing files');
-    } else {
-        console.log('Existing files will not be overwritten');
-    }
 
-    console.log('context: ', context);
     _restToolCommon.services.load(context.sourceDir, context.endpoints);
-    console.log(_restToolCommon.services.getServices());
+    //console.log(services.getServices())
 
     var allTestCases = _restToolCommon.services.getAllTestCases();
-    console.log('All TestCases: ', allTestCases);
+    //console.log('All TestCases: ', allTestCases)
 
     _dgen2.default.createDirectoryTree(context.testsTargetDir, [], false);
     _lodash2.default.map(allTestCases, function (item) {

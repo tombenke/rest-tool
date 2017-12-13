@@ -58,7 +58,6 @@ var makeRelPath = function makeRelPath(path) {
  * @function
  */
 exports.add = function (container, command) {
-    console.log(container, command);
     var context = container.config;
     var serviceConfig = command.args;
     if (serviceConfig.type && serviceConfig.path && serviceConfig.uriTemplate) {
@@ -95,8 +94,7 @@ exports.add = function (container, command) {
  *
  * @function
  */
-exports.bulkAdd = function (container, command) {
-    console.log(container, command);
+exports.addBulk = function (container, command) {
     var context = container.config;
     if (command.args.services) {
         var bulkServicesPath = _path2.default.resolve(command.args.services);

@@ -168,7 +168,7 @@ var parse = function parse(defaults) {
     }, function (argv) {
         results = {
             command: {
-                name: 'bulkAdd',
+                name: 'addBulk',
                 args: {
                     services: argv.services
                 }
@@ -176,8 +176,7 @@ var parse = function parse(defaults) {
             cliConfig: {
                 configFileName: argv.config,
                 sourceDir: argv.sourceDir,
-                endpoints: argv.endpoints,
-                projectName: argv.projectName
+                endpoints: argv.endpoints
             }
         };
     }).command('test', 'Test generator', function (yargs) {
@@ -190,11 +189,11 @@ var parse = function parse(defaults) {
             desc: "The path to the directory which holds the tests templates",
             type: 'string',
             default: defaults.testTemplates
-        }).option("testTargetDir", {
+        }).option("testsTargetDir", {
             alias: "d",
             desc: "The path to the directory which holds the generated result test scripts",
             type: 'string',
-            default: defaults.testTargetDir
+            default: defaults.testsTargetDir
         }).option("sourceDir", {
             alias: "s",
             desc: "The path to the project folder",
@@ -205,11 +204,6 @@ var parse = function parse(defaults) {
             desc: "The relative path to the endpoint descriptors",
             type: 'string',
             default: defaults.endpoints
-        }).option("overwrite", {
-            alias: "o",
-            desc: "If true hten overwrite the existing test scripts",
-            type: 'bool',
-            default: true
         }).demandOption([]);
     }, function (argv) {
         results = {
@@ -221,8 +215,7 @@ var parse = function parse(defaults) {
                 configFileName: argv.config,
                 sourceDir: argv.sourceDir,
                 endpoints: argv.endpoints,
-                overwrite: argv.overwrite,
-                testTargetDir: argv.testsTargetDir,
+                testsTargetDir: argv.testsTargetDir,
                 testTemplates: argv.testsTemplates
             }
         };

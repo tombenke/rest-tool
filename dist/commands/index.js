@@ -8,7 +8,7 @@ var testgen = require('./testgen');
 module.exports = {
     create: prjgen.create,
     add: servicegen.add,
-    bulkAdd: servicegen.bulkAdd,
+    addBulk: servicegen.addBulk,
     test: testgen.update,
     docs: docgen.update
 };

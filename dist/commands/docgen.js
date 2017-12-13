@@ -123,7 +123,7 @@ var generateServiceDoc = function generateServiceDoc(serviceDesc, context) {
  */
 exports.update = function (container, command) {
     var context = container.config;
-    console.log('Generate the HTML format documentation', context);
+    console.log('Generate the HTML format documentation');
     initDocsFolder(context);
 
     // Load service descriptors
