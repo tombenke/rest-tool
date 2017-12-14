@@ -104,7 +104,8 @@ const generateServiceDoc = (serviceDesc, context) => {
  */
 exports.update = (container, command) => {
     const context = container.config
-    console.log('Generate the HTML format documentation')
+    console.log(container.logger)
+    container.logger.log('Generate the HTML format documentation')
     initDocsFolder(context)
 
     // Load service descriptors

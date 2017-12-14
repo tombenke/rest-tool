@@ -3,17 +3,24 @@ import { loadJsonFileSync } from 'datafile'
 
 const execNotDefined = (context, commandArgs) => console.log('executive is not defined')
 
+const makeConfig = (defaults, cliConfig) => {
+    const configFile = _.merge({},
+            defaults.configFileName ? loadJsonFileSync(defaults.configFileName, false) : {},
+            cliConfig.configFileName ? loadJsonFileSync(cliConfig.configFileName, false) : {})
+    const config = _.merge({}, defaults, configFile, cliConfig)
+    return config
+}
+
 module.exports = (defaults, cli, exec, startup=[], shutdown=[]) => {
     const { cliConfig, command } = cli.parse(defaults)
-    const configFile = _.merge({}, loadJsonFileSync(defaults.configFileName, false), loadJsonFileSync(cliConfig.configFileName, false))
-    const config = _.merge({}, defaults, configFile, cliConfig)
     const container = {
-        config: config
+        config: makeConfig(defaults, cliConfig),
+        logger: console
     }
 
     return ({
         start: () => {
-            console.log('app is starting...', config, command.args)
+            console.log('app is starting...', container, command.args)
             //TODO: startup
             const executive = exec[command.name] || execNotDefined
             executive(container, command)

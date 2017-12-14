@@ -44,6 +44,7 @@ describe('docgen', function () {
     };
 
     var docsContainer = {
+        logger: console,
         config: _.merge({}, _config2.default, {
             sourceDir: _path2.default.resolve(testDirectory, testProjectName),
             docsTargetDir: _path2.default.resolve(testDirectory, testProjectName, 'docs')

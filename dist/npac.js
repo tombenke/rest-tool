@@ -28,7 +28,7 @@ module.exports = function (defaults, cli, exec) {
 
     var container = {
         config: makeConfig(defaults, cliConfig),
-        logger: console.log
+        logger: console
     };
 
     return {

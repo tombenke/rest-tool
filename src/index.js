@@ -5,7 +5,7 @@
 import defaults from './config'
 import cli from './cli'
 import commands from './commands/'
-import rome from './rome'
+import npac from './npac'
 
-const app = rome(defaults, cli, commands)
+const app = npac(defaults, cli, commands)
 app.start()

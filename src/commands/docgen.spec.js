@@ -25,6 +25,7 @@ describe('docgen', () => {
     }
 
     const docsContainer = {
+        logger: console,
         config: _.merge({}, defaults, {
             sourceDir: path.resolve(testDirectory, testProjectName),
             docsTargetDir: path.resolve(testDirectory, testProjectName, 'docs')

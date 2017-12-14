@@ -15,11 +15,11 @@ var _commands = require('./commands/');
 
 var _commands2 = _interopRequireDefault(_commands);
 
-var _rome = require('./rome');
+var _npac = require('./npac');
 
-var _rome2 = _interopRequireDefault(_rome);
+var _npac2 = _interopRequireDefault(_npac);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var app = (0, _rome2.default)(_config2.default, _cli2.default, _commands2.default);
+var app = (0, _npac2.default)(_config2.default, _cli2.default, _commands2.default);
 app.start();
