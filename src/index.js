@@ -5,7 +5,15 @@
 import defaults from './config'
 import cli from './cli'
 import commands from './commands/'
-import npac from './npac'
+import app from './index'
 
-const app = npac(defaults, cli, commands)
-app.start()
+const { cliConfig, command } = cli.parse()
+const config = app.makeConfig(defaults, cliConfig, 'configFileName')
+const adapters = [app.mergeConfig(config), commands]
+const jobs = [app.makeCallSync(command)]
+app.start(adapters, jobs)
+
+//import npac from './npac'
+
+//const app = npac(defaults, cli, commands)
+//app.start()

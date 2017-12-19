@@ -15,11 +15,22 @@ var _commands = require('./commands/');
 
 var _commands2 = _interopRequireDefault(_commands);
 
-var _npac = require('./npac');
+var _index = require('./index');
 
-var _npac2 = _interopRequireDefault(_npac);
+var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var app = (0, _npac2.default)(_config2.default, _cli2.default, _commands2.default);
-app.start();
+var _cli$parse = _cli2.default.parse(),
+    cliConfig = _cli$parse.cliConfig,
+    command = _cli$parse.command;
+
+var config = _index2.default.makeConfig(_config2.default, cliConfig, 'configFileName');
+var adapters = [_index2.default.mergeConfig(config), _commands2.default];
+var jobs = [_index2.default.makeCallSync(command)];
+_index2.default.start(adapters, jobs);
+
+//import npac from './npac'
+
+//const app = npac(defaults, cli, commands)
+//app.start()
