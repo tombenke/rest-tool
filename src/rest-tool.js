@@ -4,5 +4,4 @@
 
 import { start } from './index'
 
-console.log('This is rest-tool: ', start)
 start()

@@ -40,7 +40,6 @@ const processProjectTemplates = (context, projectBaseDir) => _.map([
  * @function
  */
 exports.create = (container, args) => {
-    console.log('prjgen.create: ', container, args)
     const context = _.merge({}, container.config, args)
     const projectBaseDir = path.resolve(context.sourceDir, context.projectName)
     console.log(`Generate the "${context.projectName}" REST-API project into "${projectBaseDir}"`)
