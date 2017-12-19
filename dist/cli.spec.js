@@ -29,7 +29,9 @@ describe('cli', function () {
                 name: 'create',
                 args: { projectName: 'newProject', apiVersion: 'v1.0.0', author: 'tombenke' }
             },
-            cliConfig: {}
+            cliConfig: {
+                sourceDir: process.cwd()
+            }
         };
         (0, _chai.expect)(_cli2.default.parse(_config2.default, processArgv)).to.eql(expected);
         done();

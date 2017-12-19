@@ -1,0 +1,7 @@
+# List of files expected to exist after executing the `add` command with wrong or missing parameters
+---
+- /testProject/README.md
+- /testProject/index.js
+- /testProject/package.json
+- /testProject/services/monitoring/isAlive/service.yml
+

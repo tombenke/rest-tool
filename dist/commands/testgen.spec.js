@@ -74,13 +74,14 @@ describe('testgen', function () {
 
     it('tests - with defaults', function (done) {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _index.create)(createContainer, createCommand);
+        (0, _index.create)(createContainer, createCommand.args);
 
         // rest-tool docs --sourceDir ./tmp/testProject/
-        (0, _index.test)(testsContainer, testsCommand);
+        (0, _index.test)(testsContainer, testsCommand.args);
         var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
         console.log('results:', results);
-        (0, _chai.expect)(results).to.eql(['/testProject/README.md', '/testProject/index.js', '/testProject/package.json', '/testProject/services/monitoring/isAlive/service.yml', '/testProject/tests/Get Monitoring Is Alive.js']);
+        var expectedTestsResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedTestsResult.yml');
+        (0, _chai.expect)(results).to.eql(expectedTestsResult);
         done();
     });
 });

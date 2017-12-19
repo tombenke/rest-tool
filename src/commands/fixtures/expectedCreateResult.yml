@@ -1,0 +1,6 @@
+# List of files expected to exist after executing the `create` command
+---
+- /testProject/README.md
+- /testProject/index.js
+- /testProject/package.json
+- /testProject/services/monitoring/isAlive/service.yml

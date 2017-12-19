@@ -60,9 +60,10 @@ describe('prjgen', function () {
             name: 'create',
             args: { projectName: 'testProject', apiVersion: '1.2.3', author: 'testuser' }
         };
-        (0, _prjgen.create)(container, command);
+        (0, _prjgen.create)(container, command.args);
         var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        (0, _chai.expect)(results).to.eql(['/testProject/README.md', '/testProject/index.js', '/testProject/package.json', '/testProject/services/monitoring/isAlive/service.yml']);
+        var expectedCreateResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedCreateResult.yml');
+        (0, _chai.expect)(results).to.eql(expectedCreateResult);
         done();
     });
 });

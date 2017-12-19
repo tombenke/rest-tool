@@ -117,11 +117,11 @@ var generateServiceDoc = function generateServiceDoc(serviceDesc, context) {
  * Generate the HTML format documentation
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} command - Command descriptor object. Describe the name of the command to execute, as well as its arguments.
+ * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
  *
  * @function
  */
-exports.update = function (container, command) {
+exports.update = function (container, args) {
     var context = container.config;
     console.log(container.logger);
     container.logger.log('Generate the HTML format documentation');

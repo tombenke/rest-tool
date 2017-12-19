@@ -19,13 +19,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Update test cases or create them, if they are missing
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} command - Command descriptor object. Describe the name of the command to execute, as well as its arguments.
+ * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
  *
  * @return {bool} - `true` if succesfully executed, `false` otherwise
  *
  * @function
  */
-exports.update = function (container, command) {
+exports.update = function (container, args) {
     var context = container.config;
     console.log('Update test cases or create them, if they are missing.');
 

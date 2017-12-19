@@ -4,6 +4,7 @@ import path from 'path'
 import { expect } from 'chai'
 import * as _ from 'lodash'
 import {
+    loadJsonFileSync,
     mergeJsonFilesSync,
     listFilesSync,
     findFilesSync
@@ -18,7 +19,6 @@ const destCleanup = function(cb) {
     console.log('Remove: ', dest)
     rimraf(dest, cb)
 }
-
 
 describe('prjgen', () => {
 
@@ -42,13 +42,10 @@ describe('prjgen', () => {
             name: 'create',
             args: { projectName: 'testProject', apiVersion: '1.2.3', author: 'testuser' }
         }
-        create(container, command)
+        create(container, command.args)
         const results = findFilesSync(testDirectory, /.*/, true, true)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml' ])
+        const expectedCreateResult = loadJsonFileSync('src/commands/fixtures/expectedCreateResult.yml')
+        expect(results).to.eql(expectedCreateResult)
         done()
     })
 })

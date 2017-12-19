@@ -15,7 +15,9 @@ var parse = function parse(defaults) {
 
     var results = {};
 
-    yargs(processArgv.slice(2)).command('create', 'create a new project', function (yargs) {
+    yargs(processArgv.slice(2))
+    //        .exitProcess(false)
+    .command('create', 'create a new project', function (yargs) {
         return yargs.option('projectName', {
             alias: 'n',
             desc: "The name of the REST API project",
@@ -30,6 +32,11 @@ var parse = function parse(defaults) {
             desc: "The version the REST API project",
             type: 'string',
             default: defaultApiVersion
+        }).option("sourceDir", {
+            alias: "s",
+            desc: "The path to the parent folder of the project",
+            type: 'string',
+            default: defaults.sourceDir
         }).demandOption(['projectName']);
     }, function (argv) {
         results = {
@@ -41,7 +48,9 @@ var parse = function parse(defaults) {
                     author: argv.author
                 }
             },
-            cliConfig: {}
+            cliConfig: {
+                sourceDir: argv.sourceDir
+            }
         };
     }).command('docs', 'Documentation generator', function (yargs) {
         return yargs.option("config", {

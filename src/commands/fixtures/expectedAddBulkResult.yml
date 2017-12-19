@@ -1,0 +1,15 @@
+# List of files expected to exist after executing the `add-bulk` command
+---
+- /testProject/README.md
+- /testProject/index.js
+- /testProject/package.json
+- /testProject/services/monitoring/isAlive/service.yml
+- /testProject/services/users/getCollection-responseBody.json
+- /testProject/services/users/postCollection-requestBody.json
+- /testProject/services/users/postCollection-responseBody.json
+- /testProject/services/users/service.yml
+- /testProject/services/users/user/deleteResource-responseBody.json
+- /testProject/services/users/user/getResource-responseBody.json
+- /testProject/services/users/user/putResource-requestBody.json
+- /testProject/services/users/user/putResource-responseBody.json
+- /testProject/services/users/user/service.yml

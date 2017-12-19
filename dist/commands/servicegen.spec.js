@@ -76,7 +76,7 @@ describe('servicegen', function () {
     };
 
     var addBulkContainer = addContainer;
-    var addBulkCommand = { name: 'addBulk', args: { services: './src/fixtures/bulkServices.yml' } };
+    var addBulkCommand = { name: 'addBulk', args: { services: './src/commands/fixtures/bulkServices.yml' } };
 
     var destCleanup = function destCleanup(cb) {
         var dest = testDirectory;
@@ -98,55 +98,60 @@ describe('servicegen', function () {
 
     it('add - with defaults', function (done) {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand);
+        (0, _prjgen.create)(createContainer, createCommand.args);
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommand);
+        (0, _servicegen.add)(addContainer, addCommand.args);
         var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        (0, _chai.expect)(results).to.eql(['/testProject/README.md', '/testProject/index.js', '/testProject/package.json', '/testProject/services/monitoring/isAlive/service.yml', '/testProject/services/newservice/postOperation-requestBody.json', '/testProject/services/newservice/postOperation-responseBody.json', '/testProject/services/newservice/service.yml']);
+        var expectedAddResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddResult.yml');
+        (0, _chai.expect)(results).to.eql(expectedAddResult);
         done();
     });
 
     it('add - with absolute path', function (done) {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand);
+        (0, _prjgen.create)(createContainer, createCommand.args);
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommand);
+        (0, _servicegen.add)(addContainer, addCommand.args);
         var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        (0, _chai.expect)(results).to.eql(['/testProject/README.md', '/testProject/index.js', '/testProject/package.json', '/testProject/services/monitoring/isAlive/service.yml', '/testProject/services/newservice/postOperation-requestBody.json', '/testProject/services/newservice/postOperation-responseBody.json', '/testProject/services/newservice/service.yml']);
+        var expectedAddResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddResult.yml');
+        (0, _chai.expect)(results).to.eql(expectedAddResult);
         done();
     });
 
     it('add - with wrong type parameter', function (done) {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand);
+        (0, _prjgen.create)(createContainer, createCommand.args);
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommandWrongType);
+        (0, _servicegen.add)(addContainer, addCommandWrongType.args);
         var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        (0, _chai.expect)(results).to.eql(['/testProject/README.md', '/testProject/index.js', '/testProject/package.json', '/testProject/services/monitoring/isAlive/service.yml']);
+        var expectedAddWrongResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddWrongResult.yml');
+        (0, _chai.expect)(results).to.eql(expectedAddWrongResult);
         done();
     });
     it('add - missing parameters', function (done) {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand);
+        (0, _prjgen.create)(createContainer, createCommand.args);
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommandMissingArgs);
+        (0, _servicegen.add)(addContainer, addCommandMissingArgs.args);
         var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        (0, _chai.expect)(results).to.eql(['/testProject/README.md', '/testProject/index.js', '/testProject/package.json', '/testProject/services/monitoring/isAlive/service.yml']);
+        var expectedAddWrongResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddWrongResult.yml');
+        (0, _chai.expect)(results).to.eql(expectedAddWrongResult);
         done();
     });
 
-    it('bulkAdd - with defaults', function (done) {
+    it('addBulk - with defaults', function (done) {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand);
+        (0, _prjgen.create)(createContainer, createCommand.args);
 
-        // rest-tool add-bulk --sourceDir ./testProject/ -s ./src/fixtures/bulkServices.yml
-        (0, _servicegen.addBulk)(addBulkContainer, addBulkCommand);
+        // rest-tool add-bulk --sourceDir ./testProject/ -s ./src/commands/fixtures/bulkServices.yml
+        (0, _servicegen.addBulk)(addBulkContainer, addBulkCommand.args);
         var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        (0, _chai.expect)(results).to.eql(['/testProject/README.md', '/testProject/index.js', '/testProject/package.json', '/testProject/services/monitoring/isAlive/service.yml', '/testProject/services/users/getCollection-responseBody.json', '/testProject/services/users/postCollection-requestBody.json', '/testProject/services/users/postCollection-responseBody.json', '/testProject/services/users/service.yml', '/testProject/services/users/user/deleteResource-responseBody.json', '/testProject/services/users/user/getResource-responseBody.json', '/testProject/services/users/user/putResource-requestBody.json', '/testProject/services/users/user/putResource-responseBody.json', '/testProject/services/users/user/service.yml']);
+        var expectedAddBulkResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddBulkResult.yml');
+        (0, _chai.expect)(results).to.eql(expectedAddBulkResult);
         done();
     });
 });

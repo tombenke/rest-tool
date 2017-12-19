@@ -13,6 +13,7 @@ const parse = (defaults, processArgv=process.argv) => {
     let results = {}
 
     yargs(processArgv.slice(2))
+//        .exitProcess(false)
         .command('create', 'create a new project', yargs =>
             yargs
                 .option('projectName', {
@@ -32,6 +33,12 @@ const parse = (defaults, processArgv=process.argv) => {
                     type: 'string',
                     default: defaultApiVersion
                 })
+                .option("sourceDir", {
+                    alias: "s",
+                    desc: "The path to the parent folder of the project",
+                    type: 'string',
+                    default: defaults.sourceDir
+                })
                 .demandOption(['projectName']),
             argv => {
                 results = {
@@ -43,7 +50,9 @@ const parse = (defaults, processArgv=process.argv) => {
                             author: argv.author
                         }
                     },
-                    cliConfig: {}
+                    cliConfig: {
+                        sourceDir: argv.sourceDir
+                    }
                 }
             }
         )

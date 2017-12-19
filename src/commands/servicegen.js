@@ -54,13 +54,13 @@ const makeRelPath = path => path[0] === '/' ? path.substr(1, path.length) : path
  * Add a new service descriptor to the project
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} command - Command descriptor object. Describe the name of the command to execute, as well as its arguments.
+ * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
  *
  * @function
  */
-exports.add = (container, command) => {
+exports.add = (container, args) => {
     const context = container.config
-    const serviceConfig = command.args
+    const serviceConfig = args
     if(serviceConfig.type && serviceConfig.path && serviceConfig.uriTemplate) {
         if (_.includes(['OPERATION', 'COLLECTION', 'RESOURCE'], serviceConfig.type)) {
             const servicePath = path.resolve(context.sourceDir, context.endpoints, makeRelPath(serviceConfig.path))
@@ -91,18 +91,18 @@ exports.add = (container, command) => {
  * Add one or more new service descriptors to the project in bulk mode
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} command - Command descriptor object. Describe the name of the command to execute, as well as its arguments.
+ * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
  *
  * @function
  */
-exports.addBulk = (container, command) => {
+exports.addBulk = (container, args) => {
     const context = container.config
-    if(command.args.services) {
-        const bulkServicesPath = path.resolve(command.args.services)
+    if(args.services) {
+        const bulkServicesPath = path.resolve(args.services)
         const bulkServices = loadJsonFileSync(bulkServicesPath)
         console.log(`Add new services to the project in bulk mode from "${bulkServicesPath}"`)
 
-        _.map(bulkServices, service => exports.add(container, { name: 'add', args: service }))
+        _.map(bulkServices, service => exports.add(container, service))
     } else {
         console.log('ERROR: missing arguments: services' )
     }

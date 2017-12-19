@@ -1,0 +1,8 @@
+# List of files expected to exist after executing the `tests` command
+---
+- /testProject/README.md
+- /testProject/index.js
+- /testProject/package.json
+- /testProject/services/monitoring/isAlive/service.yml
+- /testProject/tests/Get Monitoring Is Alive.js
+

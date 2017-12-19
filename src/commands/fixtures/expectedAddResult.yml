@@ -1,0 +1,9 @@
+# List of files expected to exist after executing the `add` command
+---
+- /testProject/README.md
+- /testProject/index.js
+- /testProject/package.json
+- /testProject/services/monitoring/isAlive/service.yml
+- /testProject/services/newservice/postOperation-requestBody.json
+- /testProject/services/newservice/postOperation-responseBody.json
+- /testProject/services/newservice/service.yml

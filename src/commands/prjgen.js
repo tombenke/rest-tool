@@ -35,12 +35,13 @@ const processProjectTemplates = (context, projectBaseDir) => _.map([
  * Create a new REST API project
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} command - Command descriptor object. Describe the name of the command to execute, as well as its arguments.
+ * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
  *
  * @function
  */
-exports.create = (container, command) => {
-    const context = _.merge({}, container.config, command.args)
+exports.create = (container, args) => {
+    console.log('prjgen.create: ', container, args)
+    const context = _.merge({}, container.config, args)
     const projectBaseDir = path.resolve(context.sourceDir, context.projectName)
     console.log(`Generate the "${context.projectName}" REST-API project into "${projectBaseDir}"`)
     initProjectFolder(context, projectBaseDir)

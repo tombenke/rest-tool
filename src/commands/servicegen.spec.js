@@ -4,6 +4,7 @@ import path from 'path'
 import { expect } from 'chai'
 import * as _ from 'lodash'
 import {
+    loadJsonFileSync,
     mergeJsonFilesSync,
     listFilesSync,
     findFilesSync
@@ -57,7 +58,7 @@ describe('servicegen', () => {
     }
 
     const addBulkContainer = addContainer
-    const addBulkCommand = { name: 'addBulk', args: { services: './src/fixtures/bulkServices.yml' } }
+    const addBulkCommand = { name: 'addBulk', args: { services: './src/commands/fixtures/bulkServices.yml' } }
 
     const destCleanup = function(cb) {
         const dest = testDirectory
@@ -79,95 +80,60 @@ describe('servicegen', () => {
 
     it('add - with defaults', (done) => {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand)
+        create(createContainer, createCommand.args)
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p newservice -u /newservice -n "New Service" -d "Description of new service"
-        add(addContainer, addCommand)
+        add(addContainer, addCommand.args)
         const results = findFilesSync(testDirectory, /.*/, true, true)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml',
-            '/testProject/services/newservice/postOperation-requestBody.json',
-            '/testProject/services/newservice/postOperation-responseBody.json',
-            '/testProject/services/newservice/service.yml'
-        ])
+        const expectedAddResult = loadJsonFileSync('src/commands/fixtures/expectedAddResult.yml')
+        expect(results).to.eql(expectedAddResult)
         done()
     })
 
     it('add - with absolute path', (done) => {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand)
+        create(createContainer, createCommand.args)
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        add(addContainer, addCommand)
+        add(addContainer, addCommand.args)
         const results = findFilesSync(testDirectory, /.*/, true, true)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml',
-            '/testProject/services/newservice/postOperation-requestBody.json',
-            '/testProject/services/newservice/postOperation-responseBody.json',
-            '/testProject/services/newservice/service.yml'
-        ])
+        const expectedAddResult = loadJsonFileSync('src/commands/fixtures/expectedAddResult.yml')
+        expect(results).to.eql(expectedAddResult)
         done()
     })
 
     it('add - with wrong type parameter', (done) => {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand)
+        create(createContainer, createCommand.args)
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        add(addContainer, addCommandWrongType)
+        add(addContainer, addCommandWrongType.args)
         const results = findFilesSync(testDirectory, /.*/, true, true)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml'
-        ])
+        const expectedAddWrongResult = loadJsonFileSync('src/commands/fixtures/expectedAddWrongResult.yml')
+        expect(results).to.eql(expectedAddWrongResult)
         done()
     })
     it('add - missing parameters', (done) => {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand)
+        create(createContainer, createCommand.args)
 
         // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        add(addContainer, addCommandMissingArgs)
+        add(addContainer, addCommandMissingArgs.args)
         const results = findFilesSync(testDirectory, /.*/, true, true)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml'
-        ])
+        const expectedAddWrongResult = loadJsonFileSync('src/commands/fixtures/expectedAddWrongResult.yml')
+        expect(results).to.eql(expectedAddWrongResult)
         done()
     })
 
-    it('bulkAdd - with defaults', (done) => {
+    it('addBulk - with defaults', (done) => {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand)
+        create(createContainer, createCommand.args)
 
-        // rest-tool add-bulk --sourceDir ./testProject/ -s ./src/fixtures/bulkServices.yml
-        addBulk(addBulkContainer, addBulkCommand)
+        // rest-tool add-bulk --sourceDir ./testProject/ -s ./src/commands/fixtures/bulkServices.yml
+        addBulk(addBulkContainer, addBulkCommand.args)
         const results = findFilesSync(testDirectory, /.*/, true, true)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml',
-            '/testProject/services/users/getCollection-responseBody.json',
-            '/testProject/services/users/postCollection-requestBody.json',
-            '/testProject/services/users/postCollection-responseBody.json',
-            '/testProject/services/users/service.yml',
-            '/testProject/services/users/user/deleteResource-responseBody.json',
-            '/testProject/services/users/user/getResource-responseBody.json',
-            '/testProject/services/users/user/putResource-requestBody.json',
-            '/testProject/services/users/user/putResource-responseBody.json',
-            '/testProject/services/users/user/service.yml'
-        ])
+        const expectedAddBulkResult = loadJsonFileSync('src/commands/fixtures/expectedAddBulkResult.yml')
+        expect(results).to.eql(expectedAddBulkResult)
         done()
     })
 })

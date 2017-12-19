@@ -4,6 +4,7 @@ import path from 'path'
 import { expect } from 'chai'
 import * as _ from 'lodash'
 import {
+    loadJsonFileSync,
     mergeJsonFilesSync,
     listFilesSync,
     findFilesSync
@@ -31,6 +32,7 @@ describe('docgen', () => {
             docsTargetDir: path.resolve(testDirectory, testProjectName, 'docs')
         })
     }
+
     const docsCommand = {
         name: 'docs',
         args: {}
@@ -56,36 +58,13 @@ describe('docgen', () => {
 
     it('docs - with defaults', (done) => {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand)
+        create(createContainer, createCommand.args)
 
         // rest-tool docs --sourceDir ./tmp/testProject/
         docs(docsContainer, docsCommand)
         const results = findFilesSync(testDirectory, /.*/, true, true)
-        console.log('results:', results)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/docs/README.md',
-            '/testProject/docs/images/collapse_arrow.gif',
-            '/testProject/docs/images/expand_arrow.gif',
-            '/testProject/docs/images/grid.png',
-            '/testProject/docs/index.html',
-            '/testProject/docs/js/jquery-1.11.0/jquery-1.11.0.js',
-            '/testProject/docs/js/jquery-1.11.0/jquery-1.11.0.min.js',
-            '/testProject/docs/js/jquery-1.11.0/jquery-1.11.0.min.map',
-            '/testProject/docs/js/restapidoc.js',
-            '/testProject/docs/sass/ie.scss',
-            '/testProject/docs/sass/partials/_base.scss',
-            '/testProject/docs/sass/print.scss',
-            '/testProject/docs/sass/screen.scss',
-            '/testProject/docs/services/monitoring/isAlive/service.html',
-            '/testProject/docs/services/monitoring/isAlive/service.yml',
-            '/testProject/docs/stylesheets/ie.css',
-            '/testProject/docs/stylesheets/print.css',
-            '/testProject/docs/stylesheets/screen.css',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml'
-        ])
+        const expectedDocsResult = loadJsonFileSync('src/commands/fixtures/expectedDocsResult.yml')
+        expect(results).to.eql(expectedDocsResult)
         done()
     })
 })

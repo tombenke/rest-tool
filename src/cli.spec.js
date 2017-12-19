@@ -19,7 +19,9 @@ describe('cli', () => {
                 name: 'create',
                 args: { projectName: 'newProject', apiVersion: 'v1.0.0', author: 'tombenke' }
             },
-            cliConfig: {}
+            cliConfig: {
+                sourceDir: process.cwd()
+            }
         }
         expect(cli.parse(defaults, processArgv)).to.eql(expected)
         done()

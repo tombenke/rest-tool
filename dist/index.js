@@ -3,6 +3,11 @@
 /*jshint node: true */
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.start = undefined;
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -15,22 +20,38 @@ var _commands = require('./commands/');
 
 var _commands2 = _interopRequireDefault(_commands);
 
-var _index = require('./index');
+var _npac = require('npac');
 
-var _index2 = _interopRequireDefault(_index);
+var _npac2 = _interopRequireDefault(_npac);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _cli$parse = _cli2.default.parse(),
-    cliConfig = _cli$parse.cliConfig,
-    command = _cli$parse.command;
+var dumpCtx = function dumpCtx(ctx, next) {
+    console.log('dumpCtx:', ctx);
+    next(null, ctx);
+};
 
-var config = _index2.default.makeConfig(_config2.default, cliConfig, 'configFileName');
-var adapters = [_index2.default.mergeConfig(config), _commands2.default];
-var jobs = [_index2.default.makeCallSync(command)];
-_index2.default.start(adapters, jobs);
+var start = exports.start = function start() {
+    var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
+    var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-//import npac from './npac'
+    // Use CLI to gain additional parameters, and command to execute
+    var _cli$parse = _cli2.default.parse(_config2.default, argv),
+        cliConfig = _cli$parse.cliConfig,
+        command = _cli$parse.command;
 
-//const app = npac(defaults, cli, commands)
-//app.start()
+    console.log(cliConfig, command);
+    // Create the final configuration parameter set
+    var config = _npac2.default.makeConfig(_config2.default, cliConfig, 'configFileName');
+    console.log(config);
+
+    // Define the adapters and executives to add to the container
+    var adapters = [dumpCtx, _npac2.default.mergeConfig(config), dumpCtx, _commands2.default, dumpCtx];
+
+    // Define the jobs to execute: hand over the command got by the CLI.
+    var jobs = [_npac2.default.makeCallSync(command)];
+
+    //Start the container
+    console.log(adapters, jobs);
+    _npac2.default.start(adapters, jobs, cb);
+};

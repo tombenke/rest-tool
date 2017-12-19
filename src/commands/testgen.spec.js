@@ -4,6 +4,7 @@ import path from 'path'
 import { expect } from 'chai'
 import * as _ from 'lodash'
 import {
+    loadJsonFileSync,
     mergeJsonFilesSync,
     listFilesSync,
     findFilesSync
@@ -55,19 +56,14 @@ describe('testgen', () => {
 
     it('tests - with defaults', (done) => {
         // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand)
+        create(createContainer, createCommand.args)
 
         // rest-tool docs --sourceDir ./tmp/testProject/
-        test(testsContainer, testsCommand)
+        test(testsContainer, testsCommand.args)
         const results = findFilesSync(testDirectory, /.*/, true, true)
         console.log('results:', results)
-        expect(results).to.eql([
-            '/testProject/README.md',
-            '/testProject/index.js',
-            '/testProject/package.json',
-            '/testProject/services/monitoring/isAlive/service.yml',
-            '/testProject/tests/Get Monitoring Is Alive.js'
-        ])
+        const expectedTestsResult = loadJsonFileSync('src/commands/fixtures/expectedTestsResult.yml')
+        expect(results).to.eql(expectedTestsResult)
         done()
     })
 })

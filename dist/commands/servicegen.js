@@ -53,13 +53,13 @@ var makeRelPath = function makeRelPath(path) {
  * Add a new service descriptor to the project
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} command - Command descriptor object. Describe the name of the command to execute, as well as its arguments.
+ * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
  *
  * @function
  */
-exports.add = function (container, command) {
+exports.add = function (container, args) {
     var context = container.config;
-    var serviceConfig = command.args;
+    var serviceConfig = args;
     if (serviceConfig.type && serviceConfig.path && serviceConfig.uriTemplate) {
         if (_lodash2.default.includes(['OPERATION', 'COLLECTION', 'RESOURCE'], serviceConfig.type)) {
             var servicePath = _path2.default.resolve(context.sourceDir, context.endpoints, makeRelPath(serviceConfig.path));
@@ -90,19 +90,19 @@ exports.add = function (container, command) {
  * Add one or more new service descriptors to the project in bulk mode
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
- * @arg {Object} command - Command descriptor object. Describe the name of the command to execute, as well as its arguments.
+ * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
  *
  * @function
  */
-exports.addBulk = function (container, command) {
+exports.addBulk = function (container, args) {
     var context = container.config;
-    if (command.args.services) {
-        var bulkServicesPath = _path2.default.resolve(command.args.services);
+    if (args.services) {
+        var bulkServicesPath = _path2.default.resolve(args.services);
         var bulkServices = (0, _datafile.loadJsonFileSync)(bulkServicesPath);
         console.log('Add new services to the project in bulk mode from "' + bulkServicesPath + '"');
 
         _lodash2.default.map(bulkServices, function (service) {
-            return exports.add(container, { name: 'add', args: service });
+            return exports.add(container, service);
         });
     } else {
         console.log('ERROR: missing arguments: services');
