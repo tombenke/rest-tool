@@ -7,10 +7,12 @@ import cli from './cli'
 import commands from './commands/'
 import npac from 'npac'
 
+/*
 const dumpCtx = (ctx, next) => {
     console.log('dumpCtx:', ctx)
     next(null, ctx)
 }
+*/
 
 export const start = (argv=process.argv, cb=null) => {
 

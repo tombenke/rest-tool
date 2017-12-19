@@ -26,10 +26,12 @@ var _npac2 = _interopRequireDefault(_npac);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var dumpCtx = function dumpCtx(ctx, next) {
-    console.log('dumpCtx:', ctx);
-    next(null, ctx);
-};
+/*
+const dumpCtx = (ctx, next) => {
+    console.log('dumpCtx:', ctx)
+    next(null, ctx)
+}
+*/
 
 var start = exports.start = function start() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
@@ -39,19 +41,17 @@ var start = exports.start = function start() {
     var _cli$parse = _cli2.default.parse(_config2.default, argv),
         cliConfig = _cli$parse.cliConfig,
         command = _cli$parse.command;
-
-    console.log(cliConfig, command);
     // Create the final configuration parameter set
+
+
     var config = _npac2.default.makeConfig(_config2.default, cliConfig, 'configFileName');
-    console.log(config);
 
     // Define the adapters and executives to add to the container
-    var adapters = [dumpCtx, _npac2.default.mergeConfig(config), dumpCtx, _commands2.default, dumpCtx];
+    var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _commands2.default];
 
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [_npac2.default.makeCallSync(command)];
 
     //Start the container
-    console.log(adapters, jobs);
     _npac2.default.start(adapters, jobs, cb);
 };

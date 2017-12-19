@@ -54,7 +54,6 @@ var processProjectTemplates = function processProjectTemplates(context, projectB
  * @function
  */
 exports.create = function (container, args) {
-    console.log('prjgen.create: ', container, args);
     var context = _lodash2.default.merge({}, container.config, args);
     var projectBaseDir = _path2.default.resolve(context.sourceDir, context.projectName);
     console.log('Generate the "' + context.projectName + '" REST-API project into "' + projectBaseDir + '"');
