@@ -11,6 +11,7 @@ import {
 } from 'datafile'
 import defaults from '../config'
 import { create } from './prjgen'
+import npac from 'npac'
 
 const testDirectory = path.resolve('./tmp')
 
@@ -35,17 +36,18 @@ describe('prjgen', () => {
     })
 
     it('create - with default config', (done) => {
-        const container = {
-            config: _.merge({}, defaults, { sourceDir: testDirectory })
-        }
+        const config = _.merge({}, defaults, { sourceDir: testDirectory })
         const command = {
             name: 'create',
             args: { projectName: 'testProject', apiVersion: '1.2.3', author: 'testuser' }
         }
-        create(container, command.args)
-        const results = findFilesSync(testDirectory, /.*/, true, true)
-        const expectedCreateResult = loadJsonFileSync('src/commands/fixtures/expectedCreateResult.yml')
-        expect(results).to.eql(expectedCreateResult)
-        done()
+        const executives = { create: create }
+
+        npac.runJobSync(config, executives, command, (err, res) => {
+            const results = findFilesSync(testDirectory, /.*/, true, true)
+            const expectedCreateResult = loadJsonFileSync('src/commands/fixtures/expectedCreateResult.yml')
+            expect(results).to.eql(expectedCreateResult)
+            done()
+        })
     })
 })
