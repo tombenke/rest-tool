@@ -28,6 +28,10 @@ var _prjgen = require('./prjgen');
 
 var _servicegen = require('./servicegen');
 
+var _npac = require('npac');
+
+var _npac2 = _interopRequireDefault(_npac);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -36,18 +40,17 @@ describe('servicegen', function () {
 
     var testDirectory = _path2.default.resolve('./tmp');
     var testProjectName = 'testProject';
+    var executives = { create: _prjgen.create, add: _servicegen.add, addBulk: _servicegen.addBulk };
 
-    var createContainer = {
-        config: _.merge({}, _config2.default, { sourceDir: testDirectory })
-    };
+    var createConfig = _.merge({}, _config2.default, { sourceDir: testDirectory });
+
     var createCommand = {
         name: 'create',
         args: { projectName: 'testProject', apiVersion: '1.2.3', author: 'testuser' }
     };
 
-    var addContainer = {
-        config: _.merge({}, _config2.default, { sourceDir: _path2.default.resolve(testDirectory, testProjectName) })
-    };
+    var addConfig = _.merge({}, _config2.default, { sourceDir: _path2.default.resolve(testDirectory, testProjectName) });
+
     var addCommand = {
         name: 'add',
         args: {
@@ -75,18 +78,20 @@ describe('servicegen', function () {
         args: {}
     };
 
-    var addBulkContainer = addContainer;
-    var addBulkCommand = { name: 'addBulk', args: { services: './src/commands/fixtures/bulkServices.yml' } };
+    var addBulkConfig = addConfig;
+
+    var addBulkCommand = {
+        name: 'addBulk',
+        args: { services: './src/commands/fixtures/bulkServices.yml' }
+    };
 
     var destCleanup = function destCleanup(cb) {
         var dest = testDirectory;
-        console.log('Remove: ', dest);
         (0, _rimraf2.default)(dest, cb);
     };
 
     beforeEach(function (done) {
         destCleanup(function () {
-            console.log('Create: ', testDirectory);
             _fs2.default.mkdirSync(testDirectory);
             done();
         });
@@ -97,61 +102,58 @@ describe('servicegen', function () {
     });
 
     it('add - with defaults', function (done) {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand.args);
-
-        // rest-tool add --sourceDir ./tmp/testProject/ -p newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommand.args);
-        var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        var expectedAddResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddResult.yml');
-        (0, _chai.expect)(results).to.eql(expectedAddResult);
-        done();
+        _npac2.default.runJobSync(createConfig, executives, createCommand, function (err, res) {
+            _npac2.default.runJobSync(addConfig, executives, addCommand, function (err, res) {
+                var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
+                var expectedAddResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddResult.yml');
+                (0, _chai.expect)(results).to.eql(expectedAddResult);
+                done();
+            });
+        });
     });
 
     it('add - with absolute path', function (done) {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand.args);
-
-        // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommand.args);
-        var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        var expectedAddResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddResult.yml');
-        (0, _chai.expect)(results).to.eql(expectedAddResult);
-        done();
+        var addCommandAbs = _.merge({}, addCommand, { args: { path: '/' + addCommand.args.path } });
+        _npac2.default.runJobSync(createConfig, executives, createCommand, function (err, res) {
+            _npac2.default.runJobSync(addConfig, executives, addCommandAbs, function (err, res) {
+                var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
+                var expectedAddResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddResult.yml');
+                (0, _chai.expect)(results).to.eql(expectedAddResult);
+                done();
+            });
+        });
     });
 
     it('add - with wrong type parameter', function (done) {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand.args);
-
-        // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommandWrongType.args);
-        var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        var expectedAddWrongResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddWrongResult.yml');
-        (0, _chai.expect)(results).to.eql(expectedAddWrongResult);
-        done();
+        _npac2.default.runJobSync(createConfig, executives, createCommand, function (err, res) {
+            _npac2.default.runJobSync(addConfig, executives, addCommandWrongType, function (err, res) {
+                var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
+                var expectedAddWrongResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddWrongResult.yml');
+                (0, _chai.expect)(results).to.eql(expectedAddWrongResult);
+                done();
+            });
+        });
     });
-    it('add - missing parameters', function (done) {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand.args);
 
-        // rest-tool add --sourceDir ./tmp/testProject/ -p /newservice -u /newservice -n "New Service" -d "Description of new service"
-        (0, _servicegen.add)(addContainer, addCommandMissingArgs.args);
-        var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        var expectedAddWrongResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddWrongResult.yml');
-        (0, _chai.expect)(results).to.eql(expectedAddWrongResult);
-        done();
+    it('add - missing parameters', function (done) {
+        _npac2.default.runJobSync(createConfig, executives, createCommand, function (err, res) {
+            _npac2.default.runJobSync(addConfig, executives, addCommandMissingArgs, function (err, res) {
+                var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
+                var expectedAddWrongResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddWrongResult.yml');
+                (0, _chai.expect)(results).to.eql(expectedAddWrongResult);
+                done();
+            });
+        });
     });
 
     it('addBulk - with defaults', function (done) {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _prjgen.create)(createContainer, createCommand.args);
-
-        // rest-tool add-bulk --sourceDir ./testProject/ -s ./src/commands/fixtures/bulkServices.yml
-        (0, _servicegen.addBulk)(addBulkContainer, addBulkCommand.args);
-        var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        var expectedAddBulkResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddBulkResult.yml');
-        (0, _chai.expect)(results).to.eql(expectedAddBulkResult);
-        done();
+        _npac2.default.runJobSync(createConfig, executives, createCommand, function (err, res) {
+            _npac2.default.runJobSync(addBulkConfig, executives, addBulkCommand, function (err, res) {
+                var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
+                var expectedAddBulkResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedAddBulkResult.yml');
+                (0, _chai.expect)(results).to.eql(expectedAddBulkResult);
+                done();
+            });
+        });
     });
 });

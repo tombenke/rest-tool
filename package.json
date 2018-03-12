@@ -72,7 +72,7 @@
     "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- recursive --compilers js:babel-register --timeout 15000 'src/**/*.spec.js' -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "docs": "rm -fr ./docs/api/* && jsdoc -c ./.jsdoc.json",
     "docgen": "node_modules/.bin/gulp docgen",
-    "prepublish": "npm run lint && npm run test && npm run build && npm run docs",
+    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run docs",
     "all": "npm run lint && npm run coverage && npm run build && npm run docs"
   },
   "pre-push": [

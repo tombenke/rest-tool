@@ -11,6 +11,7 @@ import {
 } from 'datafile'
 import defaults from '../config'
 import { create, docs } from './index'
+import npac from 'npac'
 
 describe('docgen', () => {
 
@@ -40,13 +41,11 @@ describe('docgen', () => {
 
     const destCleanup = function(cb) {
         const dest = testDirectory
-        console.log('Remove: ', dest)
         rimraf(dest, cb)
     }
 
     beforeEach(function(done) {
         destCleanup(function() {
-            console.log('Create: ', testDirectory)
             fs.mkdirSync(testDirectory)
             done()
         })
@@ -57,14 +56,20 @@ describe('docgen', () => {
     })
 
     it('docs - with defaults', (done) => {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand.args)
-
-        // rest-tool docs --sourceDir ./tmp/testProject/
-        docs(docsContainer, docsCommand)
-        const results = findFilesSync(testDirectory, /.*/, true, true)
-        const expectedDocsResult = loadJsonFileSync('src/commands/fixtures/expectedDocsResult.yml')
-        expect(results).to.eql(expectedDocsResult)
-        done()
+        const executives = { create: create, docs: docs }
+        npac.runJobSync(createContainer.config, executives, createCommand, (err, res) => {
+            const results = findFilesSync(testDirectory, /.*/, true, true)
+            const expectedCreateResult = loadJsonFileSync('src/commands/fixtures/expectedCreateResult.yml')
+            expect(results).to.eql(expectedCreateResult)
+            done()
+            
+        const config = docsContainer.config
+            npac.runJobSync(config, executives, docsCommand, (err, res) => {
+                const results = findFilesSync(testDirectory, /.*/, true, true)
+                const expectedDocsResult = loadJsonFileSync('src/commands/fixtures/expectedDocsResult.yml')
+                expect(results).to.eql(expecteddocsResult)
+                done()
+            })
+        })
     })
 })

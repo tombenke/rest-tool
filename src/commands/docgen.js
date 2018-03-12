@@ -55,8 +55,8 @@ const initDocsFolder = context => {
 const generateDocFileName = serviceDesc => serviceDesc.contentPath + '/service.html'
 
 // Generate the main index page of the API documentation
-const generateDocIndex = context => {
-    console.log('Generate document index');
+const generateDocIndex = (container, context) => {
+    container.logger.info('Generate document index');
     generator.processTemplate(context, {
         sourceBaseDir: context.docsTemplates,
         targetBaseDir: context.docsTargetDir,
@@ -72,19 +72,19 @@ const generateDocIndex = context => {
   *
  * @function
  */
-const generateServiceDoc = (serviceDesc, context) => {
+const generateServiceDoc = (container, serviceDesc, context) => {
 
     var relPath = "";
     for (let l=0; l<serviceDesc.contentPath.split('/').length; l++) {
         relPath = relPath + ".." + path.sep
     }
 
-    console.log('Generate service doc: ' + serviceDesc.contentPath, serviceDesc.name);
-    // console.log('context: ', context)
+    container.logger.info('Generate service doc: ' + serviceDesc.contentPath, serviceDesc.name);
+    container.logger.debug('context: ', context)
 
     const doc = _.merge({ relPath: relPath }, context,
         generator.convertMarkdown(serviceDesc, ['description', 'summary', 'details']))
-    //console.log(JSON.stringify(doc, null, '  '))
+    container.logger.debug(JSON.stringify(doc, null, '  '))
 
     generator.processTemplate( doc, {
         sourceBaseDir: context.docsTemplates,
@@ -125,9 +125,9 @@ exports.update = (container, args) => {
 
     // Generate the documents for each service
     _.map(allServices, function (serviceDesc) {
-        generateServiceDoc(serviceDesc, context)
+        generateServiceDoc(container, serviceDesc, context)
     })
 
     // Generate the index.html
-    generateDocIndex(context)
+    generateDocIndex(container, context)
 }

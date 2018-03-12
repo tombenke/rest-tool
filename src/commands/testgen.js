@@ -18,13 +18,13 @@ import { services } from 'rest-tool-common'
  */
 exports.update = (container, args) => {
     const context = container.config
-    console.log('Update test cases or create them, if they are missing.')
+    container.logger.info('Update test cases or create them, if they are missing.')
 
     services.load(context.sourceDir, context.endpoints)
-    //console.log(services.getServices())
+    container.logger.debug(services.getServices())
 
     const allTestCases = services.getAllTestCases()
-    //console.log('All TestCases: ', allTestCases)
+    container.logger.debug('All TestCases: ', allTestCases)
 
     generator.createDirectoryTree(context.testsTargetDir, [], false)
     _.map(allTestCases, function (item) {

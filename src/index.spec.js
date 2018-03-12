@@ -13,7 +13,6 @@ const testDirectory = path.resolve('./tmp')
 
 const destCleanup = function(cb) {
     const dest = testDirectory
-    console.log('Remove: ', dest)
     rimraf(dest, cb)
 }
 
@@ -21,7 +20,6 @@ describe('app', () => {
 
     before(function(done) {
         destCleanup(function() {
-            console.log('Create: ', testDirectory)
             fs.mkdirSync(testDirectory)
             done()
         })

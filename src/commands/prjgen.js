@@ -42,7 +42,7 @@ const processProjectTemplates = (context, projectBaseDir) => _.map([
 exports.create = (container, args) => {
     const context = _.merge({}, container.config, args)
     const projectBaseDir = path.resolve(context.sourceDir, context.projectName)
-    console.log(`Generate the "${context.projectName}" REST-API project into "${projectBaseDir}"`)
+    container.logger.info(`Generate the "${context.projectName}" REST-API project into "${projectBaseDir}"`)
     initProjectFolder(context, projectBaseDir)
     copyProjectFiles(context, projectBaseDir)
     processProjectTemplates(context, projectBaseDir)

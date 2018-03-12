@@ -75,8 +75,8 @@ var generateDocFileName = function generateDocFileName(serviceDesc) {
 };
 
 // Generate the main index page of the API documentation
-var generateDocIndex = function generateDocIndex(context) {
-    console.log('Generate document index');
+var generateDocIndex = function generateDocIndex(container, context) {
+    container.logger.info('Generate document index');
     _dgen2.default.processTemplate(context, {
         sourceBaseDir: context.docsTemplates,
         targetBaseDir: context.docsTargetDir,
@@ -92,18 +92,18 @@ var generateDocIndex = function generateDocIndex(context) {
   *
  * @function
  */
-var generateServiceDoc = function generateServiceDoc(serviceDesc, context) {
+var generateServiceDoc = function generateServiceDoc(container, serviceDesc, context) {
 
     var relPath = "";
     for (var l = 0; l < serviceDesc.contentPath.split('/').length; l++) {
         relPath = relPath + ".." + _path2.default.sep;
     }
 
-    console.log('Generate service doc: ' + serviceDesc.contentPath, serviceDesc.name);
-    // console.log('context: ', context)
+    container.logger.info('Generate service doc: ' + serviceDesc.contentPath, serviceDesc.name);
+    container.logger.debug('context: ', context);
 
     var doc = _lodash2.default.merge({ relPath: relPath }, context, _dgen2.default.convertMarkdown(serviceDesc, ['description', 'summary', 'details']));
-    //console.log(JSON.stringify(doc, null, '  '))
+    container.logger.debug(JSON.stringify(doc, null, '  '));
 
     _dgen2.default.processTemplate(doc, {
         sourceBaseDir: context.docsTemplates,
@@ -144,9 +144,9 @@ exports.update = function (container, args) {
 
     // Generate the documents for each service
     _lodash2.default.map(allServices, function (serviceDesc) {
-        generateServiceDoc(serviceDesc, context);
+        generateServiceDoc(container, serviceDesc, context);
     });
 
     // Generate the index.html
-    generateDocIndex(context);
+    generateDocIndex(container, context);
 };

@@ -64,10 +64,10 @@ exports.add = (container, args) => {
     if(serviceConfig.type && serviceConfig.path && serviceConfig.uriTemplate) {
         if (_.includes(['OPERATION', 'COLLECTION', 'RESOURCE'], serviceConfig.type)) {
             const servicePath = path.resolve(context.sourceDir, context.endpoints, makeRelPath(serviceConfig.path))
-            console.log('Create the "%s" %s-type service with the following URL: %s', servicePath, serviceConfig.type, serviceConfig.uriTemplate)
+            container.logger.info(`Create the "${servicePath}" ${serviceConfig.type}-type service with the following URL: ${serviceConfig.uriTemplate}`)
 
             if (generator.createDirectoryTree(servicePath, [], false)) {
-                console.log('%s directory created', servicePath)
+                container.logger.info(`${servicePath} directory created`)
                 const templates = serviceTemplates[serviceConfig.type] || []
                 _.map(templates, template => {
                     generator.processTemplate(extendConfig(serviceConfig), {
@@ -77,13 +77,13 @@ exports.add = (container, args) => {
                     })
                 })
             } else {
-                console.log(`ERROR: Could not create directory: ${servicePath}`)
+                container.logger.info(`ERROR: Could not create directory: ${servicePath}`)
             }
         } else {
-            console.log(`ERROR: Wrong type parameter: ${serviceConfig.type}`)
+            container.logger.info(`ERROR: Wrong type parameter: ${serviceConfig.type}`)
         }
     } else {
-        console.log('ERROR: Missing or wrong parameter(s)')
+        container.logger.info('ERROR: Missing or wrong parameter(s)')
     }
 }
 
@@ -100,10 +100,10 @@ exports.addBulk = (container, args) => {
     if(args.services) {
         const bulkServicesPath = path.resolve(args.services)
         const bulkServices = loadJsonFileSync(bulkServicesPath)
-        console.log(`Add new services to the project in bulk mode from "${bulkServicesPath}"`)
+        container.logger.info(`Add new services to the project in bulk mode from "${bulkServicesPath}"`)
 
         _.map(bulkServices, service => exports.add(container, service))
     } else {
-        console.log('ERROR: missing arguments: services' )
+        container.logger.info('ERROR: missing arguments: services' )
     }
 }

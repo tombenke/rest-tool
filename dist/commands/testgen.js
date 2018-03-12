@@ -27,13 +27,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 exports.update = function (container, args) {
     var context = container.config;
-    console.log('Update test cases or create them, if they are missing.');
+    container.logger.info('Update test cases or create them, if they are missing.');
 
     _restToolCommon.services.load(context.sourceDir, context.endpoints);
-    //console.log(services.getServices())
+    container.logger.debug(_restToolCommon.services.getServices());
 
     var allTestCases = _restToolCommon.services.getAllTestCases();
-    //console.log('All TestCases: ', allTestCases)
+    container.logger.debug('All TestCases: ', allTestCases);
 
     _dgen2.default.createDirectoryTree(context.testsTargetDir, [], false);
     _lodash2.default.map(allTestCases, function (item) {

@@ -14,7 +14,7 @@ methods:
             headers:
                 -
                     field: Accept
-                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                    content: "application/json"
                 -
                     field: Accept-Encoding
                     content: "gzip, deflate"
@@ -41,7 +41,7 @@ methods:
                     headers:
                         -
                             field : "Accept"
-                            content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                            content: "application/json"
                         -
                             field: "Accept-Encoding"
                             content: "gzip, deflate"
@@ -67,7 +67,7 @@ methods:
             headers:
                 -
                     field: Accept
-                    content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                    content: "application/json"
                 -
                     field: Accept-Encoding
                     content: "gzip, deflate"
@@ -95,7 +95,7 @@ methods:
                     headers:
                         -
                             field : "Accept"
-                            content: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                            content: "application/json"
                         -
                             field: "Accept-Encoding"
                             content: "gzip, deflate"

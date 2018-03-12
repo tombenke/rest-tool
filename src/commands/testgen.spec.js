@@ -11,6 +11,7 @@ import {
 } from 'datafile'
 import defaults from '../config'
 import { create, test } from './index'
+import npac from 'npac'
 
 describe('testgen', () => {
 
@@ -18,7 +19,10 @@ describe('testgen', () => {
     const testProjectName = 'testProject'
 
     const createContainer = {
-        config: _.merge({}, defaults, { sourceDir: testDirectory })
+        config: _.merge({}, defaults, {
+            logger: { level: 'debug' },
+            sourceDir: testDirectory
+        })
     }
     const createCommand = {
         name: 'create',
@@ -27,6 +31,7 @@ describe('testgen', () => {
 
     const testsContainer = {
         config: _.merge({}, defaults, {
+            logger: { level: 'debug' },
             sourceDir: path.resolve(testDirectory, testProjectName),
             testsTargetDir: path.resolve(testDirectory, testProjectName, 'tests')
         })
@@ -38,13 +43,11 @@ describe('testgen', () => {
 
     const destCleanup = function(cb) {
         const dest = testDirectory
-        console.log('Remove: ', dest)
         rimraf(dest, cb)
     }
 
     beforeEach(function(done) {
         destCleanup(function() {
-            console.log('Create: ', testDirectory)
             fs.mkdirSync(testDirectory)
             done()
         })
@@ -55,15 +58,21 @@ describe('testgen', () => {
     })
 
     it('tests - with defaults', (done) => {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        create(createContainer, createCommand.args)
-
-        // rest-tool docs --sourceDir ./tmp/testProject/
-        test(testsContainer, testsCommand.args)
-        const results = findFilesSync(testDirectory, /.*/, true, true)
-        console.log('results:', results)
-        const expectedTestsResult = loadJsonFileSync('src/commands/fixtures/expectedTestsResult.yml')
-        expect(results).to.eql(expectedTestsResult)
-        done()
+        const config = createContainer.config
+        const executives = { create: create, test: test }
+        npac.runJobSync(config, executives, createCommand, (err, res) => {
+            const results = findFilesSync(testDirectory, /.*/, true, true)
+            const expectedCreateResult = loadJsonFileSync('src/commands/fixtures/expectedCreateResult.yml')
+            expect(results).to.eql(expectedCreateResult)
+            done()
+            
+        const config = testContainer.config
+            npac.runJobSync(config, executives, testsCommand, (err, res) => {
+                const results = findFilesSync(testDirectory, /.*/, true, true)
+                const expectedTestsResult = loadJsonFileSync('src/commands/fixtures/expectedTestsResult.yml')
+                expect(results).to.eql(expectedTestsResult)
+                done()
+            })
+        })
     })
 })

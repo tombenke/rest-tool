@@ -26,6 +26,10 @@ var _config2 = _interopRequireDefault(_config);
 
 var _index = require('./index');
 
+var _npac = require('npac');
+
+var _npac2 = _interopRequireDefault(_npac);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -36,7 +40,10 @@ describe('testgen', function () {
     var testProjectName = 'testProject';
 
     var createContainer = {
-        config: _.merge({}, _config2.default, { sourceDir: testDirectory })
+        config: _.merge({}, _config2.default, {
+            logger: { level: 'debug' },
+            sourceDir: testDirectory
+        })
     };
     var createCommand = {
         name: 'create',
@@ -45,6 +52,7 @@ describe('testgen', function () {
 
     var testsContainer = {
         config: _.merge({}, _config2.default, {
+            logger: { level: 'debug' },
             sourceDir: _path2.default.resolve(testDirectory, testProjectName),
             testsTargetDir: _path2.default.resolve(testDirectory, testProjectName, 'tests')
         })
@@ -56,13 +64,11 @@ describe('testgen', function () {
 
     var destCleanup = function destCleanup(cb) {
         var dest = testDirectory;
-        console.log('Remove: ', dest);
         (0, _rimraf2.default)(dest, cb);
     };
 
     beforeEach(function (done) {
         destCleanup(function () {
-            console.log('Create: ', testDirectory);
             _fs2.default.mkdirSync(testDirectory);
             done();
         });
@@ -73,15 +79,21 @@ describe('testgen', function () {
     });
 
     it('tests - with defaults', function (done) {
-        // rest-tool create -sourceDir ./tmp/ -n testProject -v "1.2.3" -a testuser
-        (0, _index.create)(createContainer, createCommand.args);
+        var config = createContainer.config;
+        var executives = { create: _index.create, test: _index.test };
+        _npac2.default.runJobSync(config, executives, createCommand, function (err, res) {
+            var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
+            var expectedCreateResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedCreateResult.yml');
+            (0, _chai.expect)(results).to.eql(expectedCreateResult);
+            done();
 
-        // rest-tool docs --sourceDir ./tmp/testProject/
-        (0, _index.test)(testsContainer, testsCommand.args);
-        var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
-        console.log('results:', results);
-        var expectedTestsResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedTestsResult.yml');
-        (0, _chai.expect)(results).to.eql(expectedTestsResult);
-        done();
+            var config = testContainer.config;
+            _npac2.default.runJobSync(config, executives, testsCommand, function (err, res) {
+                var results = (0, _datafile.findFilesSync)(testDirectory, /.*/, true, true);
+                var expectedTestsResult = (0, _datafile.loadJsonFileSync)('src/commands/fixtures/expectedTestsResult.yml');
+                (0, _chai.expect)(results).to.eql(expectedTestsResult);
+                done();
+            });
+        });
     });
 });

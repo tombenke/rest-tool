@@ -63,10 +63,10 @@ exports.add = function (container, args) {
     if (serviceConfig.type && serviceConfig.path && serviceConfig.uriTemplate) {
         if (_lodash2.default.includes(['OPERATION', 'COLLECTION', 'RESOURCE'], serviceConfig.type)) {
             var servicePath = _path2.default.resolve(context.sourceDir, context.endpoints, makeRelPath(serviceConfig.path));
-            console.log('Create the "%s" %s-type service with the following URL: %s', servicePath, serviceConfig.type, serviceConfig.uriTemplate);
+            container.logger.info('Create the "' + servicePath + '" ' + serviceConfig.type + '-type service with the following URL: ' + serviceConfig.uriTemplate);
 
             if (_dgen2.default.createDirectoryTree(servicePath, [], false)) {
-                console.log('%s directory created', servicePath);
+                container.logger.info(servicePath + ' directory created');
                 var templates = serviceTemplates[serviceConfig.type] || [];
                 _lodash2.default.map(templates, function (template) {
                     _dgen2.default.processTemplate(extendConfig(serviceConfig), {
@@ -76,13 +76,13 @@ exports.add = function (container, args) {
                     });
                 });
             } else {
-                console.log('ERROR: Could not create directory: ' + servicePath);
+                container.logger.info('ERROR: Could not create directory: ' + servicePath);
             }
         } else {
-            console.log('ERROR: Wrong type parameter: ' + serviceConfig.type);
+            container.logger.info('ERROR: Wrong type parameter: ' + serviceConfig.type);
         }
     } else {
-        console.log('ERROR: Missing or wrong parameter(s)');
+        container.logger.info('ERROR: Missing or wrong parameter(s)');
     }
 };
 
@@ -99,12 +99,12 @@ exports.addBulk = function (container, args) {
     if (args.services) {
         var bulkServicesPath = _path2.default.resolve(args.services);
         var bulkServices = (0, _datafile.loadJsonFileSync)(bulkServicesPath);
-        console.log('Add new services to the project in bulk mode from "' + bulkServicesPath + '"');
+        container.logger.info('Add new services to the project in bulk mode from "' + bulkServicesPath + '"');
 
         _lodash2.default.map(bulkServices, function (service) {
             return exports.add(container, service);
         });
     } else {
-        console.log('ERROR: missing arguments: services');
+        container.logger.info('ERROR: missing arguments: services');
     }
 };

@@ -24,7 +24,6 @@ var testDirectory = _path2.default.resolve('./tmp');
 
 var destCleanup = function destCleanup(cb) {
     var dest = testDirectory;
-    console.log('Remove: ', dest);
     (0, _rimraf2.default)(dest, cb);
 };
 
@@ -32,7 +31,6 @@ describe('app', function () {
 
     before(function (done) {
         destCleanup(function () {
-            console.log('Create: ', testDirectory);
             _fs2.default.mkdirSync(testDirectory);
             done();
         });
